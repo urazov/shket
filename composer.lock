@@ -5,7 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "26d88ac038406c6069cd3d7905d83094",
-    "content-hash": "97a65ddfd75e56eb06298c9192afa45f",
+    "content-hash": "c5fa41a5d8419fe281795982eec37fe0",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1694,19 +1694,13 @@
             "time": "2015-03-17 06:36:52"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.9"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
