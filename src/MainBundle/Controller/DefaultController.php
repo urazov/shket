@@ -10,4 +10,10 @@ class DefaultController extends Controller
     {
         return $this->render('MainBundle:Default:index.html.twig', array('name' => $name));
     }
+
+    public function testAction()
+    {
+        var_dump(123);exit;
+    }
+
 }
