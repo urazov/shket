@@ -13,18 +13,14 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $host="Vpn.shket-it.ru:1433";
+	$host="192.168.88.254";
         $user="sa";
         $pwd="VFLFUFCRFH";
-        $db_name = "DB_SHKET";
+        $db_name = "DB_TEST";
 
-        $conn = mssql_connect ($host,$user,$pwd)
-        or die ("Can't connect to Microsoft SQL Server");
+	$db = new \PDO("dblib:host=192.168.88.254;dbname=DB_TEST", $user, $pwd);
 
-        mssql_select_db($db_name, $conn) or die ("Can't select databes");
-
-
-        var_dump($conn);
+	var_dump($db);exit;
         exit;
 
         // replace this example code with whatever you need
