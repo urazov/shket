@@ -1,6 +1,6 @@
 main_homepage:
-    path:     /
-    defaults: { _controller: MainBundle:Main:index }
+    path:     /{page}
+    defaults: { _controller: MainBundle:Main:index, page: null }
 
 main_test:
   path: /test

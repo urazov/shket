@@ -1,2 +1,569 @@
 {% extends 'base.html.twig' %}
 
+{% block body %}
+
+    {% block content %}
+        <div class="container-fluid" id="slider">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 slider-container">
+                        <ul class="bjqs">
+                            <li>
+                                <img src="{{ asset('img/slide1.png') }}">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid login" id="login">
+            <div class="container">
+                <img src="{{ asset('img/cloudLeft.png') }}" id="cloudLeft" />
+                <img src="{{ asset('img/cloudRight.png') }}" id="cloudRight" />
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button data-link="#loginInPersonalCabinet" class="btn big" id="btnLogin">
+                            <img style="margin-left: 10px" src="{{ asset('img/iconLogin.png') }}" />
+                            <span style="position: relative; top: 1px;">Войти в личный кабинет</span>
+                        </button>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <button data-link="tel:+78005006586" class="btn big navigate" style="float: right;">
+                            <img style="margin-left: 10px" src="{{ asset('img/iconPhone.png') }}" />
+                            <span style="position:relative; top: -6px;">8 800 500 65 86</span>
+                            <p style="font-size: 12px; font-weight: normal; margin-bottom: 0px; margin-left: 53px; margin-top: -16px;">
+                                звонок по России бесплатный
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <img src="{{ asset('img/baloon.png') }}" class="baloon"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="modules">
+            <div class="container modules">
+                <div class="row modules-container">
+                    <div class="row modules-container-inner">
+                        <div class="col-xs-3 module-item">
+                            <h4>Модуль</h4>
+                            <h3>Вход-Выход</h3>
+                            <div class="content yellow" style="margin-top: 66px;">
+                                <img src="{{ asset('img/imgModule1.png') }}" class="img-responsive center-block"/>
+                            </div>
+                            <div data-name="Вход-Выход" class="content-hover yellow">
+                                Контроль посещаемости учащихся и сотрудников
+                                <p style="margin-top: 20px;"><a href="#" class="underline">Подробнее...</a></p>
+                                <div class="module-desc">
+                                    <p>
+                                        Модуль «Вход-Выход» предназначен для повышения безопасности учащихся, ограничивая возможность проникновения в школу посторонних лиц.
+                                    </p>
+                                    <p>
+                                        Модуль «Вход-Выход» – это турникетные системы, установленные на входе в учебное учреждение, проход через которые осуществляется по пластиковой карте (брелку, браслету).
+                                        Статистика посещаемости отображается в Личном кабинете директора и классного руководителя/куратора.
+                                    </p>
+                                    <p>
+                                        Родитель  видит время входа и выхода ребенка из учебного учреждения в своем личном кабинете. Отправка SMS-сообщений на телефон родителей позволяет контролировать точное время входа (выхода) в учебное учреждение, а также пропуски занятий.
+                                    </p>
+                                    <h3 class="special">Принцип работы</h3>
+                                    <ul class="simple">
+                                        <li>При входе/выходе через турникет, во время поднесения индивидуальной карты (брелка, браслета) происходит идентификация входящего.</li>
+                                        <li>Турникет открывается в нужную сторону, а данные о событии отправляются на сервер системы, с последующим интернет и/или SMS оповещением родителей ученика о времени входа или выхода его из учебного учреждения.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 module-item">
+                            <h4>Модуль</h4>
+                            <h3>Питание</h3>
+                            <div class="content green" style="margin-top: 66px;">
+                                <img src="{{ asset('img/imgModule2.png') }}" class="img-responsive center-block" style="margin-top: 24px;"/>
+                            </div>
+                            <div data-name="Питание" class="content-hover green">
+                                Безналичная система оплаты в школьной столовой и буфете
+                                <p style="margin-top: 20px;"><a href="#" class="underline">Подробнее...</a></p>
+                                <div class="module-desc">
+                                    <p>Модуль «Питание» создан для освобождения учителей от работы с деньгами, ускорения процесса обслуживания учеников в школьной столовой и буфете за счет устранения операций с наличными денежными средствами, а также для ограничения использования учениками средств, полученных от родителей на питание, не по назначению.</p>
+                                    <p>Комплекс оборудования для  системы безналичной оплаты школьного питания включает в себя  автоматизированное рабочее место кассира, которое состоит из компьютера с сенсорным монитором и мини-терминала для считывания карт.</p>
+                                    <h3 class="special">Принцип работы</h3>
+                                    <p>Система состоит из двух подсистем - «Комплексные обеды» и «Буфет».</p>
+                                    <ul class="simple">
+                                        <li>При оплате за комплексные обеды классный руководитель получает одну пластиковую карту,  к которой прикрепляются  лицевые счета всех учеников класса. На своем рабочем месте или в учительской классный руководитель в системе отмечает в списке класса отсутствующих учеников, а затем производит оплату за комплексное питание пообедавших учеников. Списание с лицевого счета суммы за комплексный обед производится после нажатия классным руководителем в системе кнопки «Оплатить»</li>
+                                        <li>Питание при свободном выборе блюд производится учеником в школьной столовой и буфете по своей персональной пластиковой школьной карте</li>
+                                        <li>Идентификация ученика при расчете в школьной столовой происходит по его фотографии на мониторе при поднесении карты к считывателю. Оплату производит кассир</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 module-item">
+                            <h4>Модуль</h4>
+                            <h3>ДОПОЛНИТЕЛЬНОЕ ОБРАЗОВАНИЕ</h3>
+                            <div class="content red">
+                                <img src="{{ asset('img/imgModule3.png') }}" class="img-responsive center-block"/>
+                            </div>
+                            <div data-name="ДОПОЛНИТЕЛЬНОЕ ОБРАЗОВАНИЕ" class="content-hover red">
+                                Учет услуг дополнительного образования по единой школьной карте
+                                <p style="margin-top: 20px;"><a href="#" class="underline">Подробнее...</a></p>
+                                <div class="module-desc">
+                                    <p>Модуль «Дополнительное образование» предназначен для достоверного учета услуг дополнительного образования (занятия, секции, кружки и т.д.) для органа образования и для контроля родителями получения учениками услуг дополнительного образования.</p>
+                                    <h3 class="special">Принцип работы</h3>
+                                    <ul class="simple">
+                                        <li>При входе на занятие ученик подносит  индивидуальную пластиковую карту к считывателю для идентификации входящего.</li>
+                                        <li>Данные о событии отправляются на сервер системы, с последующим интернет и/или SMS оповещением родителей ученика о получении им услуги дополнительного образования.</li>
+                                    </ul>
+                                    <p>В личном кабинете родители видят информацию (наименование, дата) об услуге, которую получает ребенок. В личном кабинете органа образования и директора формируются отчеты по посещению учениками дополнительных занятий, кружков и секций.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 module-item">
+                            <h4>Модуль</h4>
+                            <h3>Фонд школы</h3>
+                            <div class="content blue" style="margin-top: 66px;">
+                                <img src="{{ asset('img/imgModule4.png') }}" class="img-responsive center-block" style="margin-top: 34px;"/>
+                            </div>
+                            <div data-name="Фонд школы" class="content-hover blue">
+                                Внесение денег в фонд школы через лицевой счет ребенка
+                                <p style="margin-top: 20px;"><a href="#" class="underline">Подробнее...</a></p>
+                                <div class="module-desc">
+                                    <p>Модуль «Фонд школы» предназначен для упрощения собираемости средств от родителей в фонд школы и контроля родителями расходования средств из фонда школы, вносить денежные средства в фонд школы через единый лицевой счет без комиссии и контролировать целевые расходы школы.</p>
+                                    <h3 class="special">Принцип работы</h3>
+                                    <ul class="simple">
+                                        <li>Сотрудник учебного учреждения задает в системе сумму и период оплаты (разово, ежемесячно и т.п.) для классов, параллели. </li>
+                                        <li>Сумму можно равными долями распределить между всеми учениками, параллелями, классами. </li>
+                                        <li>Система позволяет включить или исключить льготников при формировании задания на оплату и выставлении счета.</li>
+                                    </ul>
+                                    <p>В личном кабинете родители видят список выставленных счетов и пополняют  нужные суммы на лицевой счет. История платежей всегда доступна в личном кабинете.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="tariffs">
+            <div class="container tariffs">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="table-container">
+                            <table class="table-tariffs-left table table-striped">
+                                <thead>
+                                <th style="height: 51px;">
+                                    Характеристики тарифа
+                                </th>
+                                </thead>
+                                <tbody>
+                                <tr><td>Аб. плата в месяц</td></tr>
+                                <tr><td>Личный кабинет, просмотр поступления/списания денег за питание и тарифы № 1, 4,6</td></tr>
+                                <tr><td>Личный кабинет, просмотр поступления/ списания денег за тарифы № 2, 7, 8</td></tr>
+                                <tr><td>Личный кабинет, просмотр поступления/ списания денег за питание и тарифы № 3, 5, 9, 10</td></tr>
+                                <tr><td>Личный кабинет, просмотр остатка денежных средств</td></tr>
+                                <tr><td>Личный кабинет, установка лимита расхода денежных средств на день</td></tr>
+                                <tr><td>Личный кабинет, информация о входе-выходе</td></tr>
+                                <tr><td>Личный кабинет, расшифровка по блюдам, просмотр меню</td></tr>
+                                <tr><td>СМС при балансе менее 100 рублей</td></tr>
+                                <tr><td>СМС о поступлении/списании денежных средств</td></tr>
+                                <tr><td>СМС о времени входа-выхода</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-9">
+                        <div class="table-container">
+                            <table class="table-tariffs-right table table-striped">
+                                <thead>
+                                <th style="height: 51px;"><strong>1</strong> <span>Базовый</span></th>
+                                <th style="height: 51px;"><strong>2</strong> <span>Базовый вход-выход</span></th>
+                                <th style="height: 51px;"><strong>3</strong> <span>Базовый полный</span></th>
+                                <th style="height: 51px;"><strong>4</strong> <span>Личный кабинет</span></th>
+                                <th style="height: 51px;"><strong>5</strong> <span>Личный кабинет полный</span></th>
+                                <th style="height: 51px;"><strong>6</strong> <span>Полный пакет</span></th>
+                                <th style="height: 51px;"><strong>7</strong> <span>Вход-выход</span></th>
+                                <th style="height: 51px;"><strong>8</strong> <span>Полный пакет вход-выход</span></th>
+                                <th style="height: 51px;"><strong>9</strong> <span>Деловой</span></th>
+                                <th style="height: 51px;"><strong>10</strong> <span>Максимум</span></th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="price">45</td>
+                                    <td class="price">45</td>
+                                    <td class="price">81</td>
+                                    <td class="price">75</td>
+                                    <td class="price">111</td>
+                                    <td class="price">105</td>
+                                    <td class="price">120</td>
+                                    <td class="price">150</td>
+                                    <td class="price">165</td>
+                                    <td class="price">210</td>
+                                </tr>
+                                <tr style="height: 80px;">
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="height: 82px;">
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="height: 82px;">
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                </tr>
+                                <tr style="height: 82px;">
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                </tr>
+                                <tr style="height: 40px;">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                    <td><div class="marker"></div></td>
+                                </tr>
+                                <tr style="display: none;">
+                                    <td>
+                                        <p>В личном кабинете имеется возможность установления суточного лимита расходования денежных средств по карте. Суточный лимит не распространяется на комплексные обеды.</p>
+                                        <p>Информацию о школах, в которых действует Тариф "Нулевой", узнавайте в call-центр  по тел. <strong>8-800-500-65-86 (звонок по России бесплатный)</strong></p>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация о поступлении и списании денежных средств по КАРТСЧЕТУ за питание и тариф, остатке денежных средств на лицевом счете карты, а также имеется возможность установления суточного лимита расходования денежных средств по карте.</p>
+                                    </td>
+                                    <td><p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода ребенка из учебного учреждения</li>
+                                            <li>о поступлении и списании денежных средств за тариф и об остатке денежных средств на лицевом счете.</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода ребенка из учебного учреждения</li>
+                                            <li>о поступлении и списании денежных средств за питание и тариф, об остатке денежных средств на лицевом счете карты</li>
+                                        </ul>
+                                        <p>А так же, имеется возможность установления суточного лимита расходования денежных средств по карте.</p>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о том, что и когда поел Ваш ребенок (по блюдам), стоимость блюд, меню столовой</li>
+                                            <li>о поступлении и списании денежных средств по лицевому счету за питание и тариф, остатке денежных средств на лицевом счете карты</li>
+                                        </ul>
+                                        <p>А так же, имеется возможность установления суточного лимита расходования денежных средств по карте  и  Вы будете получать SMS-сообщение о пополнении баланса при остатке менее 100 р. на счете карты.</p>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода ребенка из учебного учреждения</li>
+                                            <li>о том, что и когда поел Ваш ребенок (по блюдам), стоимость блюд, меню столовой</li>
+                                            <li>о поступлении и списании денежных средств за питание и тариф, об остатке денежных средств на лицевом счету</li>
+                                        </ul>
+                                        <p>А так же, имеется возможность установления суточного лимита расходования денежных средств по карте и  Вы будете получать SMS-сообщение о пополнении баланса при остатке менее 100 р. на счете карты</p>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о том, что и когда поел Ваш ребенок (по блюдам), стоимость блюд, меню столовой</li>
+                                            <li>о поступлении и списании денежных средств по лицевому счету за питание и тариф, остатке денежных средств на лицевом счете карты</li>
+                                        </ul>
+                                        <p>А так же, имеется возможность установления суточного лимита расходования денежных средств по карте и Вы будете получать SMS-сообщения:</p>
+                                        <ul class="simple">
+                                            <li>о поступивших суммах и суммах, списанных за питание ребенка, за тариф и о текущем остатке денежных средств на лицевом счете</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p>Вы будете получать SMS-сообщения о времени входа и выхода ребенка из учебного учреждения.</p>
+                                        <p>А также, в личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о поступлении и списании денежных средств за тариф и об остатке денежных средств на лицевом счете</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода ребенка из учебного учреждения</li>
+                                            <li>о поступлении и списании денежных средств за тариф и об остатке денежных средств на лицевом счете</li>
+                                        </ul>
+                                        <p>А так же Вы будете получать SMS-сообщения о времени входа и выхода ребенка из учебного учреждения.</p>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода  ребенка из учебного учреждения</li>
+                                            <li>о том, что и когда поел Ваш ребенок (по блюдам), стоимость блюд, меню столовой</li>
+                                            <li>о поступлении и списании денежных средств за питание и тариф, об остатке денежных средств на лицевом счету.</li>
+                                        </ul>
+                                        <p>А так же, имеется возможность установления суточного лимита расходования денежных средств по карте и Вы будете получать SMS-сообщения:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода ребенка из учебного учреждения</li>
+                                            <li>о пополнении баланса при остатке менее 100 р. на счете карты</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p>В личном кабинете доступна информация:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода  ребенка из учебного учреждения</li>
+                                            <li>о том, что и когда поел Ваш ребенок (по блюдам), стоимость блюд, меню столовой</li>
+                                            <li>о поступлении и списании денежных средств за питание и тариф, об остатке денежных средств на лицевом счету</li>
+                                        </ul>
+                                        <p>А так же, имеется возможность установления суточного лимита расходования денежных средств по карте и Вы будете получать SMS -сообщения:</p>
+                                        <ul class="simple">
+                                            <li>о времени входа и выхода ребенка из учебного учреждения</li>
+                                            <li>о поступивших суммах и суммах, списанных за питание ребенка, за тариф и о текущем остатке денежных средств на лицевом счете</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-9">
+                        <div class="table-container" style="padding: 20px;" id="tariffsInfo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="specialtariffs">
+            <div class="container specialtariffs">
+                <div class="row specialtariffs-container">
+                    <h2>
+                        Специальные тарифы
+                    </h2>
+                    <div class="row specialtariffs-container-inner">
+                        <ul class="simple">
+                            <li><strong>Тариф «Льготный»</strong> – для детей-сирот – любые услуги предоставляются бесплатно</li>
+                            <li><strong>Тариф «30%»</strong> – для родителей, у которых в системе зарегистрировано 2-е детей – скидка 30% на любой выбранный тариф</li>
+                            <li><strong>Тариф «50%»</strong> – для родителей, у которых в системе зарегистрировано 3-е и более детей – скидка 50% на любой выбранный тариф</li>
+                        </ul>
+                    </div>
+                    <h2>
+                        Дополнительная информация
+                    </h2>
+                    <div class="row specialtariffs-container-inner">
+                        <ul class="simple">
+                            <li>Списание за выбранный тариф производится ежемесячно в первый учебный день месяца</li>
+                            <li>Стоимость услуг за обработку анкеты, заведение лицевого счета и регистрацию на сайте (<strong>Модуль «Питание»</strong>) составит <strong>100 руб</strong>. Сумма будет списана единовременно (<strong>разово</strong>) с лицевого счета.</li>
+                            <li>Единовременная плата за карту, брелок, браслет  (<strong>Модуль «Вход-выход»</strong>) определяется индивидуально в каждом учебном учреждении в зависимости от комплектации устанавливаемого в учреждении оборудования.</li>
+                            <li>В случае пользования двумя модулями (<strong>Модуль "Питание"</strong> и <strong>Модуль "Вход-выход"</strong>) стоимость услуг за обработку анкеты не взимается.</li>
+                            <li>При потере/повреждении карту, брелок, браслет можно восстановить. Стоимость новой карты - <strong>50 руб</strong>. Стоимость нового брелка или браслета устанавливается индивидуально в каждом учебном учреждении.</li>
+                            <li>Выбрать или поменять тариф можно в личном кабинете родителя, либо позвонив в <strong>Сall-центр</strong> по тел. <strong>8-800-500-65-86 (звонок по России бесплатный)</strong>, либо написав сообщение из личного кабинета.</li>
+                            <li>Информацию о школах, в которых действует <strong>Тариф "Нулевой"</strong>, узнавайте по тел. <strong>8-800-500-65-86 (звонок по России бесплатный)</strong>.</li>
+                            <li>Оплата тарифов в летние каникулы не взимается.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="container-fluid" id="payment">
+            <div class="container payment">
+                <div class="row payment-container">
+                    <h2>
+                        Где можно пополнить лицевой счет карты за питание?
+                    </h2>
+                    <div class="col-xs-6">
+                        <div class="payment-container-inner">
+                            <h3>Oплата без комиссии</h3>
+                            <ul class="simple">
+                                <li><a href="{{ path('main_homepage') }}terminal">Через любые терминалы Сбербанка</a></li>
+                                <li><a href="{{ path('main_homepage') }}online">С помощью сервиса Сбербанк Online</a></li>
+                                <li><a href="{{ path('main_homepage') }}otdel">В любом отделении Сбербанка</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="payment-container-inner" style="height: 182px;">
+                            <h3>При оплате может удерживаться комиссия</h3>
+                            <ul class="simple">
+                                <li><a href="https://autopays.ru/payment/?provider=100-3013-1">Через портал Процессингого агентства - 1.8% от суммы</a></li>
+                                <li><a href="{{ path('main_homepage') }}proc_ag">Через пункты приема платежей Процессингого агентства - 1.2% от суммы</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row payment-container" style="margin-top: 50px;">
+                    <h2>
+                        Демо-версии
+                    </h2>
+                    <div class="col-xs-4">
+                        <a href="#">
+                            <div class="demo-item">
+                                Личный кабинет родителя
+                                <div class="photo">
+                                    <img src="{{ asset('img/demo1.png') }}" />
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a href="#">
+                            <div class="demo-item">
+                                Личный кабинет учителя
+                                <div class="photo">
+                                    <img src="{{ asset('img/demo2.png') }}" />
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a href="#">
+                            <div class="demo-item">
+                                Личный кабинет директора
+                                <div class="photo">
+                                    <img src="{{ asset('img/demo3.png') }}" />
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="contacts" style="padding-left: 0px; padding-right: 0px;">
+            <div class="map" id="map">
+            </div>
+        </div>
+
+        <!-- LOGIN OVERLAY -->
+        <div class="modal custom" id="modalLogin" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-content-inner">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Войти</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="loginLogin" placeholder="Логин">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" id="loginPass" placeholder="Пароль">
+                                </div>
+                            </form>
+                            <div id="loginErrors" class="modal-errors">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <button type="button" class="btn dialog" id="btnLoginForm">Войти</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+
+{% endblock %}
+
