@@ -472,9 +472,9 @@
                         <div class="payment-container-inner">
                             <h3>Oплата без комиссии</h3>
                             <ul class="simple">
-                                <li><a href="{{ path('main_homepage') }}terminal">Через любые терминалы Сбербанка</a></li>
-                                <li><a href="{{ path('main_homepage') }}online">С помощью сервиса Сбербанк Online</a></li>
-                                <li><a href="{{ path('main_homepage') }}otdel">В любом отделении Сбербанка</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'terminal'}) }}">Через любые терминалы Сбербанка</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'online'}) }}">С помощью сервиса Сбербанк Online</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'otdel'}) }}">В любом отделении Сбербанка</a></li>
                             </ul>
                         </div>
                     </div>
@@ -483,7 +483,7 @@
                             <h3>При оплате может удерживаться комиссия</h3>
                             <ul class="simple">
                                 <li><a href="https://autopays.ru/payment/?provider=100-3013-1">Через портал Процессингого агентства - 1.8% от суммы</a></li>
-                                <li><a href="{{ path('main_homepage') }}proc_ag">Через пункты приема платежей Процессингого агентства - 1.2% от суммы</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'proc_ag'}) }}">Через пункты приема платежей Процессингого агентства - 1.2% от суммы</a></li>
                             </ul>
                         </div>
                     </div>
@@ -563,6 +563,21 @@
             </div>
         </div>
 
+        <!-- MODULE OVERLAY -->
+        <div class="modal big" id="modalModule" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-content-inner">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Модуль</h4>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endblock %}
 
 {% endblock %}

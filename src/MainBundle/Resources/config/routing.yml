@@ -2,6 +2,10 @@ main_homepage:
     path:     /{page}
     defaults: { _controller: MainBundle:Main:index, page: null }
 
+main_news:
+    path:     /title/{news_title}
+    defaults: { _controller: MainBundle:News:index }
+
 main_test:
   path: /test
   defaults: {_controller: MainBundle:Default:test}

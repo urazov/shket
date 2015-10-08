@@ -56,7 +56,7 @@
                     center: myLatlng,
                     disableDefaultUI: true,
                     scrollwheel: false
-                }
+                };
                 var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
                 var marker = new google.maps.Marker({
@@ -77,9 +77,9 @@
 </head>
 <body>
         {% block header %}
-            {#<div class="container-fluid loader">
+            <div class="container-fluid loader">
                 <img src="{{ asset('img/logoMain.png') }}" />
-            </div>#}
+            </div>
 
             <header>
                 <div class="navbar navbar-inverse navbar-fixed-top sticky-navigation">
@@ -134,18 +134,18 @@
                     <div class="row">
                         <div class="col-xs-3">
                             <ul class="menu">
-                                <li><a href="{{ path('main_homepage') }}about">О проекте</a></li>
-                                <li><a href="{{ path('main_homepage') }}documents">Документы</a></li>
-                                <li><a href="{{ path('main_homepage') }}news">Новости</a></li>
-                                <li><a href="{{ path('main_homepage') }}titles">Статьи</a></li>
-                                <li><a href="{{ path('main_homepage') }}faq">Вопрос-ответ</a></li>
-                                <li><a href="{{ path('main_homepage') }}forusers">Пользователям</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'about'}) }}">О проекте</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'documents'}) }}">Документы</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'news'}) }}">Новости</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'titles'}) }}">Статьи</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'faq'}) }}">Вопрос-ответ</a></li>
+                                <li><a href="{{ path('main_homepage', {'page': 'forusers'}) }}">Пользователям</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-6">
                             <div class="now">
                                 Сейчас в системе зарегистрировано
-                                <span class="yellow"><a href="{{ path('main_homepage') }}schools">999</a></span>
+                                <span class="yellow"><a href="{{ path('main_homepage', {'page': 'schools'}) }}">999</a></span>
                                 учреждений <span class="yellow">100500</span>
                                 пользователей
                             </div>
@@ -176,22 +176,6 @@
                     </div>
                 </div>
             </footer>
-
-            <!-- MODULE OVERLAY -->
-            <div class="modal big" id="modalModule" tabindex="-1" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-content-inner">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Модуль</h4>
-                            </div>
-                            <div class="modal-body">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- MAIL OVERLAY -->
             <div class="modal custom" id="modalMailto" tabindex="-1" role="dialog">

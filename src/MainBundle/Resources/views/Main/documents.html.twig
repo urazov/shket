@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% block content %}
+        <div class="container-fluid" id="documents">
+            <div class="container documents">
+                <div class="row nice-container">
+                    <div class="col-xs-12 nice-container-inner">
+                        <h2 style="margin-top: 0px;">
+                            Документы
+                        </h2>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/FormForTeacher.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Анкета для классного руководителя
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/FormForParentFeeding.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Анкета для родителя по модулу "Питание"
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/FormForParentFeeding.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Анкета для сотрудника учреждения
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/FormForParentFeeding.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Договор оферты с родителем
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/ContractWithSchool.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Договор о сотрудничестве со школой
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/ContractWhithCNT.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Договор с комбинатом питания
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/InformationAboutFeeding.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Информационный листок для родителя по модулю "Питание"
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/AnApplicationForACard.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Заявление на выдачу карты, брелка
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="{{ asset('documents/PaymentInstructionSberBank.pdf') }}">
+                                    <div class="document">
+                                        <div class="document-inner">
+                                            <img src="{{ asset('img/iconDoc.png') }}" class="simple"/> <img src="{{ asset('img/iconDocHover.png') }}" class="hover"/>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">
+                                        Инструкция по порядку оплаты через Сбербанк
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}
+
