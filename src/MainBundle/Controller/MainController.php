@@ -8,9 +8,7 @@ class MainController extends Controller
 {
     public function indexAction($page = null)
     {
-        if(!is_null($page)){
-            return $this->render('MainBundle:Main:'. $page .'.html.twig');
-        }
-        return $this->render('MainBundle:Main:index.html.twig');
+        $page = is_null($page) ? 'index' : $page;
+        return $this->render('MainBundle:Main:'. $page .'.html.twig');
     }
 }
