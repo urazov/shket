@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% block content %}
+        <div class="container-fluid" id="about">
+            <div class="container about">
+                <div class="row nice-container">
+                    <div class="col-xs-12 nice-container-inner">
+                        <h2 style="margin-top: 0px;">
+                            Краткая инструкция пополнения через Сбербанк-Online (без комиссии - 0%)
+                        </h2>
+                        <p>
+                            Платежи можно осуществлять зарегистрировавшись в системе Сбербанк-Onlane . Подробности на официальном сайте СБ РФ: http://www.sberbank.ru либо по прямой ссылке <a href="http://www.esk.sbrf.ru">http://www.esk.sbrf.ru</a>
+                        </p>
+                        <ul class="simple">
+                            <li>
+                                Перейдите по ссылке <a href="https://online.sberbank.ru/CSAFront/index.do">Сбербанк Online</a>
+                            </li>
+                            <li>
+                                Авторизуйтесь на сайте Сбербанк Online. Для этого введите свой логин и пароль в соответствующие поля
+                                <br>
+                                <img style="margin-top: 10px;" src="{{ asset('img/Online_1.png') }}"/>
+                            </li>
+                            <li>
+                                После того, как вы вошли в систему, перейдите на вкладку "Платежи и переводы"
+                                <br>
+                                <img style="margin-top: 10px;" src="{{ asset('img/Online_2.png') }}"/>
+                            </li>
+                            <li>
+                                Далее в строке поиска наберите название организации "ШКЭТ" и нажмите кнопку "Найти"
+                                <br>
+                                <img style="margin-top: 10px;" src="{{ asset('img/Online_3.png') }}"/>
+                            </li>
+                            <li>
+                                На экране появится список, удовлетворяющий критериям поиска. Выберете из списка ООО "ШКЭТ"
+                                <br>
+                                <img style="margin-top: 10px;" src="{{ asset('img/Online_4.png') }}"/>
+                            </li>
+                            <li>
+                                Введите свой лицевой счет в соответсвующее поле и нажмите кнопку "Продолжить". На этом процедура оплаты завершена.
+                                <br>
+                                <img style="margin-top: 10px;" src="{{ asset('img/Online_5.png') }}"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}
+

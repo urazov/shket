@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% block content %}
+        <div class="container-fluid" id="about">
+            <div class="container about">
+                <div class="row nice-container">
+                    <div class="col-xs-12 nice-container-inner">
+                        <h2 style="margin-top: 0px;">
+                            Краткая инструкция пополнения <br>
+                            через платежные терминалы "Сбербанка" (без комиссии - 0%)
+                        </h2>
+                        <h3 class="special">Вариант 1 - оплата наличными</h3>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_11.png') }}"/>
+                                <br>
+                                Выберете "Платежи наличными Payment by cash"
+                            </div>
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_21.png') }}"/>
+                                <br>
+                                Далее в разделе "Группа платежей" выбере "Прочие"
+                            </div>
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_31.png') }}"/>
+                                <br>
+                                В рамках прочих платежей выберете группу "Образование"
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 40px;">
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_41.png') }}"/>
+                                <br>
+                                На экране появится список организаций. Выберете из списка "ШКЭТ ООО - оплата услуг"
+                            </div>
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_51.png') }}"/>
+                                <br>
+                                Далее система предложит вам ознакомиться с условиями оплаты:
+                                <br>
+                                Платеж совершается в пользу ООО "ШКЭТ"
+                                <br>
+                                Минимальный платеж 15 руб.
+                                <br>
+                                Для того, что бы завержить процесс оплаты необходимо согласиться с условиями платежа и нажать кнопку "Согласен"
+                            </div>
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_61.png') }}"/>
+                                <br>
+                                Введите свой лицевой счет в соответсвующее поле и нажмите кнопку "Продолжить". На этом процедура оплаты завершена.
+                            </div>
+                        </div>
+
+                        <h3 class="special" style="margin-top: 40px;">Вариант 2 - оплата банковской картой</h3>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                Вставьте карту в банкомат, введите PIN-код для доступа
+                            </div>
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_22.png') }}"/>
+                                <br>
+                                Далее в разделе "Группа платежей" выберете "Прочие"
+                            </div>
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_32.png') }}"/>
+                                <br>
+                                В рамках прочих платежей выберете группу "Образование"
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 40px;">
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_42.png') }}"/>
+                                <br>
+                                На экране появится список организаций. Выберете из списка "ШКЭТ ООО - оплата услуг"
+                            </div>
+                            <div class="col-xs-4">
+                                <img style="margin-top: 10px;" src="{{ asset('img/Term_52.png') }}"/>
+                                <br>
+                                Введите свой лицевой счет в соответсвующее поле и нажмите кнопку "Продолжить". На этом процедура оплаты завершена.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}
+
