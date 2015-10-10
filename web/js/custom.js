@@ -318,7 +318,7 @@ $(document).ready(function(){
         $('#modalLogin').modal({show : true});
     });
     
-    $('#btnLoginForm').click(function(e){
+    /*$('#btnLoginForm').click(function(e){
         var Button = $(this);
         var Errors = $('#loginErrors');
         Errors.html('');
@@ -365,7 +365,7 @@ $(document).ready(function(){
             }
         });
 
-    });
+    });*/
 
   
     /* MESSAGE */

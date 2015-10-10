@@ -8,6 +8,6 @@ class FoodController extends Controller
 {
     public function indexAction()
     {
-        var_dump('food');exit;
+        return $this->render('CabinetBundle:Food:index.html.twig');
     }
 }

@@ -8,18 +8,54 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class User implements UserInterface, EquatableInterface
 {
-
-    private $username;
+    private $account;
     private $password;
-    private $salt;
     private $roles;
 
-    public function __construct($username, $password, array $roles, $salt = null)
+    private $id;
+    private $full_name;
+    private $phone;
+    private $email;
+
+    /**
+     * @param string $account
+     * @param string $password
+     * @param array $roles
+     * @param string $id
+     * @param string $full_name
+     * @param string $phone
+     * @param string $email
+     * @internal param $username
+     */
+    public function __construct($account, $password, array $roles, $id, $full_name, $phone, $email)
     {
-        $this->username = $username;
+        $this->account = $account;
         $this->password = $password;
-        $this->salt = $salt;
         $this->roles = $roles;
+        $this->id = $id;
+        $this->full_name = $full_name;
+        $this->phone = $phone;
+        $this->email = $email;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getFullName()
+    {
+        return $this->full_name;
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**
@@ -46,11 +82,7 @@ class User implements UserInterface, EquatableInterface
             return false;
         }
 
-        if ($this->salt !== $user->getSalt()) {
-            return false;
-        }
-
-        if ($this->username !== $user->getUsername()) {
+        if ($this->account !== $user->getUsername()) {
             return false;
         }
 
@@ -100,7 +132,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function getSalt()
     {
-        return $this->salt;
+        return null;
     }
 
     /**
@@ -110,7 +142,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->account;
     }
 
     /**

@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-nav-tab-scrollable.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tabdrop.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block head_javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/bootstrap-nav-tab-scrollable.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
+    <script src="{{ asset('js/fuelux.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-tabdrop.js') }}"></script>
+    <script src="{{ asset('js/mousehold.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/moment-with-locales.js') }}"></script>
+
+{% endblock %}
+
+{% block header %}
+    <div class="container-fluid loader">
+        <img src="{{ asset('img/logoMain.png') }}" />
+    </div>
+
+    <header>
+        <div class="navbar navbar-inverse navbar-fixed-top sticky-navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-9">
+                        <div class="navbar-header">
+                            <a href="{{ path('main_homepage') }}" class="logo">
+                                <img src="{{ asset('img/logoMain.png') }}"/>
+                            </a>
+                        </div>
+
+                        <div class="collapse navbar-collapse menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="{{ path('main_homepage') }}#modules">Модули</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('main_homepage') }}#tariffs">Тарифы</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('main_homepage') }}#payment">Оплата</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('main_homepage') }}#contacts">Контакты</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 contacts">
+                        <a class="btn btn-yellow btn-special" id="linkMsg" style="margin-top: 20px;" href="#">Оставить сообщение</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" id="cabinet">
+        <div class="container cabinet">
+            {% block user_information %}
+                {{ render(controller('CabinetBundle:Cabinet:userInformation')) }}
+            {% endblock %}
+            {% block main_menu_item %}{% endblock %}
+            {% block menu_items %}{% endblock %}
+            {% block bread_crumbs %}{% endblock %}
+            {% block report %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

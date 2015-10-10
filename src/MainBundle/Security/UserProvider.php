@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface
 {
-
     public function loadUserByUsername($username)
     {
         $userData = DB::getInstance()->getUserData($username);
@@ -26,7 +25,7 @@ class UserProvider implements UserProviderInterface
                 case 5 : $role = ['ROLE_CLIENT']; break;
                 default: throw new UnsupportedUserException(sprintf('User "%s" has a wrong ROLE_ID: "%s".', $username, $userData['ROLE_ID']));
             }
-            return new User($username, $password, $role);
+            return new User($username, $password, $role, $userData['USR_ID'], $userData['NAME'], $userData['TLPH'], $userData['EMAIL']);
         }
 
         throw new UsernameNotFoundException(

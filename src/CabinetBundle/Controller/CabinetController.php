@@ -3,6 +3,7 @@
 namespace CabinetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class CabinetController extends Controller
 {
@@ -17,5 +18,11 @@ class CabinetController extends Controller
             if(in_array('ROLE_CLIENT', $roles)) return $this->redirectToRoute('cabinet_client');
         }
         return $this->redirectToRoute('main_homepage');
+    }
+
+    public function userInformationAction()
+    {
+        $user = $this->getUser();
+        return new Response($user->getFullName());
     }
 }
