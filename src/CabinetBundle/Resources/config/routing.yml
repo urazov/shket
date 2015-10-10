@@ -1,0 +1,23 @@
+cabinet_detecting:
+  path: /cabinet
+  defaults: {_controller: CabinetBundle:Cabinet:index}
+
+cabinet_pupil:
+  path: /cabinet/pupil
+  defaults: {_controller: CabinetBundle:Pupil:index}
+
+cabinet_teacher:
+  path: /cabinet/teacher
+  defaults: {_controller: CabinetBundle:Teacher:index}
+
+cabinet_boss:
+  path: /cabinet/boss
+  defaults: {_controller: CabinetBundle:Boss:index}
+
+cabinet_food:
+  path: /cabinet/food
+  defaults: {_controller: CabinetBundle:Food:index}
+
+cabinet_client:
+  path: /cabinet/client
+  defaults: {_controller: CabinetBundle:Client:index}

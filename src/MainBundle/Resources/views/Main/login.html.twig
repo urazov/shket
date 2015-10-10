@@ -1,0 +1,10 @@
+{% extends 'MainBundle:Main:index.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            $('#btnLogin').trigger('click');
+        });
+    </script>
+{% endblock %}

@@ -541,23 +541,25 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Войти</h4>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="loginLogin" placeholder="Логин">
+                        <form action="{{ path('login_check') }}" method="post">
+                            <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Логин" name="_username" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="_password" placeholder="Пароль">
+                                        <input type="hidden" name="_target_path" value="/" />
+                                    </div>
+
+                                <div id="loginErrors" class="modal-errors">
                                 </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" id="loginPass" placeholder="Пароль">
+                            </div>
+                            <div class="modal-footer">
+                                <div>
+                                    <button type="submit" class="btn dialog">Войти</button>
                                 </div>
-                            </form>
-                            <div id="loginErrors" class="modal-errors">
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <div>
-                                <button type="button" class="btn dialog" id="btnLoginForm">Войти</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

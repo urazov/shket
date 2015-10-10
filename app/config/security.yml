@@ -2,10 +2,12 @@
 # http://symfony.com/doc/current/book/security.html
 security:
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_PUPIL, ROLE_TEACHER, ROLE_BOSS, ROLE_FOOD, ROLE_CLIENT]
+
     providers:
-        in_memory:
-            memory: ~
+        webservice:
+            id: custom_user_provider
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -15,10 +17,20 @@ security:
 
         main:
             anonymous: ~
-            # activate different ways to authenticate
+            form_login:
+                login_path: /
+                check_path: /login_check
+            logout:
+                path:   /logout
+                target: /
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+    access_control:
+            # require ROLE_ADMIN for /admin*
+            - { path: ^/cabinet/pupil, roles: ROLE_PUPIL }
+            - { path: ^/cabinet/teacher, roles: ROLE_TEACHER }
+            - { path: ^/cabinet/boss, roles: ROLE_BOSS }
+            - { path: ^/cabinet/food, roles: ROLE_FOOD }
+            - { path: ^/cabinet/client, roles: ROLE_CLIENT }
 
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    encoders:
+            MainBundle\Security\User: plaintext

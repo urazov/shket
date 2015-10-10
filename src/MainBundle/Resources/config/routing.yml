@@ -1,3 +1,10 @@
+login_route:
+    path:     /
+    defaults: { _controller: MainBundle:Main:index }
+
+login_check:
+    path: /login_check
+
 main_homepage:
     path:     /{page}
     defaults: { _controller: MainBundle:Main:index, page: null }
