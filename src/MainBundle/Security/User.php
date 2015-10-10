@@ -16,6 +16,7 @@ class User implements UserInterface, EquatableInterface
     private $full_name;
     private $phone;
     private $email;
+    private $role_id;
 
     /**
      * @param string $account
@@ -25,9 +26,10 @@ class User implements UserInterface, EquatableInterface
      * @param string $full_name
      * @param string $phone
      * @param string $email
+     * @param string $role_id
      * @internal param $username
      */
-    public function __construct($account, $password, array $roles, $id, $full_name, $phone, $email)
+    public function __construct($account, $password, array $roles, $id, $full_name, $phone, $email, $role_id)
     {
         $this->account = $account;
         $this->password = $password;
@@ -36,6 +38,12 @@ class User implements UserInterface, EquatableInterface
         $this->full_name = $full_name;
         $this->phone = $phone;
         $this->email = $email;
+        $this->role_id = $role_id;
+    }
+
+    public function getRoleId()
+    {
+        return $this->role_id;
     }
 
     public function getId()

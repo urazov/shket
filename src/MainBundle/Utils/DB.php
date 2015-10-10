@@ -37,9 +37,11 @@ class DB
 
     public function getFirst($sql, array $params)
     {
+        $idx = 1;
         $this->stmt = $this->handler->prepare($sql);
         foreach($params as $param){
-            $this->bindParam(1, $param);
+            $this->bindParam($idx, $param);
+            $idx++;
         }
         if($this->stmt->execute()){
             return $this->fetchFirst(PDO::FETCH_ASSOC);
@@ -49,9 +51,11 @@ class DB
 
     public function getAll($sql, array $params)
     {
+        $idx = 1;
         $this->stmt = $this->handler->prepare($sql);
         foreach($params as $param){
-            $this->bindParam(1, $param);
+            $this->bindParam($idx, $param);
+            $idx++;
         }
         if($this->stmt->execute()){
             return $this->fetchAll(PDO::FETCH_ASSOC);
@@ -73,10 +77,13 @@ class DB
     {
         $utf_values = [];
         $result = $this->stmt->fetch($FLAG);
-        foreach($result as $key => $value){
-            $utf_values[$key] = iconv("windows-1251", "utf-8", $value);
+        if($result){
+            foreach($result as $key => $value){
+                $utf_values[$key] = iconv("windows-1251", "utf-8", $value);
+            }
+            return $utf_values;
         }
-        return $utf_values;
+        return [];
     }
 
     private function fetchAll($FLAG = null)
@@ -84,13 +91,16 @@ class DB
         $utf_result = [];
         $utf_values = [];
         $result = $this->stmt->fetchAll($FLAG);
-        foreach($result as $idx => $values){
-            foreach($values as $key => $value){
-                $utf_values[$key] = iconv("windows-1251", "utf-8", $value);
+        if($result){
+            foreach($result as $idx => $values){
+                foreach($values as $key => $value){
+                    $utf_values[$key] = iconv("windows-1251", "utf-8", $value);
+                }
+                $utf_result[$idx] = $utf_values;
             }
-            $utf_result[$idx] = $utf_values;
+            return $utf_result;
         }
-        return $utf_result;
+        return [];
     }
 
     private function bindParam($num, $value)
