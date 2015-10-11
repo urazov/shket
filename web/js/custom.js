@@ -247,8 +247,9 @@ $(document).ready(function(){
     });
 
     /* DATE PICKER */
-    if ($('.datepicker').length > 0)
+    if ($('.datepicker').size() > 0){
         $('.datepicker').datetimepicker({language: 'ru', pickTime: false});
+    }
 
     /* LINKS */
     $('.navigate').click(function(e){

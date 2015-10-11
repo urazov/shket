@@ -1,0 +1,75 @@
+{% extends 'base_cabinet.html.twig' %}
+
+{% block user_information %}
+    {{ render(controller('CabinetBundle:Pupil:userInformation')) }}
+{% endblock %}
+
+{% block main_menu %}
+    <ul class="level-one">
+        <li class="active">
+            <a href="#" data-block="1" id = "tab_menu_main">Питание</a>
+        </li>
+        <li>
+            <a href="#" id = "tab_enter_main" data-block="2">Вход-Выход</a>
+        </li>
+        <li>
+            <a href="#" id = "tab_balance" data-block="3">Баланс</a>
+        </li>
+        <li>
+            <a href="#" data-block="4">Справочник тарифов</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block menu %}
+    <ul class="level-two">
+        <li data-block="1" class="active">
+            <div data-panel="menuparents" id = "" class="level-two-item active">
+                Меню
+            </div>
+
+            <div data-panel="rep_pit_1" id = "tab_pitanie" class="level-two-item">
+                Питание
+            </div>
+        </li>
+        <li data-block="2">
+            <div data-panel="rep_tur_1" id = "tab_enter" class="level-two-item">
+                Данные турникета
+            </div>
+        </li>
+        <li data-block="3">
+            <div id="account_balance" data-panel="balance" class="level-two-item">
+                Баланс лицевого счета
+            </div>
+        </li>
+        <li data-block="4">
+            <div data-panel="spr_tarrif" class="level-two-item">
+                Справочник тарифов
+            </div>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block reports %}
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active user-form" id="menuparents">
+            {#<?php include 'menu.php';?>#}1
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="rep_pit_1">
+            {#<?php include 'eating.php';?>#}2
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="rep_tur_1">
+            {#<?php include 'enter.php';?>#}3
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="balance">
+            {#<?php include 'balance.php';?>#}4
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="spr_tarrif">
+            {#<?php include 'tarif.php';?>#}5
+        </div>
+    </div>
+{% endblock %}

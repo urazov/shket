@@ -10,13 +10,13 @@
 {% block head_javascripts %}
     {{ parent() }}
 
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/moment-with-locales.js') }}"></script>
     <script src="{{ asset('js/bootstrap-nav-tab-scrollable.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
     <script src="{{ asset('js/fuelux.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-tabdrop.js') }}"></script>
     <script src="{{ asset('js/mousehold.js') }}"></script>
-    <script src="{{ asset('js/moment.js') }}"></script>
-    <script src="{{ asset('js/moment-with-locales.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
 
 {% endblock %}
 

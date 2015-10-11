@@ -1,0 +1,76 @@
+<div class="row nice-container user">
+    <div class="col-xs-8" style="margin-top: 15px; margin-bottom: 8px;">
+        <div class="info">
+            <p class="name" >
+                <span id="userName">{{ full_name }}</span>
+            </p>
+            <p class="item" >
+                <strong>Учебные заведения:</strong>
+                {% for str in info %}
+                    <p class="item" style="margin-left: 165px;">{{ str.NAME }}</p>
+                {% endfor %}
+            </p>
+            <p class="item">
+                <strong>Телефон:</strong> <span id = "userTlph">{{ phone }}</span>
+            </p>
+            <p class="item">
+                <strong>E-mail:</strong> <span id = "userEmail">{{ email }}</span>
+            </p>
+        </div>
+        <a href="#" id="editProfile" style="align: right;">
+            <img src="{{ asset('img/iconEdit.png') }}" />
+        </a>
+    </div>
+</div>
+
+<!-- EDIT OVERLAY -->
+<div class="modal big" id="modalEditUser" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-content-inner">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Редактировать профиль</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="form-horizontal user-form">
+                        <div class="row">
+                            <div class="col-xs-3" style="text-align: center;">
+                                <div class="photo">
+                                </div>
+                                <input type="file" name="img" accept="image/*" style="display: none;" id="editUserFile" name="editUserFile">
+                                <a href="#" class="underline" style="text-align: center;" id="editUserFileUpload">Загрузить фото</a>
+                            </div>
+                            <div class="col-xs-9">
+                                <div class="form-group">
+                                    <label for="editUserSurname" class="col-xs-3 control-label">Фамилия Имя Отчество</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" id="editUserSurname" name="editUserSurname">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editUserPhone" class="col-xs-3 control-label">Телефон</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" id="editUserPhone" name="editUserPhone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editUserEmail" class="col-xs-3 control-label">E-mail</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" id="editUserEmail" name="editUserEmail">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn dialog col-xs-12" style="margin-top: 20px; width: 97%; text-align: center; left: 10px;" id="btnEditUser">Сохранить</button>
+                        </div>
+                    </form>
+                    <div id="editUserErrors" class="modal-errors">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<span style="display: none" id ="SCL_ID_DEFAULT">{{ default_scl_id }}</span>
+<span style="display: none" id ="SCL_NAME_DEFAULT">{{ default_scl_name }}</span>
+

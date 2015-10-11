@@ -1,7 +1,14 @@
 {% extends 'base_cabinet.html.twig' %}
 
+{% block head_javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/food/mainmenu.js') }}"></script>
+
+{% endblock %}
+
 {% block user_information %}
-    {{ render(controller('CabinetBundle:Cabinet:userInformation')) }}
+    {{ render(controller('CabinetBundle:Food:userInformation')) }}
 {% endblock %}
 
 {% block main_menu %}
@@ -40,27 +47,27 @@
 {% block reports %}
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active user-form" id="menu_for_cnt">
-            {#<?php include 'mainmenu.php';?>#}1
+            {% include 'CabinetBundle:Food:mainmenu.html.twig'%}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="zakaz">
-            {#<?php include 'zakaz.php';?>#}2
+            {% include 'CabinetBundle:Food:zakaz.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="pitanie">
-            {#<?php include 'pitanie.php';?>#}3
+            {% include 'CabinetBundle:Food:pitanie.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_pit_1">
-            {#<?php include 'rep_pit_1.php';?>#}4
+            {% include 'CabinetBundle:Food:rep_pit_1.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_pit_2">
-            {#<?php include 'rep_pit_2.php';?>#}5
+            {% include 'CabinetBundle:Food:rep_pit_2.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_pit_3">
-            {#<?php include 'rep_pit_3.php';?>#}6
+            {% include 'CabinetBundle:Food:rep_pit_3.html.twig' %}
         </div>
     </div>
 {% endblock %}

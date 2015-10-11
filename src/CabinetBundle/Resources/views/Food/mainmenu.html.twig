@@ -1,0 +1,45 @@
+<form class="form-horizontal filters">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Учреждение:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="select_all_school_menu">
+            <input name="schoolNameMenu" id="schoolNameMenu" type="text" class="form-control" value="Укажите учреждение"/>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" id="result_all_school_menu">
+                    {% for str in school %}
+                        <li data-value="{{ str.SCL_ID }}"><a href="#">{{ str.NAME }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-5" style="float: right;">
+            <a href="#" class = "printStyle" print_table_id = 'printContainerMenuCnt'>
+                Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Дата:</label>
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ current_date }}" id="selected_date_menu"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
+        <div class="col-xs-4" style="float: right;" id="btnShowMenuForCNT">
+            <button class="btn dialog" style="float: right;">Отобразить данные</button>
+        </div>
+    </div>
+</form>
+
+<div id="printContainerMenuCnt">
+    <div class="row report-title">Дата: <span id="dateTextForMenu">{{ current_date }}</span></div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12" id = "resultTableMenuForCNT">
+        </div>
+    </div>
+</div>
