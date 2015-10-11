@@ -1,0 +1,104 @@
+{% extends 'base_cabinet.html.twig' %}
+
+{% block user_information %}
+    {{ render(controller('CabinetBundle:Cabinet:userInformation')) }}
+{% endblock %}
+
+{% block main_menu %}
+    <ul class="level-one">
+        <li class="active">
+            <a href="#" data-block="1">Питание</a>
+        </li>
+        <li>
+            <a href="#" data-block="2">Вход-Выход</a>
+        </li>
+        <li>
+            <a href="#" data-block="5">Списки классов/групп</a>
+        </li>
+        <li>
+            <a href="#" data-block="6">Баланс</a>
+        </li>
+        <li>
+            <a href="#" data-block="7">Справочник тарифов</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block menu %}
+    <ul class="level-two">
+        <li data-block="1" class="active">
+            <div data-panel="zakaz" class="level-two-item">
+                Заказы питания по классам/группам
+            </div>
+            <div data-panel="pitanie" class="level-two-item">
+                Питание по классам/группам
+            </div>
+
+            <div data-panel="rep_pit_osn_3" class="level-two-item">
+                <strong>Основа питания: </strong> Табель по классам/группам
+            </div>
+            <div data-panel="menu" class="level-two-item active">
+                Меню
+            </div>
+
+        </li>
+        <li data-block="2">
+            <div data-panel="rep_tur_1" class="level-two-item">
+                Данные турникета по обучающимся
+            </div>
+
+        </li>
+
+        <li data-block="5">
+            <div data-panel="gr_list" class="level-two-item">
+                Списки классов/групп
+            </div>
+        </li>
+        <li data-block="6">
+            <div data-panel="balance" class="level-two-item">
+                Баланс лицевых счетов
+            </div>
+        </li>
+        <li data-block="7">
+            <div data-panel="spr_tarrif" class="level-two-item">
+                Справочник тарифов
+            </div>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block reports %}
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active user-form" id="menu">
+            {#<?php include '../mainmenu.php'; ?>#}1
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="zakaz">
+            {#<?php include 'zakaz.php'; ?>#}2
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="pitanie">
+            {#<?php include 'pitanie.php' ?>#}3
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="rep_pit_osn_3">
+            {#<?php include 'tabel.php' ?>#}4
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="rep_tur_1">
+            {#<?php include 'enter.php' ?>#}5
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="gr_list">
+            {#<?php include 'classList.php' ?>#}6
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="balance">
+            {#<?php include 'balance.php'; ?>#}7
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="spr_tarrif">
+            {#<?php include 'tarif.php'; ?>#}8
+        </div>
+
+    </div>
+{% endblock %}

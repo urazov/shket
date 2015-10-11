@@ -8,6 +8,6 @@ class TeacherController extends Controller
 {
     public function indexAction()
     {
-        var_dump('teacher');exit;
+        return $this->render('CabinetBundle:Teacher:index.html.twig');
     }
 }
