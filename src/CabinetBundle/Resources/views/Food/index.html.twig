@@ -1,1 +1,66 @@
 {% extends 'base_cabinet.html.twig' %}
+
+{% block user_information %}
+    {{ render(controller('CabinetBundle:Cabinet:userInformation')) }}
+{% endblock %}
+
+{% block main_menu %}
+    <ul class="level-one">
+        <li class="active">
+            <a href="#" data-block="1">Питание</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block menu %}
+    <ul class="level-two">
+        <li data-block="1" class="active">
+            <div data-panel="menu_for_cnt" class="level-two-item active" id="data_panel_menu">
+                Меню
+            </div>
+            <div data-panel="zakaz" class="level-two-item" id="data_panel_zakaz">
+                Заказы питания по классам/группам
+            </div>
+            <div data-panel="pitanie" class="level-two-item" id="data_panel_pitanie">
+                Питание по классам/группам
+            </div>
+            <div data-panel="rep_pit_1" class="level-two-item" id="data_panel_rep_pit_1">
+                Отчет по комплексному питанию
+            </div>
+            <div data-panel="rep_pit_2" class="level-two-item" id="data_panel_rep_pit_2">
+                Отчет по индивидуальному питанию
+            </div>
+            <div data-panel="rep_pit_3" class="level-two-item" id="data_panel_rep_pit_3">
+                Общий отчет
+            </div>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block reports %}
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active user-form" id="menu_for_cnt">
+            {#<?php include 'mainmenu.php';?>#}1
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="zakaz">
+            {#<?php include 'zakaz.php';?>#}2
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="pitanie">
+            {#<?php include 'pitanie.php';?>#}3
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="rep_pit_1">
+            {#<?php include 'rep_pit_1.php';?>#}4
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="rep_pit_2">
+            {#<?php include 'rep_pit_2.php';?>#}5
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="rep_pit_3">
+            {#<?php include 'rep_pit_3.php';?>#}6
+        </div>
+    </div>
+{% endblock %}

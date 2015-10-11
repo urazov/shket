@@ -71,7 +71,6 @@ $(document).ready(function(){
     if ($('.cabinet-tabs').length > 0)
     {
         var FormatBreadCrumbs = function(){
-            $('.cabinet-breadcrumbs').html('');
             var FirstItem = $('.cabinet-tabs ul.level-one > li.active > a');
             var SecondItem = $('.cabinet-tabs ul.level-two .level-two-item.active')
 

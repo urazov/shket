@@ -66,12 +66,28 @@
     <div class="container-fluid" id="cabinet">
         <div class="container cabinet">
             {% block user_information %}
-                {{ render(controller('CabinetBundle:Cabinet:userInformation')) }}
             {% endblock %}
-            {% block main_menu_item %}{% endblock %}
-            {% block menu_items %}{% endblock %}
-            {% block bread_crumbs %}{% endblock %}
-            {% block report %}{% endblock %}
+            <div class="row" style="margin-top: 40px; margin-left: -30px; margin-right: -30px;">
+                <div class="col-xs-12">
+                    <div class="cabinet-tabs">
+                        <div class="tab-container">
+                            {% block main_menu %}{% endblock %}
+                        </div>
+
+                        <div class="tab-container" style="margin-top: 20px;">
+                            <div class="scroll-counter scroll-counter-left">1/12</div>
+                            <div class="scroll-counter scroll-counter-right">1/13</div>
+                            <div class="scroll-element scroll-left"><i class="fa fa-angle-left"></i></div>
+                            <div class="scroll-element scroll-right"><i class="fa fa-angle-right"></i></div>
+                            {% block menu %}{% endblock %}
+                        </div>
+                    </div>
+                    {% block bread_crumbs %}
+                        <div class="cabinet-breadcrumbs"></div>
+                    {% endblock %}
+                    {% block reports %}{% endblock %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
