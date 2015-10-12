@@ -21,3 +21,8 @@ cabinet_food:
 cabinet_client:
   path: /cabinet/client
   defaults: {_controller: CabinetBundle:Client:index}
+
+
+food_reports_mainmenu:
+  path: /food/report/mainmenu
+  defaults: {_controller: CabinetBundle:Food:mainmenu}

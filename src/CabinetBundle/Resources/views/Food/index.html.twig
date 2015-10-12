@@ -1,12 +1,5 @@
 {% extends 'base_cabinet.html.twig' %}
 
-{% block head_javascripts %}
-    {{ parent() }}
-
-    <script src="{{ asset('js/food/mainmenu.js') }}"></script>
-
-{% endblock %}
-
 {% block user_information %}
     {{ render(controller('CabinetBundle:Food:userInformation')) }}
 {% endblock %}

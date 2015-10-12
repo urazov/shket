@@ -248,7 +248,7 @@ $(document).ready(function(){
 
     /* DATE PICKER */
     if ($('.datepicker').size() > 0){
-        $('.datepicker').datetimepicker({language: 'ru', pickTime: false});
+        $('.datepicker').datetimepicker({format: 'DD-MM-YYYY', language: 'ru', pickTime: false});
     }
 
     /* LINKS */

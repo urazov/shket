@@ -30,8 +30,8 @@
                 <img src="{{ asset('img/iconCalendar.png') }}" />
             </span>
         </div>
-        <div class="col-xs-4" style="float: right;" id="btnShowMenuForCNT">
-            <button class="btn dialog" style="float: right;">Отобразить данные</button>
+        <div class="col-xs-4" style="float: right;">
+            <button id="btnShowMenuForCNT" class="btn dialog" style="float: right;">Отобразить данные</button>
         </div>
     </div>
 </form>
@@ -39,7 +39,30 @@
 <div id="printContainerMenuCnt">
     <div class="row report-title">Дата: <span id="dateTextForMenu">{{ current_date }}</span></div>
     <div class="row" style="margin-top: 20px;">
-        <div class="col-xs-12" id = "resultTableMenuForCNT">
-        </div>
+        <div class="col-xs-12" id="resultTableMenuForCNT"></div>
     </div>
 </div>
+
+
+<script>
+    $(function(){
+        $('#btnShowMenuForCNT').click(function(e){
+            e.preventDefault();
+
+            var school_id = $("#select_all_school_menu").combobox('selectedItem').value;
+
+            $.ajax({
+                url: '{{ path("food_reports_mainmenu") }}',
+                type: 'POST',
+                data: {
+                    date: $('#selected_date_menu').val(),
+                    school_id: school_id
+                },
+                success: function(data) {
+                    $("#resultTableMenuForCNT").html(data);
+                    $("#dateTextForMenu").html($('#selected_date_menu').val());
+                }
+            });
+        });
+    });
+</script>
