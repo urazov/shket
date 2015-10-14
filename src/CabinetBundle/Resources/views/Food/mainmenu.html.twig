@@ -1,13 +1,22 @@
+{% set combobox_school_id = "select_school_menu" %}
+{% set date_id = "selected_date_menu" %}
+{% set result_id = "result_menu" %}
+{% set show_date_id = "show_date_menu" %}
+{% set button_id = "btn_show_menu" %}
+{% set print_id = "print_container_menu" %}
+{% set ul_school_id = "result_school_menu" %}
+{% set default_text_school = "Укажите учреждение" %}
+
 <form class="form-horizontal filters">
     <div class="form-group">
         <label class="col-xs-2 control-label">Учреждение:</label>
-        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="select_all_school_menu">
-            <input name="schoolNameMenu" id="schoolNameMenu" type="text" class="form-control" value="Укажите учреждение"/>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="{{ combobox_school_id }}">
+            <input type="text" class="form-control" value="{{ default_text_school }}"/>
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right" id="result_all_school_menu">
+                <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_school_id }}">
                     {% for str in school %}
                         <li data-value="{{ str.SCL_ID }}"><a href="#">{{ str.NAME }}</a></li>
                     {% endfor %}
@@ -16,7 +25,7 @@
         </div>
 
         <div class="col-xs-5" style="float: right;">
-            <a href="#" class = "printStyle" print_table_id = 'printContainerMenuCnt'>
+            <a href="#" class = "printStyle" print_table_id='{{ print_id }}'>
                 Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
             </a>
         </div>
@@ -25,42 +34,41 @@
     <div class="form-group">
         <label class="col-xs-2 control-label">Дата:</label>
         <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
-            <input type='text' class="form-control" value="{{ current_date }}" id="selected_date_menu"/>
+            <input type='text' class="form-control" value="{{ current_date }}" id="{{ date_id }}"/>
             <span class="input-group-addon">
                 <img src="{{ asset('img/iconCalendar.png') }}" />
             </span>
         </div>
         <div class="col-xs-4" style="float: right;">
-            <button id="btnShowMenuForCNT" class="btn dialog" style="float: right;">Отобразить данные</button>
+            <button id="{{ button_id }}" class="btn dialog" style="float: right;">Отобразить данные</button>
         </div>
     </div>
 </form>
 
-<div id="printContainerMenuCnt">
-    <div class="row report-title">Дата: <span id="dateTextForMenu">{{ current_date }}</span></div>
+<div>
+    <div class="row report-title">Дата: <span id="{{ show_date_id }}">{{ current_date }}</span></div>
     <div class="row" style="margin-top: 20px;">
-        <div class="col-xs-12" id="resultTableMenuForCNT"></div>
+        <div class="col-xs-12" id="{{ result_id }}"></div>
     </div>
 </div>
 
 
 <script>
     $(function(){
-        $('#btnShowMenuForCNT').click(function(e){
+        $('#{{ button_id }}').click(function(e){
             e.preventDefault();
-
-            var school_id = $("#select_all_school_menu").combobox('selectedItem').value;
+            $("#{{ show_date_id }}").html($('#{{ date_id }}').val());
+            var school_id = $("#{{ combobox_school_id }}").combobox('selectedItem').value;
 
             $.ajax({
                 url: '{{ path("food_reports_mainmenu") }}',
                 type: 'POST',
                 data: {
-                    date: $('#selected_date_menu').val(),
+                    date: $('#{{ date_id }}').val(),
                     school_id: school_id
                 },
                 success: function(data) {
-                    $("#resultTableMenuForCNT").html(data);
-                    $("#dateTextForMenu").html($('#selected_date_menu').val());
+                    $("#{{ result_id }}").html(data);
                 }
             });
         });

@@ -49,7 +49,7 @@ class DB
         return [];
     }
 
-    public function getAll($sql, array $params)
+    public function getAll($sql, array $params, $fetch_type = PDO::FETCH_ASSOC)
     {
         $idx = 1;
         $this->stmt = $this->handler->prepare($sql);
@@ -58,7 +58,7 @@ class DB
             $idx++;
         }
         if($this->stmt->execute()){
-            return $this->fetchAll(PDO::FETCH_ASSOC);
+            return $this->fetchAll($fetch_type);
         }
         return [];
     }

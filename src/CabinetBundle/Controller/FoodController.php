@@ -71,4 +71,44 @@ class FoodController extends Controller
         }
     }
 
+    public function classesAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'school_id' => $request->get('school_id')
+            ];
+
+            $all_classes = DBFood::getInstance()->getClassInfo($parameters, true);
+
+            return $this->render('CabinetBundle:Food:zakaz_classes.html.twig', [
+                'classes' => $all_classes
+            ]);
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
+    public function zakazAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'date' => $request->get('date'),
+                'school_id' => $request->get('school_id'),
+                'class_id' => $request->get('class_id'),
+            ];
+
+            $class_info = DBFood::getInstance()->getClassInfo($parameters);
+            $food_info_by_class = DBFood::getInstance()->getFoodInfo($parameters);
+
+            $conclusion = DBFood::getInstance()->getConclusion($parameters);
+
+            return $this->render('CabinetBundle:Food:zakaz_report.html.twig', [
+                'food_info_by_class' => $food_info_by_class,
+                'conclusion' => $conclusion,
+            ]);
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
 }
