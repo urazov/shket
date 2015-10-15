@@ -98,14 +98,48 @@ class FoodController extends Controller
             ];
 
             $class_info = DBFood::getInstance()->getClassInfo($parameters);
-            $food_info_by_class = DBFood::getInstance()->getFoodInfo($parameters);
+            foreach($class_info as $class){
+                $parameters['class_id'] = $class['cls_id'];
+                $food_info_by_class[] = DBFood::getInstance()->getFoodInfo($parameters);
+            }
 
+            $parameters['class_id'] = $request->get('class_id');
             $conclusion = DBFood::getInstance()->getConclusion($parameters);
 
             return $this->render('CabinetBundle:Food/zakaz:zakaz_report.html.twig', [
+                'class_info' => $class_info,
                 'food_info_by_class' => $food_info_by_class,
                 'conclusion' => $conclusion,
             ]);
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
+    public function pitanieAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+                'school_id' => $request->get('school_id'),
+                'class_id' => $request->get('class_id'),
+            ];
+
+            $class_info = DBFood::getInstance()->getClassInfo($parameters);
+            foreach($class_info as $class){
+                $parameters['class_id'] = $class['cls_id'];
+                $food_info_by_period[] = DBFood::getInstance()->getFoodInfoByPeriod($parameters);
+            }
+            $parameters['class_id'] = $request->get('class_id');
+            $itog_food_by_period = DBFood::getInstance()->getConclusionByPeriod($parameters);
+
+            return $this->render('CabinetBundle:Food/pitanie:pitanie_report.html.twig', [
+                'class_info' => $class_info,
+                'food_info_by_period' => $food_info_by_period,
+                'conclusion_by_period' => $itog_food_by_period,
+            ]);
+
         } catch (Exception $e) {
             return new Response($e->getMessage());
         }

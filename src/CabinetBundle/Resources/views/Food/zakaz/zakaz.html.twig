@@ -89,6 +89,7 @@
             $("#{{ show_date_id }}").html($('#{{ date_id }}').val());
             var school_id = $("#{{ combobox_school_id }}").combobox('selectedItem').value;
             var class_id = $("#{{ combobox_classes_id }}").combobox('selectedItem').value;
+            $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
 
             $.ajax({
                 url: '{{ path("food_reports_zakaz") }}',

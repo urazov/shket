@@ -26,9 +26,17 @@ cabinet_client:
 food_reports_mainmenu:
   path: /cabinet/food/report/mainmenu
   defaults: {_controller: CabinetBundle:Food:mainmenu}
+
 food_zakaz_classes:
   path: /cabinet/food/report/classes
   defaults: {_controller: CabinetBundle:Food:classes}
 food_reports_zakaz:
   path: /cabinet/food/report/zakaz
   defaults: {_controller: CabinetBundle:Food:zakaz}
+
+food_reports_pitanie:
+  path: /cabinet/food/report/pitanie
+  defaults: {_controller: CabinetBundle:Food:pitanie}
+food_pitanie_classes:
+  path: /cabinet/food/report/classes
+  defaults: {_controller: CabinetBundle:Food:classes}
