@@ -59,7 +59,7 @@ class FoodController extends Controller
                 $meals_of_group[$idx] = DBFood::getInstance()->getAllMealsOfGroup(array_merge($parameters, ['gmeal_id' => $group['GMEAL_ID']]));
             }
 
-            return $this->render('CabinetBundle:Food:mainmenu_report.html.twig', [
+            return $this->render('CabinetBundle:Food/menu:mainmenu_report.html.twig', [
                 'all_complex_on_date' => $all_complex_on_date,
                 'details_of_complex' => $details_of_complex,
                 'all_groups_of_meal' => $all_groups_of_meal,
@@ -80,7 +80,7 @@ class FoodController extends Controller
 
             $all_classes = DBFood::getInstance()->getClassInfo($parameters, true);
 
-            return $this->render('CabinetBundle:Food:zakaz_classes.html.twig', [
+            return $this->render('CabinetBundle:Food/zakaz:zakaz_classes.html.twig', [
                 'classes' => $all_classes
             ]);
         } catch (Exception $e) {
@@ -102,7 +102,7 @@ class FoodController extends Controller
 
             $conclusion = DBFood::getInstance()->getConclusion($parameters);
 
-            return $this->render('CabinetBundle:Food:zakaz_report.html.twig', [
+            return $this->render('CabinetBundle:Food/zakaz:zakaz_report.html.twig', [
                 'food_info_by_class' => $food_info_by_class,
                 'conclusion' => $conclusion,
             ]);

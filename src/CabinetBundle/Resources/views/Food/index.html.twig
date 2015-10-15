@@ -40,27 +40,27 @@
 {% block reports %}
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active user-form" id="menu_for_cnt">
-            {% include 'CabinetBundle:Food:mainmenu.html.twig'%}
+            {% include 'CabinetBundle:Food/menu:mainmenu.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="zakaz">
-            {% include 'CabinetBundle:Food:zakaz.html.twig' %}
+            {% include 'CabinetBundle:Food/zakaz:zakaz.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="pitanie">
-            {% include 'CabinetBundle:Food:pitanie.html.twig' %}
+            {% include 'CabinetBundle:Food/pitanie:pitanie.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_pit_1">
-            {% include 'CabinetBundle:Food:rep_pit_1.html.twig' %}
+            {% include 'CabinetBundle:Food/rep1:rep_pit_1.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_pit_2">
-            {% include 'CabinetBundle:Food:rep_pit_2.html.twig' %}
+            {% include 'CabinetBundle:Food/rep2:rep_pit_2.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_pit_3">
-            {% include 'CabinetBundle:Food:rep_pit_3.html.twig' %}
+            {% include 'CabinetBundle:Food/rep3:rep_pit_3.html.twig' %}
         </div>
     </div>
 {% endblock %}
