@@ -174,4 +174,39 @@ class FoodController extends Controller
         }
     }
 
+    public function secondAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+                'school_id' => $request->get('school_id')
+            ];
+
+            $class_info = DBFood::getInstance()->getInfoForSecondRep($parameters);
+            foreach($class_info as $class){
+                $parameters['class_id'] = $class['cls_id'];
+                $result = DBFood::getInstance()->getSecondInfoByPeriod($parameters);
+
+                if(count($result) > 1){
+                    $class_result[] = $class;
+                    $food_info_by_period[] = $result;
+                }
+
+            }
+
+            $conclusion_food_rep_second = DBFood::getInstance()->getConclusionSecondByPeriod($parameters);
+
+            return $this->render('CabinetBundle:Food/rep2:rep2_report.html.twig', [
+                'class_info' => $class_result,
+                'food_info_by_period' => $food_info_by_period,
+                'parameters' => $parameters,
+                'conclusion_food_rep_second' => $conclusion_food_rep_second
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
 }

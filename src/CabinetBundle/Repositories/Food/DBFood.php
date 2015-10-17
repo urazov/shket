@@ -619,4 +619,106 @@ class DBFood
 
         return $result;
     }
+
+    public function getSecondInfoByPeriod($parameters)
+    {
+        $query =
+            "with x as (
+                Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
+                 , m.NAME
+                 , r.cnt
+                 , r.COST
+                   , (case
+                  when r.IS_BJT = 1 then 0
+                  else r.COST*r.CNT
+                  end) as price_comm
+                  , r.IS_BJT as is_bjt
+                  , m.IS_COMPLEX as is_complex
+                  , r.ADATE as dtm_nf
+                 from CS_SHKET.RLS r
+                 inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
+                 inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID and m.IS_COMPLEX = 0
+                 inner join CS_SHKET.USER_IN_SCL_CLS uc on r.USR_ID = uc.USR_ID
+                 inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID
+                 where r.ADATE between ? and ?
+                   and uc.CLS_ID = ?
+                   and uc.SCL_ID = ?
+                   and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
+                   )
+
+
+                Select y.dt as dt
+                  , upper(substring(y.name, 1, 1)) + lower(substring(y.name, 2, LEN(y.name))) as name
+                  , y.cnt as cnt
+                  , y.price as price
+                  , y.sum_comm as sum_comm
+                 from (
+                Select x.dt as dt
+                 , x.NAME as name
+                 , x.cnt as cnt
+                 , x.COST as price
+                 , SUM(x.price_comm) over (partition by x.dt, x.cost, x.name) as sum_comm
+                 , x.dtm_nf as dtm_nf
+                 from x
+
+                UNION
+
+                Select distinct 'TOTAL:' as dt
+                 , '' as name
+                 , isnull(SUM(x.cnt), 0) as cnt_comm
+                 , null as price
+                 , isnull(SUM(x.price_comm), 0) as sum_comm
+                 , GETDATE() as dtm_nf
+                 from x
+                 ) y
+                 order by y.dtm_nf, y.name";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [
+            $date_from, $date_to, $parameters['class_id'], $parameters['school_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
+
+    public function getConclusionSecondByPeriod($parameters)
+    {
+        $query = " with x as (
+            Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
+             , m.NAME
+             , r.cnt
+             , r.COST
+               , (case
+              when r.IS_BJT = 1 then 0
+              else r.COST*r.CNT
+              end) as price_comm
+              , r.IS_BJT as is_bjt
+              , m.IS_COMPLEX as is_complex
+              , r.ADATE as dtm_nf
+             from CS_SHKET.RLS r
+             inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
+             inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID and m.IS_COMPLEX = 0
+             where r.ADATE between ? and ?
+               and r.SCL_ID = ?
+               )
+
+            Select distinct  isnull(SUM(x.price_comm), 0) as sum_comm
+             from x" ;
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [
+            $date_from, $date_to, $parameters['school_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
+
+    public function getInfoForSecondRep($parameters)
+    {
+        return self::getInfoForFirstRep($parameters);
+    }
 }
