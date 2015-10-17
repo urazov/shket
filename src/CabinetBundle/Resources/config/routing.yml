@@ -1,3 +1,7 @@
+update_user_information:
+  path: /user/update
+  defaults: {_controller: CabinetBundle:Cabinet:update}
+
 cabinet_detecting:
   path: /cabinet
   defaults: {_controller: CabinetBundle:Cabinet:index}

@@ -1,8 +1,15 @@
+{% set modalEditUser = 'modalEditUser' %}
+{% set editProfile = 'editProfile' %}
+{% set btnEditUser = 'btnEditUser' %}
+{% set editUserSurname = 'editUserSurname' %}
+{% set editUserPhone = 'editUserPhone' %}
+{% set editUserEmail = 'editUserEmail' %}
+
 <div class="row nice-container user">
     <div class="col-xs-8" style="margin-top: 15px; margin-bottom: 8px;">
         <div class="info">
             <p class="name" >
-                <span id = "userName">{{ full_name }}</span>
+                <span id="userName">{{ full_name }}</span>
             </p>
             <p class="item" >
                 <strong>Учебное заведение:</strong>{{ info[0].NAME }}
@@ -10,7 +17,7 @@
             <p class="item" >
                 <strong>Классы/группы:</strong>
                 {% for str in info %}
-                    <p class="item" style="margin-left: 165px;"> {{ str.name }} </p>
+                    <p class="item"> {{ str.name }} </p>
                 {% endfor %}
             </p>
             <p class="item">
@@ -20,14 +27,14 @@
                 <strong>E-mail:</strong> <span id = "userEmail">{{ email }}</span>
             </p>
         </div>
-        <a href="#" id="editProfile" style="align: right;">
+        <a href="#" id="{{ editProfile }}" style="align: right;">
             <img src="{{ asset('img/iconEdit.png') }}" />
         </a>
     </div>
 </div>
 
 <!-- EDIT OVERLAY -->
-<div class="modal big" id="modalEditUser" tabindex="-1" role="dialog">
+<div class="modal big" id="{{ modalEditUser }}" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-content-inner">
@@ -46,25 +53,25 @@
                             </div>
                             <div class="col-xs-9">
                                 <div class="form-group">
-                                    <label for="editUserSurname" class="col-xs-3 control-label">Фамилия Имя Отчество</label>
+                                    <label for="{{ editUserSurname }}" class="col-xs-3 control-label">Фамилия Имя Отчество</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserSurname" name="editUserSurname">
+                                        <input type="text" class="form-control" id="{{ editUserSurname }}" name="{{ editUserSurname }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="editUserPhone" class="col-xs-3 control-label">Телефон</label>
+                                    <label for="{{ editUserPhone }}" class="col-xs-3 control-label">Телефон</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserPhone" name="editUserPhone">
+                                        <input type="text" class="form-control" id="{{ editUserPhone }}" name="{{ editUserPhone }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="editUserEmail" class="col-xs-3 control-label">E-mail</label>
+                                    <label for="{{ editUserEmail }}" class="col-xs-3 control-label">E-mail</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserEmail" name="editUserEmail">
+                                        <input type="text" class="form-control" id="{{ editUserEmail }}" name="{{ editUserEmail }}">
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn dialog col-xs-12" style="margin-top: 20px; width: 97%; text-align: center; left: 10px;" id="btnEditUser">Сохранить</button>
+                            <button type="submit" class="btn dialog col-xs-12" style="margin-top: 20px; width: 97%; text-align: center; left: 10px;" id="{{ btnEditUser }}">Сохранить</button>
                         </div>
                     </form>
                     <div id="editUserErrors" class="modal-errors">
@@ -74,3 +81,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#{{ editProfile }}').click(function(e){
+        e.preventDefault();
+
+        $('#{{ editUserSurname }}').val($('#userName').text());
+        $('#{{ editUserPhone }}').val($('#userTlph').text());
+        $('#{{ editUserEmail }}').val($('#userEmail').text());
+
+        $('#{{ modalEditUser }}').modal({show : true});
+    });
+
+    $('#{{ btnEditUser }}').click(function(e){
+        e.preventDefault();
+
+        var newName = $('#{{ editUserSurname }}').val().trim();
+        var newPhone = $('#{{ editUserPhone }}').val().trim();
+        var newEmail = $('#{{ editUserEmail }}').val().trim();
+
+        $.ajax({
+            url: '{{ path("update_user_information") }}',
+            type: 'POST',
+            data: {
+                name: newName,
+                phone : newPhone,
+                email: newEmail
+            },
+            success: function(data){
+                if (data == 1){
+                    $('#userName').text(newName);
+                    $('#userTlph').text(newPhone);
+                    $('#userEmail').text(newEmail);
+                    $('#modalEditUser').modal('hide');
+                }else
+                    Errors.html('Ошибка сохранения значения в базе данных. Обратитесь к администратору');
+            }
+        });
+    });
+</script>
