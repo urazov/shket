@@ -56,3 +56,6 @@ food_rep_rep_3:
 teacher_reports_mainmenu:
   path: /cabinet/teacher/report/mainmenu
   defaults: {_controller: CabinetBundle:Teacher:mainmenu}
+teacher_reports_zakaz:
+  path: /cabinet/teacher/report/zakaz
+  defaults: {_controller: CabinetBundle:Teacher:zakaz}

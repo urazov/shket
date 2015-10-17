@@ -70,8 +70,36 @@ class TeacherController extends Controller
                 'all_groups_of_meal' => $all_groups_of_meal,
                 'meals_of_group' => isset($meals_of_group) ? $meals_of_group : []
             ]);
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
 
+    public function zakazAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'date' => $request->get('date'),
+                'school_id' => $this->get('session')->get('default_scl_id'),
+                'class_id' => $request->get('class_id'),
+                'user_id' => $this->getUser()->getId()
+            ];
 
+            $class_info = DBTeacher::getInstance()->getClassInfo($parameters);
+            foreach($class_info as $class){
+                $parameters['class_id'] = $class['cls_id'];
+                $food_info_by_class[] = DBFood::getInstance()->getFoodInfo($parameters);
+            }
+
+            $parameters['class_id'] = $request->get('class_id');
+            $conclusion = DBTeacher::getInstance()->getConclusion($parameters);
+
+            return $this->render('CabinetBundle:Teacher/zakaz:zakaz_report.html.twig', [
+                'class_info' => $class_info,
+                'food_info_by_class' => isset($food_info_by_class) ? $food_info_by_class : [],
+                'conclusion' => $conclusion,
+                'teacher_name' => $this->getUser()->getFullName()
+            ]);
         } catch (Exception $e) {
             return new Response($e->getMessage());
         }

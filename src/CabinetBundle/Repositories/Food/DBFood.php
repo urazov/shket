@@ -135,7 +135,7 @@ class DBFood
 
         $query .= "order by num_cls, let_cls";
 
-        $result = self::$db_instance->getAll($query, $query_params);
+        $result = DB::getInstance()->getAll($query, $query_params);
         return $result;
     }
 
@@ -221,7 +221,7 @@ class DBFood
 
         $date = substr($parameters['date'], -4)."-".substr($parameters['date'], 3, 2)."-".substr($parameters['date'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date, $parameters['class_id'], $parameters['school_id']
         ], PDO::FETCH_NUM);
 
@@ -290,7 +290,7 @@ class DBFood
 
         $date = substr($parameters['date'], -4)."-".substr($parameters['date'], 3, 2)."-".substr($parameters['date'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date, $parameters['school_id'], $parameters['class_id'], $parameters['class_id']
         ], PDO::FETCH_NUM);
 
@@ -381,7 +381,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
              $parameters['class_id'], $parameters['school_id'], $date_from, $date_to
         ], PDO::FETCH_NUM);
 
@@ -435,7 +435,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date_from, $date_to, $parameters['school_id'], $parameters['class_id'], $parameters['class_id']
         ], PDO::FETCH_NUM);
 
@@ -475,7 +475,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $parameters['school_id'], $date_from, $date_to
         ], PDO::FETCH_ASSOC);
 
@@ -561,7 +561,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date_from, $date_to, $parameters['class_id'], $parameters['school_id']
         ], PDO::FETCH_NUM);
 
@@ -613,7 +613,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date_from, $date_to, $parameters['school_id']
         ], PDO::FETCH_NUM);
 
@@ -676,7 +676,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date_from, $date_to, $parameters['class_id'], $parameters['school_id']
         ], PDO::FETCH_NUM);
 
@@ -710,7 +710,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date_from, $date_to, $parameters['school_id']
         ], PDO::FETCH_NUM);
 
@@ -808,7 +808,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date_from, $date_to, $parameters['class_id'], $parameters['school_id']
         ], PDO::FETCH_NUM);
 
@@ -869,7 +869,7 @@ class DBFood
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
-        $result = self::$db_instance->getAll($query, [
+        $result = DB::getInstance()->getAll($query, [
             $date_from, $date_to, $parameters['school_id']
         ], PDO::FETCH_NUM);
 
