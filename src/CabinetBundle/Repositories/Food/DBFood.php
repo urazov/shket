@@ -721,4 +721,158 @@ class DBFood
     {
         return self::getInfoForFirstRep($parameters);
     }
+
+    public function getInfoForThirdRep($parameters)
+    {
+        return self::getInfoForFirstRep($parameters);
+    }
+
+    public function getThirdInfoByPeriod($parameters)
+    {
+        $query =
+            "with x as (
+                Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
+                  , (case
+                  when m.IS_COMPLEX = 0 then 0
+                  else r.CNT
+                     end) as cnt_compl
+                  , (case
+                  when m.IS_COMPLEX = 0 then 0
+                  else (case
+                    when r.IS_BJT = 0
+                    then r.COST*r.CNT
+                    when r.IS_BJT = 0
+                    then r.COST_BJT*r.cnt
+                    else 0
+                     end)
+                     end) as price_compl
+                  , (case
+                  when m.IS_COMPLEX = 0 then r.CNT
+                  else 0
+                     end) as cnt_ind
+                  , (case
+                  when m.IS_COMPLEX = 1 then 0
+                  else (case
+                    when r.IS_BJT = 0
+                    then r.COST*r.CNT
+                    when r.IS_BJT = 0
+                    then r.COST_BJT*r.cnt
+                    else 0
+                     end)
+                     end) as price_ind
+                  ,(case
+                  when r.IS_BJT = 1 then r.COST_BJT*r.CNT
+                  else r.COST*r.cnt
+                     end) as total_price
+                  , r.IS_BJT as is_bjt
+                  , m.IS_COMPLEX as is_complex
+                  , r.ADATE as dtm_nf
+                 from CS_SHKET.RLS r
+                 inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
+                 inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
+                 inner join CS_SHKET.USER_IN_SCL_CLS uc on r.USR_ID = uc.USR_ID
+                 inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID and u.ROLE_ID = 1
+                 where r.ADATE between ? and ?
+                   and uc.CLS_ID = ?
+                   and uc.SCL_ID = ?
+                   and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
+                   )
+
+
+                Select  y.dt as dt
+                  , y.cnt as cnt
+                  , y.sum_compl as sum_compl
+                  , y.sum_ind as sum_ind
+                  , y.total_price as total_price
+                 from (
+                Select distinct x.dt
+                  , SUM(x.cnt_compl) over (partition by x.dt) +  SUM(x.cnt_ind) over (partition by x.dt) as cnt
+                  , SUM(x.price_compl) over (partition by x.dt) as sum_compl
+                  , SUM(x.price_ind) over (partition by x.dt) as sum_ind
+                  , SUM(x.total_price) over (partition by x.dt) as total_price
+                  , x.dtm_nf as dtm_nf
+                 from x
+
+                UNION
+
+                Select distinct 'TOTAL:' as dt
+                  , isnull(SUM(x.cnt_compl), 0) + isnull(SUM(x.cnt_ind), 0) as cnt
+                  , isnull(SUM(x.price_compl), 0) as sum_compl
+                  , isnull(SUM(x.price_ind), 0) as sum_ind
+                  , isnull(SUM(x.total_price), 0) as total_price
+                  , GETDATE() as dtm_nf
+                 from x
+                 ) y
+                 order by y.dtm_nf, y.cnt";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [
+            $date_from, $date_to, $parameters['class_id'], $parameters['school_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
+
+    public function getConclusionThirdByPeriod($parameters)
+    {
+        $query = " with x as (
+            Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
+              , (case
+              when m.IS_COMPLEX = 0 then 0
+              else r.CNT
+                 end) as cnt_compl
+              , (case
+              when m.IS_COMPLEX = 0 then 0
+              else (case
+                when r.IS_BJT = 0
+                then r.COST*r.CNT
+                when r.IS_BJT = 0
+                then r.COST_BJT*r.cnt
+                else 0
+                 end)
+                 end) as price_compl
+              , (case
+              when m.IS_COMPLEX = 0 then r.CNT
+              else 0
+                 end) as cnt_ind
+              , (case
+              when m.IS_COMPLEX = 1 then 0
+              else (case
+                when r.IS_BJT = 0
+                then r.COST*r.CNT
+                when r.IS_BJT = 0
+                then r.COST_BJT*r.cnt
+                else 0
+                 end)
+                 end) as price_ind
+              ,(case
+              when r.IS_BJT = 1 then r.COST_BJT*r.CNT
+              else r.COST*r.cnt
+                 end) as total_price
+              , r.IS_BJT as is_bjt
+              , m.IS_COMPLEX as is_complex
+              , r.ADATE as dtm_nf
+             from CS_SHKET.RLS r
+             inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
+             inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
+             where r.ADATE between ? and ?
+               and r.scl_id = ?
+               )
+            Select
+                isnull(SUM(x.price_compl), 0) as sum_compl
+              , isnull(SUM(x.price_ind), 0) as sum_ind
+              , isnull(SUM(x.total_price), 0) as total_price
+             from x";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [
+            $date_from, $date_to, $parameters['school_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
 }

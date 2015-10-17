@@ -157,13 +157,18 @@ class FoodController extends Controller
             $class_info = DBFood::getInstance()->getInfoForFirstRep($parameters);
             foreach($class_info as $class){
                 $parameters['class_id'] = $class['cls_id'];
-                $food_info_by_period[] = DBFood::getInstance()->getFirstInfoByPeriod($parameters);
+                $result = DBFood::getInstance()->getFirstInfoByPeriod($parameters);
+
+                if(count($result) > 1){
+                    $class_result[] = $class;
+                    $food_info_by_period[] = $result;
+                }
             }
 
             $conclusion_food_rep_first = DBFood::getInstance()->getConclusionFirstByPeriod($parameters);
 
             return $this->render('CabinetBundle:Food/rep1:rep1_report.html.twig', [
-                'class_info' => $class_info,
+                'class_info' => $class_result,
                 'food_info_by_period' => $food_info_by_period,
                 'parameters' => $parameters,
                 'conclusion_food_rep_first' => $conclusion_food_rep_first
@@ -192,7 +197,6 @@ class FoodController extends Controller
                     $class_result[] = $class;
                     $food_info_by_period[] = $result;
                 }
-
             }
 
             $conclusion_food_rep_second = DBFood::getInstance()->getConclusionSecondByPeriod($parameters);
@@ -202,6 +206,35 @@ class FoodController extends Controller
                 'food_info_by_period' => $food_info_by_period,
                 'parameters' => $parameters,
                 'conclusion_food_rep_second' => $conclusion_food_rep_second
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
+    public function thirdAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+                'school_id' => $request->get('school_id')
+            ];
+
+            $class_info = DBFood::getInstance()->getInfoForThirdRep($parameters);
+            foreach($class_info as $class){
+                $parameters['class_id'] = $class['cls_id'];
+                $food_info_by_period[] = DBFood::getInstance()->getThirdInfoByPeriod($parameters);
+            }
+
+            $conclusion_food_rep_third = DBFood::getInstance()->getConclusionThirdByPeriod($parameters);
+
+            return $this->render('CabinetBundle:Food/rep3:rep3_report.html.twig', [
+                'class_info' => $class_info,
+                'food_info_by_period' => $food_info_by_period,
+                'parameters' => $parameters,
+                'conclusion_food_rep_third' => $conclusion_food_rep_third
             ]);
 
         } catch (Exception $e) {

@@ -70,7 +70,7 @@
             var school_id = $("#{{ combobox_school_id }}").combobox('selectedItem').value;
             $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
             $.ajax({
-                url: '{{ path("food_rep_pit_2") }}',
+                url: '{{ path("food_rep_rep_2") }}',
                 type: 'POST',
                 data: {
                     date_from: $('#{{ date_id }}').val(),
