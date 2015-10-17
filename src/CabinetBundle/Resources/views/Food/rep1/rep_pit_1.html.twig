@@ -1,1 +1,86 @@
-hui
+{% set combobox_school_id = "select_school_rep_1" %}
+{% set combobox_classes_id = "select_class_rep_1" %}
+{% set date_id = "selected_date_rep_1" %}
+{% set date_to_id = "selected_date_to_rep_1" %}
+{% set result_id = "result_rep_1" %}
+{% set show_date_id = "show_date_rep_1" %}
+{% set button_id = "btn_show_rep_1" %}
+{% set print_id = "print_container_rep_1" %}
+{% set ul_school_id = "result_school_rep_1" %}
+{% set ul_classes_id = "result_classes_rep_1" %}
+{% set selected_class = "selected_class_rep_1" %}
+{% set default_text_class = "Укажите класс" %}
+{% set default_text_school = "Укажите учреждение" %}
+
+<form class="form-horizontal filters">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Учреждение:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="{{ combobox_school_id }}">
+            <input type="text" class="form-control" value="{{ default_text_school }}"/>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_school_id }}">
+                    {% for str in school %}
+                        <li data-value="{{ str.SCL_ID }}"><a href="#">{{ str.NAME }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-5" style="float: right;">
+            <a href="#" class = "printStyle" print_table_id='{{ print_id }}'>
+                Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Период:</label>
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ current_date }}" id="{{ date_id }}"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ current_date }}" id="{{ date_to_id }}"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
+        <div class="col-xs-4" style="float: right;">
+            <button id="{{ button_id }}" class="btn dialog" style="float: right;">Отобразить данные</button>
+        </div>
+    </div>
+</form>
+
+<div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12" id="{{ result_id }}"></div>
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        $('#{{ button_id }}').click(function(e){
+            e.preventDefault();
+            var school_id = $("#{{ combobox_school_id }}").combobox('selectedItem').value;
+            $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
+            $.ajax({
+                url: '{{ path("food_rep_pit1") }}',
+                type: 'POST',
+                data: {
+                    date_from: $('#{{ date_id }}').val(),
+                    date_to: $('#{{ date_to_id }}').val(),
+                    school_id: school_id
+                },
+                success: function(data) {
+                    $("#{{ result_id }}").html(data);
+                }
+            });
+        });
+    });
+</script>

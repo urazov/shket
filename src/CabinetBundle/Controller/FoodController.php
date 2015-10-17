@@ -78,7 +78,7 @@ class FoodController extends Controller
                 'school_id' => $request->get('school_id')
             ];
 
-            $all_classes = DBFood::getInstance()->getClassInfo($parameters, true);
+            $all_classes = DBFood::getInstance()->getClassInfo($parameters, false);
 
             return $this->render('CabinetBundle:Food/zakaz:zakaz_classes.html.twig', [
                 'classes' => $all_classes
@@ -132,12 +132,41 @@ class FoodController extends Controller
                 $food_info_by_period[] = DBFood::getInstance()->getFoodInfoByPeriod($parameters);
             }
             $parameters['class_id'] = $request->get('class_id');
-            $itog_food_by_period = DBFood::getInstance()->getConclusionByPeriod($parameters);
+            $conclusion_food_by_period = DBFood::getInstance()->getConclusionByPeriod($parameters);
 
             return $this->render('CabinetBundle:Food/pitanie:pitanie_report.html.twig', [
                 'class_info' => $class_info,
                 'food_info_by_period' => $food_info_by_period,
-                'conclusion_by_period' => $itog_food_by_period,
+                'conclusion_by_period' => $conclusion_food_by_period,
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
+    public function firstAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+                'school_id' => $request->get('school_id')
+            ];
+
+            $class_info = DBFood::getInstance()->getInfoForFirstRep($parameters);
+            foreach($class_info as $class){
+                $parameters['class_id'] = $class['cls_id'];
+                $food_info_by_period[] = DBFood::getInstance()->getFirstInfoByPeriod($parameters);
+            }
+
+            $conclusion_food_rep_first = DBFood::getInstance()->getConclusionFirstByPeriod($parameters);
+
+            return $this->render('CabinetBundle:Food/rep1:rep1_report.html.twig', [
+                'class_info' => $class_info,
+                'food_info_by_period' => $food_info_by_period,
+                'parameters' => $parameters,
+                'conclusion_food_rep_first' => $conclusion_food_rep_first
             ]);
 
         } catch (Exception $e) {

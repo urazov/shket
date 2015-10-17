@@ -40,3 +40,7 @@ food_reports_pitanie:
 food_pitanie_classes:
   path: /cabinet/food/report/classes
   defaults: {_controller: CabinetBundle:Food:classes}
+
+food_rep_pit1:
+  path: /cabinet/food/report/pit/first
+  defaults: {_controller: CabinetBundle:Food:first}
