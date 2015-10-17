@@ -52,3 +52,7 @@ food_rep_rep_2:
 food_rep_rep_3:
   path: /cabinet/food/report/pit/third
   defaults: {_controller: CabinetBundle:Food:third}
+
+teacher_reports_mainmenu:
+  path: /cabinet/teacher/report/mainmenu
+  defaults: {_controller: CabinetBundle:Teacher:mainmenu}

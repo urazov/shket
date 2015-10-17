@@ -5,7 +5,7 @@
                 <span id = "userName">{{ full_name }}</span>
             </p>
             <p class="item" >
-                <strong>Учебное заведение:</strong>{{ default_scl_name }}
+                <strong>Учебное заведение:</strong>{{ info[0].NAME }}
             </p>
             <p class="item" >
                 <strong>Классы/группы:</strong>
@@ -74,6 +74,3 @@
         </div>
     </div>
 </div>
-<span style="display: none" id ="SCL_ID_DEFAULT">{{ default_scl_id }}</span>
-<span style="display: none" id ="SCL_NAME_DEFAULT">{{ default_scl_name }}</span>
-

@@ -28,8 +28,6 @@ class FoodController extends Controller
             $result = DBFood::getInstance()->getUserInfo($user);
 
             $template_parameters['info'] = $result;
-            $template_parameters['default_scl_id'] = $result[0]['SCL_ID'];
-            $template_parameters['default_scl_name'] = $result[0]['NAME'];
 
             $template_parameters['full_name'] = $user->getFullName();
             $template_parameters['phone'] = $user->getPhone();
@@ -61,9 +59,9 @@ class FoodController extends Controller
 
             return $this->render('CabinetBundle:Food/menu:mainmenu_report.html.twig', [
                 'all_complex_on_date' => $all_complex_on_date,
-                'details_of_complex' => $details_of_complex,
+                'details_of_complex' => isset($details_of_complex) ? $details_of_complex : [],
                 'all_groups_of_meal' => $all_groups_of_meal,
-                'meals_of_group' => $meals_of_group
+                'meals_of_group' => isset($meals_of_group) ? $meals_of_group : []
             ]);
 
         } catch (Exception $e){
@@ -108,7 +106,7 @@ class FoodController extends Controller
 
             return $this->render('CabinetBundle:Food/zakaz:zakaz_report.html.twig', [
                 'class_info' => $class_info,
-                'food_info_by_class' => $food_info_by_class,
+                'food_info_by_class' => isset($food_info_by_class) ? $food_info_by_class : [],
                 'conclusion' => $conclusion,
             ]);
         } catch (Exception $e) {
@@ -136,7 +134,7 @@ class FoodController extends Controller
 
             return $this->render('CabinetBundle:Food/pitanie:pitanie_report.html.twig', [
                 'class_info' => $class_info,
-                'food_info_by_period' => $food_info_by_period,
+                'food_info_by_period' => isset($food_info_by_period) ? $food_info_by_period : [],
                 'conclusion_by_period' => $conclusion_food_by_period,
             ]);
 
@@ -168,8 +166,8 @@ class FoodController extends Controller
             $conclusion_food_rep_first = DBFood::getInstance()->getConclusionFirstByPeriod($parameters);
 
             return $this->render('CabinetBundle:Food/rep1:rep1_report.html.twig', [
-                'class_info' => $class_result,
-                'food_info_by_period' => $food_info_by_period,
+                'class_info' => isset($class_result) ? $class_result : [],
+                'food_info_by_period' => isset($food_info_by_period) ? $food_info_by_period : [],
                 'parameters' => $parameters,
                 'conclusion_food_rep_first' => $conclusion_food_rep_first
             ]);
@@ -202,8 +200,8 @@ class FoodController extends Controller
             $conclusion_food_rep_second = DBFood::getInstance()->getConclusionSecondByPeriod($parameters);
 
             return $this->render('CabinetBundle:Food/rep2:rep2_report.html.twig', [
-                'class_info' => $class_result,
-                'food_info_by_period' => $food_info_by_period,
+                'class_info' => isset($class_result) ? $class_result : [],
+                'food_info_by_period' => isset($food_info_by_period) ? $food_info_by_period : [],
                 'parameters' => $parameters,
                 'conclusion_food_rep_second' => $conclusion_food_rep_second
             ]);
@@ -232,7 +230,7 @@ class FoodController extends Controller
 
             return $this->render('CabinetBundle:Food/rep3:rep3_report.html.twig', [
                 'class_info' => $class_info,
-                'food_info_by_period' => $food_info_by_period,
+                'food_info_by_period' => isset($food_info_by_period) ? $food_info_by_period : [],
                 'parameters' => $parameters,
                 'conclusion_food_rep_third' => $conclusion_food_rep_third
             ]);
