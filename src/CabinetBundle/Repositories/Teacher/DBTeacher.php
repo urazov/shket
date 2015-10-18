@@ -224,15 +224,17 @@ class DBTeacher
 
     public function getFoodCountForPupil($parameters)
     {
-        $query = 'select COUNT(*) as cnt
-                from CS_SHKET.RLS
-                where USR_ID = ?
-                  and del <> 1
-                  and ADATE = ?';
+        $query = 'select SUM(CNT) as cnt, ADATE as date
+                    from CS_SHKET.RLS
+                    where USR_ID = ?
+                      and del <> 1
+                      and ADATE >= ?
+                      and ADATE < ?
+                      group by ADATE';
 
         $result = DB::getInstance()->getAll($query, [
-            $parameters['pupil_id'], $parameters['date']
-        ])[0]['cnt'];
+            $parameters['pupil_id'], $parameters['date_from'], $parameters['date_to']
+        ]);
 
         return $result;
     }
@@ -240,20 +242,22 @@ class DBTeacher
     public function getFoodCountItog($parameters)
     {
         $query = "
-            select COUNT(*) as cnt
+            select SUM(cnt) as cnt, ADATE as date
             from cs_shket.RLS, cs_shket.USER_IN_SCL_CLS uc
             where (uc.CLS_ID = ? or ? = -1)
               and rls.usr_id = uc.usr_id and rls.del <> 1 and uc.del <> 1
-              and ADATE = ?
+              and ADATE >= ?
+              and ADATE < ?
               and exists (
                 select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
                 and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id
               )
+              group by ADATE
         ";
 
-        $result = DB::getInstance()->getFirst($query, [
-            $parameters['class_id'], $parameters['class_id'], $parameters['date'], $parameters['teacher_id']
-        ], PDO::FETCH_NUM)[0];
+        $result = DB::getInstance()->getAll($query, [
+            $parameters['class_id'], $parameters['class_id'], $parameters['date_from'], $parameters['date_to'], $parameters['teacher_id']
+        ]);
 
         return $result;
     }

@@ -154,20 +154,40 @@ class TeacherController extends Controller
             foreach($pupils as $pupil){
                 $user_total = 0;
                 $parameters['pupil_id'] = $pupil['usr_id'];
+                $parameters['date_to'] = $parameters['year'] . '-' . ($parameters['month']+1) . '-01';
+                $parameters['date_from'] = $parameters['year'] . '-' . $parameters['month'] . '-01';
+                $food_date_info = DBTeacher::getInstance()->getFoodCountForPupil($parameters);
+                foreach($food_date_info as $key => $date){
+                    $food_user_date[$date['date']] = $date['cnt'];
+                }
+
                 for($day = 1; $day <= $days_in_month; $day++){
-                    $parameters['date'] = $parameters['year'] . '-' . $parameters['month'] . '-' . ($day<10 ? '0'.$day : $day);
-                    $cnt = DBTeacher::getInstance()->getFoodCountForPupil($parameters);
-                    $result[$pupil['usr_id']][$day] = $cnt;
-                    $cnt == 1 ? $user_total++ : null;
+                    $date = $parameters['year'] . '-' . $parameters['month'] . '-' . ($day<10 ? '0'.$day : $day);
+                    if(array_key_exists($date, $food_user_date)){
+                        $result[$pupil['usr_id']][$day] = $food_user_date[$date];
+                        $user_total += $food_user_date[$date];
+                    } else {
+                        $result[$pupil['usr_id']][$day] = 0;
+                    }
                 }
                 $result[$pupil['usr_id']][$day] = $user_total;
             }
 
             $itog_total = 0;
+            $parameters['date_to'] = $parameters['year'] . '-' . ($parameters['month']+1) . '-01';
+            $parameters['date_from'] = $parameters['year'] . '-' . $parameters['month'] . '-01';
+            $itog_result = DBTeacher::getInstance()->getFoodCountItog($parameters);
+            foreach($itog_result as $key => $date){
+                $itog_result_date[$date['date']] = $date['cnt'];
+            }
             for($day = 1; $day <= $days_in_month; $day++){
-                $parameters['date'] = $parameters['year'] . '-' . $parameters['month'] . '-' . ($day<10 ? '0'.$day : $day);
-                $itog[$day] = DBTeacher::getInstance()->getFoodCountItog($parameters);
-                $itog_total += $itog[$day];
+                $date = $parameters['year'] . '-' . $parameters['month'] . '-' . ($day<10 ? '0'.$day : $day);
+                if(array_key_exists($date, $itog_result_date)){
+                    $itog[$day] = $itog_result_date[$date];
+                    $itog_total += $itog[$day];
+                } else {
+                    $itog[$day] = 0;
+                }
             }
             $itog[$day] = $itog_total;
 
