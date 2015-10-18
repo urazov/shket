@@ -35,7 +35,7 @@ class DB
     }
 
 
-    public function getFirst($sql, array $params)
+    public function getFirst($sql, array $params, $fetch_type = PDO::FETCH_ASSOC)
     {
         $idx = 1;
         $this->stmt = $this->handler->prepare($sql);
@@ -44,7 +44,7 @@ class DB
             $idx++;
         }
         if($this->stmt->execute()){
-            return $this->fetchFirst(PDO::FETCH_ASSOC);
+            return $this->fetchFirst($fetch_type);
         }
         return [];
     }

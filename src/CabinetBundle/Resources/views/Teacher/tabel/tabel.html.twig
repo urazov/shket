@@ -1,0 +1,112 @@
+{% set combobox_school_id = "select_school_tabel" %}
+{% set combobox_classes_id = "select_class_tabel" %}
+{% set date_id = "selected_date_tabel" %}
+{% set date_to_id = "selected_date_to_tabel" %}
+{% set result_id = "result_tabel" %}
+{% set show_date_id = "show_date_tabel" %}
+{% set button_id = "btn_show_tabel" %}
+{% set print_id = "print_container_tabel" %}
+{% set ul_school_id = "result_school_tabel" %}
+{% set ul_classes_id = "result_classes_tabel" %}
+{% set selected_class = "selected_class_tabel" %}
+{% set default_text_class = "Укажите класс" %}
+{% set default_text_school = "Укажите учреждение" %}
+
+<form class="form-horizontal filters">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Класс/группа:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="{{ combobox_classes_id }}">
+            <input id="{{ selected_class }}" type="text" class="form-control" value="{{ default_text_class }}"/>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_classes_id }}">
+                    {#<li data-value="-1"><a href="#">Все классы</a></li>#}
+                    {% for str in school %}
+                        <li data-value="{{ str.cls_id }}"><a href="#">{{ str.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-5" style="float: right;">
+            <a href="#" class = "printStyle" print_table_id='{{ print_id }}'>
+                Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Месяц:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id = "cbxMonthTch">
+            <input type="text" class="form-control" id = "txtMonthTch" value="Укажите месяц" />
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" >
+                    <li data-value="01"><a href="#">Январь</a></li>
+                    <li data-value="02"><a href="#">Февраль</a></li>
+                    <li data-value="03"><a href="#">Март</a></li>
+                    <li data-value="04"><a href="#">Апрель</a></li>
+                    <li data-value="05"><a href="#">Май</a></li>
+                    <li data-value="06"><a href="#">Июнь</a></li>
+                    <li data-value="07"><a href="#">Июль</a></li>
+                    <li data-value="08"><a href="#">Август</a></li>
+                    <li data-value="09"><a href="#">Сентябрь</a></li>
+                    <li data-value="10"><a href="#">Октябрь</a></li>
+                    <li data-value="11"><a href="#">Ноябрь</a></li>
+                    <li data-value="12"><a href="#">Декабрь</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Год:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="cbxYearTch">
+            <input type="text" class="form-control" id = "txtYearTch" value="Укажите год" />
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" >
+                    <li data-value="2014"><a href="#">2014</a></li>
+                    <li data-value="2015"><a href="#">2015</a></li>
+                    <li data-value="2016"><a href="#">2016</a></li>
+                    <li data-value="2017"><a href="#">2017</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-4" style="float: right;">
+            <button id="{{ button_id }}" class="btn dialog" style="float: right;">Сформировать табель</button>
+        </div>
+    </div>
+</form>
+
+<div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12" id="{{ result_id }}" style="padding-left: 5px; padding-right: 5px;"></div>
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        $('#{{ button_id }}').click(function(e){
+            e.preventDefault();
+            var class_id = $("#{{ combobox_classes_id }}").combobox('selectedItem').value;
+            var month = $("#cbxMonthTch").combobox('selectedItem').value;
+            var year = $("#cbxYearTch").combobox('selectedItem').value;
+            $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
+            $.ajax({
+                url: '{{ path("teacher_reports_tabel") }}',
+                type: 'POST',
+                data: {
+                    class_id: class_id,
+                    month: month,
+                    year: year
+                },
+                success: function(data) {
+                    $("#{{ result_id }}").html(data);
+                }
+            });
+        });
+    });
+</script>

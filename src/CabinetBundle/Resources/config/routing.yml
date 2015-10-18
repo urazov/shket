@@ -66,3 +66,6 @@ teacher_reports_zakaz:
 teacher_reports_pitanie:
   path: /cabinet/teacher/report/pitanie
   defaults: {_controller: CabinetBundle:Teacher:pitanie}
+teacher_reports_tabel:
+  path: /cabinet/teacher/report/tabel
+  defaults: {_controller: CabinetBundle:Teacher:tabel}

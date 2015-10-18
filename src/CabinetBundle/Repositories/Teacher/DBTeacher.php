@@ -197,4 +197,64 @@ class DBTeacher
 
         return $result;
     }
+
+    public function getAllPupil($parameters)
+    {
+        $query = 'select u.name, u.usr_id
+            from cs_shket.usr u, cs_shket.USER_IN_SCL_CLS uc
+                where u.del <> 1 and uc.del <> 1
+                    and u.usr_id = uc.usr_id
+                    and (uc.CLS_ID = ? or ? = -1)
+                    and uc.scl_id = ?
+                    and role_id = 1
+                    and exists (
+                        select null
+                        from cs_shket.USER_IN_SCL_CLS iuc
+                        where iuc.usr_id = ?
+                            and iuc.scl_id = uc.scl_id
+                            and iuc.cls_id = uc.cls_id
+                    )';
+
+        $result = DB::getInstance()->getAll($query, [
+            $parameters['class_id'], $parameters['class_id'], $parameters['school_id'], $parameters['teacher_id']
+        ], PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    public function getFoodCountForPupil($parameters)
+    {
+        $query = 'select COUNT(*) as cnt
+                from CS_SHKET.RLS
+                where USR_ID = ?
+                  and del <> 1
+                  and ADATE = ?';
+
+        $result = DB::getInstance()->getAll($query, [
+            $parameters['pupil_id'], $parameters['date']
+        ])[0]['cnt'];
+
+        return $result;
+    }
+
+    public function getFoodCountItog($parameters)
+    {
+        $query = "
+            select COUNT(*) as cnt
+            from cs_shket.RLS, cs_shket.USER_IN_SCL_CLS uc
+            where (uc.CLS_ID = ? or ? = -1)
+              and rls.usr_id = uc.usr_id and rls.del <> 1 and uc.del <> 1
+              and ADATE = ?
+              and exists (
+                select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
+                and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id
+              )
+        ";
+
+        $result = DB::getInstance()->getFirst($query, [
+            $parameters['class_id'], $parameters['class_id'], $parameters['date'], $parameters['teacher_id']
+        ], PDO::FETCH_NUM)[0];
+
+        return $result;
+    }
 }

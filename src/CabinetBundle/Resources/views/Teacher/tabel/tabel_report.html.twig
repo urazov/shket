@@ -1,0 +1,25 @@
+<table class= 'table table-striped table-simple table-cabinet table-small'>
+    <thead>
+    <th>ФИО</th>
+    {% for day in 1..days %}
+        <th>{{ day }}</th>
+    {% endfor %}
+        <th>Итог</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Итого</td>
+        {% for tot in total %}
+            <td>{{ tot }}</td>
+        {% endfor %}
+    </tr>
+    {% for pupil in pupils %}
+        <tr>
+            <td>{{ pupil['name'] }}</td>
+            {% for res in result[pupil['usr_id']] %}
+                <td>{{ res }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

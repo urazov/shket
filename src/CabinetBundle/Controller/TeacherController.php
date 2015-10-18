@@ -135,4 +135,51 @@ class TeacherController extends Controller
             return new Response($e->getMessage());
         }
     }
+
+    public function tabelAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'month' => $request->get('month'),
+                'year' => $request->get('year'),
+                'school_id' => $this->get('session')->get('default_scl_id'),
+                'class_id' => $request->get('class_id'),
+                'teacher_id' => $this->getUser()->getId()
+            ];
+
+            $days_in_month = cal_days_in_month(CAL_GREGORIAN, $parameters['month'], $parameters['year']);
+
+            $pupils = DBTeacher::getInstance()->getAllPupil($parameters);
+
+            foreach($pupils as $pupil){
+                $user_total = 0;
+                $parameters['pupil_id'] = $pupil['usr_id'];
+                for($day = 1; $day <= $days_in_month; $day++){
+                    $parameters['date'] = $parameters['year'] . '-' . $parameters['month'] . '-' . ($day<10 ? '0'.$day : $day);
+                    $cnt = DBTeacher::getInstance()->getFoodCountForPupil($parameters);
+                    $result[$pupil['usr_id']][$day] = $cnt;
+                    $cnt == 1 ? $user_total++ : null;
+                }
+                $result[$pupil['usr_id']][$day] = $user_total;
+            }
+
+            $itog_total = 0;
+            for($day = 1; $day <= $days_in_month; $day++){
+                $parameters['date'] = $parameters['year'] . '-' . $parameters['month'] . '-' . ($day<10 ? '0'.$day : $day);
+                $itog[$day] = DBTeacher::getInstance()->getFoodCountItog($parameters);
+                $itog_total += $itog[$day];
+            }
+            $itog[$day] = $itog_total;
+
+            return $this->render('CabinetBundle:Teacher/tabel:tabel_report.html.twig', [
+                'result' => isset($result) ? $result : [],
+                'pupils' => $pupils,
+                'days' => $days_in_month,
+                'total' => isset($itog) ? $itog : []
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
 }
