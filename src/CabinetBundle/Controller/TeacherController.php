@@ -151,11 +151,13 @@ class TeacherController extends Controller
 
             $pupils = DBTeacher::getInstance()->getAllPupil($parameters);
 
+            $parameters['date_to'] = $parameters['year'] . '-' . ($parameters['month']+1) . '-01';
+            $parameters['date_from'] = $parameters['year'] . '-' . $parameters['month'] . '-01';
+
             foreach($pupils as $pupil){
                 $user_total = 0;
+                $food_user_date = [];
                 $parameters['pupil_id'] = $pupil['usr_id'];
-                $parameters['date_to'] = $parameters['year'] . '-' . ($parameters['month']+1) . '-01';
-                $parameters['date_from'] = $parameters['year'] . '-' . $parameters['month'] . '-01';
                 $food_date_info = DBTeacher::getInstance()->getFoodCountForPupil($parameters);
                 foreach($food_date_info as $key => $date){
                     $food_user_date[$date['date']] = $date['cnt'];
@@ -202,4 +204,25 @@ class TeacherController extends Controller
             return new Response($e->getMessage());
         }
     }
+
+    public function listAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'school_id' => $this->get('session')->get('default_scl_id'),
+                'class_id' => $request->get('class_id'),
+                'teacher_id' => $this->getUser()->getId()
+            ];
+
+            $result = DBTeacher::getInstance()->getUserList($parameters);
+
+            return $this->render('CabinetBundle:Teacher/list:list_report.html.twig', [
+                'result' => $result
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
 }
