@@ -63,3 +63,6 @@ teacher_reports_mainmenu:
 teacher_reports_zakaz:
   path: /cabinet/teacher/report/zakaz
   defaults: {_controller: CabinetBundle:Teacher:zakaz}
+teacher_reports_pitanie:
+  path: /cabinet/teacher/report/pitanie
+  defaults: {_controller: CabinetBundle:Teacher:pitanie}

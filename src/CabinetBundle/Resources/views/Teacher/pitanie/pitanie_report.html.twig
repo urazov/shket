@@ -1,0 +1,36 @@
+{% for class in class_info %}
+    {% set idx = loop.index0 %}
+    <div class='row report-subtitle'>{{ class.name }} класс/группа ({{ teacher_name }})</div>
+    <table class='table table-striped table-simple table-cabinet table-markered'>
+        <thead>
+        <th>Дата</th>
+        <th>Наименование комплекса/блюда</th>
+        <th>Стоимость комплекса/блюда</th>
+        <th>Количество коммерческих комплексов/блюд</th>
+        <th>Сумма за коммерческие комплексы/блюда, руб</th>
+        <th>Количество бюджетных комплексов</th>
+        <th>Сумма доплаты за бюджетные комплексы, руб</th>
+        <th>Общая сумма, руб</th>
+        </thead>
+        <tbody>
+        {% for foods_info in food_info_by_period[idx] %}
+            <tr>
+                {% for food_info in foods_info %}
+                    <td class='center'>{{ food_info }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endfor %}
+
+{% for conclusion in conclusion_by_period %}
+    <div class='row' style='margin-top: 20px;'>
+        <div class='col-xs-12'>
+            <p><strong>Итого по учреждению сумма за коммерческие блюда и комплексы: </strong> {{ conclusion[0] }} руб.</p>
+            <p><strong>Итого по учреждению доплата за бюджетные комплексы: </strong> {{ conclusion[1] }} руб.</p>
+            <p><strong>Итого по учреждению: </strong> {{ conclusion[2] }} руб.</p>
+        </div>
+    </div>
+{% endfor %}
