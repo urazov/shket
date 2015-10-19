@@ -1,0 +1,83 @@
+{% set date_id = "selected_date_money" %}
+{% set date_to_id = "selected_date_to_money" %}
+{% set result_id = "result_money" %}
+{% set show_date_id = "show_date_money" %}
+{% set button_id = "btn_show_money" %}
+{% set print_id = "print_container_money" %}
+{% set ul_school_id = "result_school_money" %}
+{% set money_type_id = "money_type_id" %}
+{% set default_money_type = "Укажите тип" %}
+
+<form class="form-horizontal filters">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Тип начисления/списания:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="{{ money_type_id }}">
+            <input type="text" class="form-control" value="{{ default_money_type }}"/>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_school_id }}">
+                    <li data-value="-1"><a href="#">Все типы</a></li>
+                    {% for type in money_types %}
+                        <li data-value="{{ type.acr_id }}"><a href="#">{{ type.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-5" style="float: right;">
+            <a href="#" class = "printStyle" print_table_id='{{ print_id }}'>
+                Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Период:</label>
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ current_date }}" id="{{ date_id }}"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
+
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ current_date }}" id="{{ date_to_id }}"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
+
+        <div class="col-xs-4" style="float: right;">
+            <button id="{{ button_id }}" class="btn dialog" style="float: right;">Отобразить данные</button>
+        </div>
+    </div>
+</form>
+
+<div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12" id="{{ result_id }}"></div>
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        $('#{{ button_id }}').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '{{ path("pupil_reports_money") }}',
+                type: 'POST',
+                data: {
+                    date_from: $('#{{ date_id }}').val(),
+                    date_to: $('#{{ date_to_id }}').val(),
+                    type: $("#{{ money_type_id }}").combobox('selectedItem').value
+                },
+                success: function(data) {
+                    $("#{{ result_id }}").html(data);
+                }
+            });
+        });
+    });
+</script>
