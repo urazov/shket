@@ -116,19 +116,51 @@ class PupilController extends Controller
                 'user_id' => $user->getId()
             ];
 
-            /*if(empty($parameters['inf_eat'])){
+            if(empty($parameters['inf_eat'])){
                 return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
             }
 
             if($parameters['balance'] < 0){
                 return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
-            }*/
+            }
 
             $result = DBPupil::getInstance()->getPupilPitanie($parameters);
 
             return $this->render('CabinetBundle:Pupil/pitanie:pitanie_report.html.twig', [
-                'result' => $result,
-                'params' => $parameters
+                'result' => $result
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
+    public function enterAction(Request $request)
+    {
+        try{
+            $user = $this->getUser();
+
+            $parameters = [
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+                'inf_ent' => $this->get('session')->get('inf_ent'),
+                'balance' => $this->get('session')->get('balance'),
+                'school_id' => $this->get('session')->get('scl_id'),
+                'user_id' => $user->getId()
+            ];
+
+            if(empty($parameters['inf_ent'])){
+                return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
+            }
+
+            if($parameters['balance'] < 0){
+                return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+            }
+
+            $result = DBPupil::getInstance()->getPupilEnter($parameters);
+
+            return $this->render('CabinetBundle:Pupil/enter:enter_report.html.twig', [
+                'result' => $result
             ]);
 
         } catch (Exception $e) {

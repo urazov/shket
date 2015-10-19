@@ -121,4 +121,22 @@ class DBPupil
 
         return $result;
     }
+
+    public function getPupilEnter($parameters)
+    {
+        $query = "SELECT CONVERT(nvarchar, ddate, 104) as dt, CONVERT(nvarchar, ddate, 108) as tm, [DIRECT] as direct
+             FROM CS_SHKET.ENT
+            where USR_ID = ?
+               and cast(DDATE as date) between ? and ?
+             order by ddate desc";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = DB::getInstance()->getAll($query, [
+            $parameters['user_id'], $date_from, $date_to
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
 }

@@ -83,3 +83,6 @@ pupil_reports_mainmenu:
 pupil_reports_pitanie:
   path: /cabinet/pupil/report/pitanie
   defaults: {_controller: CabinetBundle:Pupil:pitanie}
+pupil_reports_enter:
+  path: /cabinet/pupil/report/enter
+  defaults: {_controller: CabinetBundle:Pupil:enter}
