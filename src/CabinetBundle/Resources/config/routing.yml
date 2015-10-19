@@ -86,3 +86,6 @@ pupil_reports_pitanie:
 pupil_reports_enter:
   path: /cabinet/pupil/report/enter
   defaults: {_controller: CabinetBundle:Pupil:enter}
+pupil_reports_money:
+  path: /cabinet/pupil/report/money
+  defaults: {_controller: CabinetBundle:Pupil:money}

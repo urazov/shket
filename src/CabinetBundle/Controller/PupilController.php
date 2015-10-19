@@ -24,8 +24,11 @@ class PupilController extends Controller
         $this->get('session')->set('balance', $user->getBalance());
         $this->get('session')->set('scl_id', $result[0]['scl_id']);
 
+        $types = DBPupil::getInstance()->getAllType(['user_id' => $user->getId()]);
+
         $parameters = [
-            'current_date' => date("d-m-Y")
+            'current_date' => date("d-m-Y"),
+            'money_types' => $types
         ];
 
         return $this->render('CabinetBundle:Pupil:index.html.twig', $parameters);
@@ -160,6 +163,40 @@ class PupilController extends Controller
             $result = DBPupil::getInstance()->getPupilEnter($parameters);
 
             return $this->render('CabinetBundle:Pupil/enter:enter_report.html.twig', [
+                'result' => $result
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
+    public function moneyAction(Request $request)
+    {
+        try{
+            $user = $this->getUser();
+
+            $parameters = [
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+                'inf_bal' => $this->get('session')->get('inf_bal'),
+                'balance' => $this->get('session')->get('balance'),
+                'school_id' => $this->get('session')->get('scl_id'),
+                'user_id' => $user->getId(),
+                'type' =>$request->get('type')
+            ];
+
+            if(empty($parameters['inf_bal'])){
+                return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
+            }
+
+            if($parameters['balance'] < 0){
+                return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+            }
+
+            $result = DBPupil::getInstance()->getPupilMoney($parameters);
+
+            return $this->render('CabinetBundle:Pupil/money:money_report.html.twig', [
                 'result' => $result
             ]);
 

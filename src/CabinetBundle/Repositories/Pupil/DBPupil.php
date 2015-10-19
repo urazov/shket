@@ -139,4 +139,43 @@ class DBPupil
 
         return $result;
     }
+
+    public function getAllType($parameters)
+    {
+        $query = "select acr_id, name
+               from cs_shket.acr
+             where exists ( select null from cs_shket.blnc where acr_id = acr.acr_id and usr_id = ?)";
+
+        $result = DB::getInstance()->getAll($query, [$parameters['user_id']]);
+
+        return $result;
+    }
+
+    public function getPupilMoney($parameters)
+    {
+        $query = "select convert(char(23), DDATE, 104), ACR.NAME
+                         , case when b.SUMM < 0 then abs(b.SUMM) else null end
+                         , case when b.SUMM >= 0 then b.SUMM else null end
+                         , (select sum(BLNC.SUMM)
+                              from CS_SHKET.BLNC
+                             where USR_ID = b.USR_ID
+                               and DDATE <= b.DDATE and del <> 1)
+                      from CS_SHKET.BLNC b, CS_SHKET.ACR
+                     where b.USR_ID = ?
+                       and B.ACR_ID = ACR.ACR_ID
+                       and (acr.acr_id = ? or ? = -1)
+                       and cast(b.ddate as date) between ? and ?
+                       and acr.del <> 1
+                       and b.del <> 1
+                  order by DDATE desc, ABS(b.summ)";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = DB::getInstance()->getAll($query, [
+            $parameters['user_id'], $parameters['type'], $parameters['type'], $date_from, $date_to
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
 }
