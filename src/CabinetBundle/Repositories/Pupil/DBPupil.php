@@ -76,4 +76,49 @@ class DBPupil
         $result = DB::getInstance()->getAll($query, [$parent_id], PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function getPupilPitanie($parameters)
+    {
+        $query = "
+            with x as (Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
+            , m.NAME, r.COST, r.CNT, (case when r.IS_BJT = 1 then 0
+                                         else r.COST*r.CNT end) as price_comm
+            , (case when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) as add_price_bjt
+            , r.IS_BJT as is_bjt, m.IS_COMPLEX as is_complex, r.adate
+              from CS_SHKET.RLS r inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
+             inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
+             inner join CS_SHKET.USER_IN_SCL_CLS uc on r.USR_ID = uc.USR_ID
+             inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID
+             where r.ADATE between ? and ?
+               and u.usr_id = ?)
+            Select replace(y.dt, 'ЯЯЯ', '') as dt
+                   , upper(substring(y.name, 1, 1)) + lower(substring(y.name, 2, LEN(y.name))) as name
+                   , y.price as price
+                   , y.cnt as cnt
+                   , y.price_comm as price_comm
+                   , y.add_price_bjt as add_price_bjt
+              from ( Select x.dt as dt, x.NAME as name, x.COST as price
+                        , x.CNT as cnt
+                        , x.price_comm as price_comm
+                        , x.add_price_bjt as add_price_bjt, x.adate
+                        from x
+
+             UNION
+
+             Select distinct 'TOTAL:' as dt
+             , '' as name, null as price, isnull(SUM(x.cnt), 0) as cnt
+             , isnull(SUM(x.price_comm), 0) as price_comm
+             , isnull(SUM(x.add_price_bjt), 0) as add_price_bjt, '01-01-1999' as adate
+             from x) y
+             order by y.adate desc, y.name";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = DB::getInstance()->getAll($query, [
+            $date_from, $date_to, $parameters['user_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
 }

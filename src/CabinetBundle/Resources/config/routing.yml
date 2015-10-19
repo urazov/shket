@@ -76,3 +76,10 @@ teacher_reports_tabel:
 teacher_reports_list:
   path: /cabinet/teacher/report/list
   defaults: {_controller: CabinetBundle:Teacher:list}
+
+pupil_reports_mainmenu:
+  path: /cabinet/pupil/report/menu
+  defaults: {_controller: CabinetBundle:Pupil:menu}
+pupil_reports_pitanie:
+  path: /cabinet/pupil/report/pitanie
+  defaults: {_controller: CabinetBundle:Pupil:pitanie}

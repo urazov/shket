@@ -2,9 +2,11 @@
 
 namespace CabinetBundle\Controller;
 
+use CabinetBundle\Repositories\Food\DBFood;
 use CabinetBundle\Repositories\Pupil\DBPupil;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PupilController extends Controller
@@ -19,8 +21,14 @@ class PupilController extends Controller
         $this->get('session')->set('inf_ent', $result[0]['inf_ent']);
         $this->get('session')->set('inf_eat', $result[0]['inf_eat']);
         $this->get('session')->set('trf_id', $result[0]['TRF_ID']);
+        $this->get('session')->set('balance', $user->getBalance());
+        $this->get('session')->set('scl_id', $result[0]['scl_id']);
 
-        return $this->render('CabinetBundle:Pupil:index.html.twig');
+        $parameters = [
+            'current_date' => date("d-m-Y")
+        ];
+
+        return $this->render('CabinetBundle:Pupil:index.html.twig', $parameters);
     }
 
     public function userInformationAction()
@@ -53,4 +61,79 @@ class PupilController extends Controller
             return new Response($e->getMessage());
         }
     }
+
+    public function menuAction(Request $request)
+    {
+        try{
+            $parameters = [
+                'date' => $request->get('date'),
+                'inf_eat' => $this->get('session')->get('inf_eat'),
+                'balance' => $this->get('session')->get('balance'),
+                'school_id' => $this->get('session')->get('scl_id'),
+            ];
+
+            if(empty($parameters['inf_eat'])){
+                return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
+            }
+
+            if($parameters['balance'] < 0){
+                return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+            }
+
+            $all_complex_on_date = DBFood::getInstance()->getAllComplexOnDate($parameters);
+            foreach($all_complex_on_date as $idx => $complex){
+                $details_of_complex[$idx] = DBFood::getInstance()->getDetailsOfComplex(array_merge($parameters, ['meal_id' => $complex['MEAL_ID']]));
+            }
+
+            $all_groups_of_meal = DBFood::getInstance()->getAllGroupsOfMeals($parameters);
+            foreach($all_groups_of_meal as $idx => $group){
+                $meals_of_group[$idx] = DBFood::getInstance()->getAllMealsOfGroup(array_merge($parameters, ['gmeal_id' => $group['GMEAL_ID']]));
+            }
+
+            return $this->render('CabinetBundle:Pupil/menu:mainmenu_report.html.twig', [
+                'all_complex_on_date' => $all_complex_on_date,
+                'details_of_complex' => isset($details_of_complex) ? $details_of_complex : [],
+                'all_groups_of_meal' => $all_groups_of_meal,
+                'meals_of_group' => isset($meals_of_group) ? $meals_of_group : [],
+                'params' => $parameters
+            ]);
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
+    public function pitanieAction(Request $request)
+    {
+        try{
+            $user = $this->getUser();
+
+            $parameters = [
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+                'inf_eat' => $this->get('session')->get('inf_eat'),
+                'balance' => $this->get('session')->get('balance'),
+                'school_id' => $this->get('session')->get('scl_id'),
+                'user_id' => $user->getId()
+            ];
+
+            /*if(empty($parameters['inf_eat'])){
+                return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
+            }
+
+            if($parameters['balance'] < 0){
+                return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+            }*/
+
+            $result = DBPupil::getInstance()->getPupilPitanie($parameters);
+
+            return $this->render('CabinetBundle:Pupil/pitanie:pitanie_report.html.twig', [
+                'result' => $result,
+                'params' => $parameters
+            ]);
+
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
 }

@@ -1,0 +1,22 @@
+<table class= 'table table-striped table-simple table-cabinet table-small'>
+    <thead>
+        <th>Дата</th>
+        <th>Наименование комплекса/блюда</th>
+        <th>Цена, руб.</th>
+        <th>Количество</th>
+        <th>Расход личных средств, руб.</th>
+        <th>Расход бюджетных средств, руб.</th>
+    </thead>
+    <tbody>
+        {% for str in result %}
+            <tr>
+                <td class='center'>{{ str[0] }}</td>
+                <td class='center'>{{ str[1] }}</td>
+                <td class='center'>{{ str[2] }}</td>
+                <td class='center'>{{ str[3] }}</td>
+                <td class='center'>{{ str[4] }}</td>
+                <td class='center'>{{ str[5] }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

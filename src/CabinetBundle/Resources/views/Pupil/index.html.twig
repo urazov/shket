@@ -53,23 +53,23 @@
 {% block reports %}
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active user-form" id="menuparents">
-            {#<?php include 'menu.php';?>#}1
+            {% include 'CabinetBundle:Pupil/menu:mainmenu.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_pit_1">
-            {#<?php include 'eating.php';?>#}2
+            {% include 'CabinetBundle:Pupil/pitanie:pitanie.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="rep_tur_1">
-            {#<?php include 'enter.php';?>#}3
+            {% include 'CabinetBundle:Pupil/menu:mainmenu.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane user-form" id="balance">
-            {#<?php include 'balance.php';?>#}4
+            {% include 'CabinetBundle:Pupil/menu:mainmenu.html.twig' %}
         </div>
 
         <div role="tabpanel" class="tab-pane" id="spr_tarrif">
-            {#<?php include 'tarif.php';?>#}5
+            {% include 'CabinetBundle:Pupil/menu:mainmenu.html.twig' %}
         </div>
     </div>
 {% endblock %}
