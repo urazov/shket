@@ -15,8 +15,8 @@ class UserProvider implements UserProviderInterface
         $userData = DB::getInstance()->getUserData($username);
 
         if ($userData) {
-            $password = array_key_exists('PASS', $userData) ? $userData['PASS'] : null;
-            $role_id = array_key_exists('ROLE_ID', $userData) ? $userData['ROLE_ID'] : null;
+            $password = array_key_exists('pass', $userData) ? $userData['pass'] : null;
+            $role_id = array_key_exists('role_id', $userData) ? $userData['role_id'] : null;
             switch($role_id){
                 case 1 : $role = ['ROLE_PUPIL']; break;
                 case 2 : $role = ['ROLE_TEACHER']; break;
@@ -25,7 +25,20 @@ class UserProvider implements UserProviderInterface
                 case 5 : $role = ['ROLE_CLIENT']; break;
                 default: throw new UnsupportedUserException(sprintf('User "%s" has a wrong ROLE_ID: "%s".', $username, $userData['ROLE_ID']));
             }
-            return new User($username, $password, $role, $userData['USR_ID'], $userData['NAME'], $userData['TLPH'], $userData['EMAIL'], $userData['ROLE_ID']);
+            return new User(
+                $username,
+                $password,
+                $role,
+                $userData['usr_id'],
+                $userData['usr_name'],
+                $userData['tlph'],
+                $userData['email'],
+                $userData['role_id'],
+                $userData['limit'],
+                $userData['prt_id'],
+                $userData['prt_name'],
+                $userData['blnc']
+            );
         }
 
         throw new UsernameNotFoundException(

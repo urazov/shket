@@ -1,28 +1,43 @@
 <div class="row nice-container user">
     <div class="col-xs-8" style="margin-top: 15px; margin-bottom: 8px;">
-        <div class="info">
-            <p class="name" >
-                <span id = "userName">{{ full_name }}</span>
-            </p>
-            <p class="item" >
-                <strong>Учебное заведение:</strong>{{ default_scl_name }}
-            </p>
-            <p class="item" >
-                <strong>Классы/группы:</strong>
-                {% for str in info %}
-                    <p class="item" style="margin-left: 165px;"> {{ str.name }} </p>
-                {% endfor %}
-            </p>
-            <p class="item">
-                <strong>Телефон:</strong> <span id = "userTlph">{{ phone }}</span>
-            </p>
-            <p class="item">
-                <strong>E-mail:</strong> <span id = "userEmail">{{ email }}</span>
-            </p>
+        <div class="photo">
+            <img src="{{ asset('img/avatar/{{ usr_id }}.png') }}" />
         </div>
-        <a href="#" id="editProfile" style="align: right;">
-            <img src="{{ asset('img/iconEdit.png') }}" />
-        </a>
+        <div class="info">
+            <p class="name"><span id="userName">{{ full_name }}</span></p>
+            <p class="item" ><strong>Учебное заведение:</strong> {{ school }}</p>
+            <p class="item"><strong>Класс:</strong> {{ class_name }}</p>
+            <p class="item"><strong>Представитель ребенка:</strong> <span id="parentName">{{ parent_name }}</span></p>
+            <p class="item"><strong>Телефон:</strong> <span id = "userTlph">{{ phone }}</span></p>
+            <p class="item"><strong>E-mail:</strong> <span id = "userEmail">{{ email }}</span></p>
+            <a href="#" id="editProfile"><img src="{{ asset('img/iconEdit.png') }}" /></a>
+        </div>
+    </div>
+    <div class="col-xs-4" style="margin-top: 15px; margin-bottom: 15px;">
+        <div class="tariff-info">
+            <p class="item"><strong>Тарифный план:</strong> <span id="trfName">{{ trf_name }}</span></p>
+            <p class="item"><strong>Стоимость:</strong> {{ trf_cost }} р./месяц</p>
+
+            {% if trf_bal == 1  %}
+                <p class="item" style="margin-top: 20px;">
+                    <strong>Баланс карты:</strong> {{ balance }}
+                </p>
+            {% endif %}
+
+            <p class="item">
+                <strong>Дневной лимит:</strong>
+                <a href="#" id="linkLimit">
+                    {% if limit > 0  %}
+                        {{ limit }}
+                    {% else %}
+                        не установлен
+                    {% endif %}
+                </a>
+            </p>
+            <a href="#" id="editTariff">
+                <img src="{{ asset('img/iconEdit.png') }}" />
+            </a>
+        </div>
     </div>
 </div>
 
@@ -51,6 +66,13 @@
                                         <input type="text" class="form-control" id="editUserSurname" name="editUserSurname">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="editUserPred" class="col-xs-3 control-label">Представитель</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" id="editUserPred" name="editUserPred">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="editUserPhone" class="col-xs-3 control-label">Телефон</label>
                                     <div class="col-xs-9">
@@ -63,7 +85,30 @@
                                         <input type="text" class="form-control" id="editUserEmail" name="editUserEmail">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="editUserLimit" class="col-xs-3 control-label">Дневной лимит</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" id="editUserLimit" name="editUserLimit">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editUserTarif" class="col-xs-3 control-label">Тариф</label>
+                                    <div class="col-xs-9">
+                                        <div class="input-group input-append dropdown combobox" data-initialize="combobox" id="tarifCombobox">
+                                            <input name="editUserTarif" id="editUserTarif" type="text" class="form-control">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    {% for tarif in available_tarifs %}
+                                                        <li data-value="{{ tarif['TRF_ID'] }}"><a href="#">{{ tarif['NAME'] }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                             <button type="submit" class="btn dialog col-xs-12" style="margin-top: 20px; width: 97%; text-align: center; left: 10px;" id="btnEditUser">Сохранить</button>
                         </div>
                     </form>
@@ -74,6 +119,199 @@
         </div>
     </div>
 </div>
-<span style="display: none" id ="SCL_ID_DEFAULT">{{ default_scl_id }}</span>
-<span style="display: none" id ="SCL_NAME_DEFAULT">{{ default_scl_name }}</span>
 
+<!-- LIMIT OVERLAY -->
+<div class="modal custom" id="modalLimit" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-content-inner">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Установить лимит</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="editLimit" placeholder="Лимит">
+                        </div>
+                    </form>
+                    <div id="limitErrors" class="modal-errors">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn dialog" id="btnLimit">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#editProfile').click(function(e){
+            e.preventDefault();
+            var Button = $('#btnEditUser');
+            Button.html('Сохранить');
+            var Errors = $('#editUserErrors');
+            Errors.html('');
+
+            $('#editUserSurname').val($('#userName').text());
+            $('#editUserPred').val($('#parentName').text());
+            $('#editUserPhone').val($('#userTlph').text());
+            $('#editUserEmail').val($('#userEmail').text());
+            $('#tarifCombobox').attr('sel-idx', $('#unvisDisp').text());
+            var newLimit = $('#linkLimit').text().trim();
+            if (newLimit == 'не установлен')
+                newLimit = null;
+            $('#editUserLimit').val(newLimit);
+            $('#editUserTarif').val($('#trfName').text());
+
+            var Button = $('#btnEditUser');
+            Button.html('Сохранить');
+
+            var Errors = $('#editUserErrors');
+            Errors.html('');
+
+            $('#modalEditUser').modal({show : true});
+        });
+        $('#editTariff').click(function(e){
+            e.preventDefault();
+            var Button = $('#btnEditUser');
+            Button.html('Сохранить');
+            var Errors = $('#editUserErrors');
+            Errors.html('');
+            $('#editUserSurname').val($('#userName').text());
+            $('#editUserPred').val($('#parentName').text());
+            $('#editUserPhone').val($('#userTlph').text());
+            $('#editUserEmail').val($('#userEmail').text());
+            var newLimit = $('#linkLimit').text().trim();
+            if (newLimit == 'не установлен')
+                newLimit = null;
+            $('#editUserLimit').val(newLimit);
+            $('#editUserTarif').val($('#trfName').text());
+
+            $('#modalEditUser').modal({show : true});
+        });
+
+        $('#editUserFileUpload').click(function(e){
+            e.preventDefault();
+            $('#editUserFile').click();
+        });
+
+        $('#btnEditUser').click(function(e){
+            e.preventDefault();
+            var Errors = $('#editUserErrors');
+            var Button = $(this);
+            Button.html('Сохранить');
+            Errors.html('');
+
+            var newLimit = $('#editUserLimit').val().trim();
+            if (newLimit == 'не установлен')
+                newLimit = null;
+            var newName = $('#editUserSurname').val().trim();
+            var newParent_name = $('#editUserPred').val().trim();
+            var newPhone = $('#editUserPhone').val().trim();
+            var newEmail = $('#editUserEmail').val().trim();
+            var newTrfId = $('#tarifCombobox').attr("sel-idx");
+
+
+            if ((newLimit !== null)&&(newLimit.match(/[^0-9]/g))){
+                Errors.html('Не верно указано значение лимита!');
+                return;
+            }
+
+
+            if (newName == ''){
+                Errors.html('ФИО не задано!');
+                return;
+            }
+
+            if (newParent_name == ''){
+                Errors.html('Не указано имя представителя ребенка!');
+                return;
+            }
+
+            if ((newEmail == '')&&(newPhone == '')){
+                Errors.html('Не указан ни один из способ связи!');
+                return;
+            }
+
+
+            Button.html('Данные сохраняются...');
+            $.ajax({
+                url: '../js_action/updateBaseInformation.php',
+                type: 'POST',
+                data: {limit : newLimit, name: newName, parent_name : newParent_name
+                    ,phone : newPhone, email: newEmail, tarif: newTrfId},
+                success: function(data) {
+                    Button.html('Сохранить');
+                    if (data == 1){
+                        $('#userName').text(newName);
+                        $('#parentName').text(newParent_name)
+                        $('#userTlph').text(newPhone);
+                        $('#userEmail').text(newEmail);
+                        if ((newLimit ==null)||(newLimit ==''))
+                            $('#linkLimit').text("не установлен");
+                        else
+                            $('#linkLimit').text(newLimit);
+                        $('#modalEditUser').modal('hide');
+
+                        //$('#trfName').text();
+                    }else
+                        Errors.html('Ошибка сохранения значения в базе данных. Обратитесь к администратору');
+                },
+                error: function(data) {
+                    Button.html('Сохранить');
+                    Errors.html('Ошибка сохранения значений в базе данных. Обратитесь к администратору');
+                }
+            });
+        });
+
+
+        $('#linkLimit').click(function(e){
+            e.preventDefault();
+            var limit = $(this).text();
+
+            var Errors = $('#limitErrors');
+            Errors.html('');
+            $('#editLimit').val(limit);
+
+            $('#modalLimit').modal({show : true});
+        });
+
+        $('#btnLimit').click(function(e){
+            e.preventDefault();
+            var Errors = $('#limitErrors');
+            Errors.html('');
+
+            var newLimit = $('#editLimit').val();
+            if (newLimit == ''){
+                Errors.html('Лимит не задан!');
+                return -2;
+            }
+            if (newLimit.match(/[^0-9]/g)){
+                Errors.html('Не верно указано значение!');
+                return -2;
+            }
+
+            $.ajax({
+                url: 'js_action/updateLimit.php',
+                type: 'POST',
+                data: {limit : newLimit},
+                success: function(data) {
+                    if (data == 1){
+                        $('#linkLimit').text(newLimit);
+                        $('#modalLimit').modal('hide');
+                    }else
+                        Errors.html("Ошибка сохранения значения в базе данных. Обратитесь к администратору");
+                },
+                error: function(data) {
+                    Errors.html("Ошибка сохранения значения в базе данных. Обратитесь к администратору");
+                }
+            });
+        });
+    });
+
+</script>

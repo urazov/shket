@@ -2,8 +2,8 @@
 
 namespace CabinetBundle\Controller;
 
+use CabinetBundle\Repositories\Pupil\DBPupil;
 use Exception;
-use MainBundle\Utils\DB;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,33 +11,44 @@ class PupilController extends Controller
 {
     public function indexAction()
     {
+        $user = $this->getUser();
+
+        $result = DBPupil::getInstance()->getUserInfo($user);
+
+        $this->get('session')->set('inf_bal', $result[0]['inf_bal']);
+        $this->get('session')->set('inf_ent', $result[0]['inf_ent']);
+        $this->get('session')->set('inf_eat', $result[0]['inf_eat']);
+        $this->get('session')->set('trf_id', $result[0]['TRF_ID']);
+
         return $this->render('CabinetBundle:Pupil:index.html.twig');
     }
 
     public function userInformationAction()
     {
         try{
+
             $user = $this->getUser();
 
-            $query = "SELECT DISTINCT s.SCL_ID, s.NAME, c.cls_id, c.name
-                  FROM CS_SHKET.USR u
-                       INNER JOIN CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
-                       INNER JOIN CS_SHKET.CLS c on c.SCL_ID = uc.SCL_ID AND c.CLS_ID = uc.cls_id
-                       INNER JOIN CS_SHKET.scl s on s.SCL_ID = uc.SCL_ID
-                  WHERE u.ROLE_ID = ? and u.del <> 1 and uc.del<> 1 and c.del <> 1 and s.del <> 1
-                  AND u.USR_ID = ?";
+            $result = DBPupil::getInstance()->getUserInfo($user);
 
-            $result = DB::getInstance()->getAll($query, [$user->getRoleId(), $user->getId()]);
+            $available_tarifs = DBPupil::getInstance()->getAvailableTarifs($user->getParentId());
 
-            $template_parameters['info'] = $result;
-            $template_parameters['default_scl_id'] = $result[0]['SCL_ID'];
-            $template_parameters['default_scl_name'] = $result[0]['NAME'];
-
+            $template_parameters['usr_id'] = $user->getId();
             $template_parameters['full_name'] = $user->getFullName();
+            $template_parameters['school'] = $result[0]['scl_name'];
+            $template_parameters['class_name'] = $result[0]['cls_name'];
+            $template_parameters['parent_name'] = $user->getParentName();
             $template_parameters['phone'] = $user->getPhone();
             $template_parameters['email'] = $user->getEmail();
+            $template_parameters['trf_name'] = $result[0]['NAME'];
+            $template_parameters['trf_cost'] = $result[0]['COST'];
+            $template_parameters['trf_bal'] = $result[0]['inf_bal'];
+            $template_parameters['parent_id'] = $user->getParentId();
+            $template_parameters['balance'] = $user->getBalance();
+            $template_parameters['limit'] = $user->getLimit();
+            $template_parameters['available_tarifs'] = $available_tarifs;
 
-            return $this->render('CabinetBundle:Food:user_information.html.twig', $template_parameters);
+            return $this->render('CabinetBundle:Pupil:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {
             return new Response($e->getMessage());
         }

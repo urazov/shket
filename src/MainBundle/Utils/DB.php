@@ -69,7 +69,13 @@ class DB
      */
     public function getUserData($username)
     {
-        $query = 'SELECT * FROM CS_SHKET.USR WHERE BILL = ?';
+        $query = "select a.usr_id, a.pass, a.name as usr_name, isnull(a.limit, -1) as limit,
+                  a.role_id, p.name as prt_name, isnull(p.tlph, a.tlph) as tlph, isnull(p.email, a.email) as email
+                  , (select sum(summ) from cs_shket.blnc where del <> 1 and usr_id = a.usr_id ) as blnc, p.prt_id
+                  from cs_shket.usr a left join cs_shket.prt p on a.prt_id = p.prt_id and p.del <> 1
+                    where a.del <> 1
+                    and a.bill = ?";
+
         return $this->getFirst($query, [$username]);
     }
 
