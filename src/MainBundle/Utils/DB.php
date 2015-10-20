@@ -26,6 +26,9 @@ class DB
         $this->handler = new PDO("dblib:host=". self::HOST .";dbname=" . self::DB_NAME, self::USER, self::PASS);
     }
 
+    /**
+     * @return DB
+     */
     public static function getInstance()
     {
         if(is_null(self::$instance)){
@@ -35,7 +38,7 @@ class DB
     }
 
 
-    public function getFirst($sql, array $params, $fetch_type = PDO::FETCH_ASSOC)
+    public function getFirst($sql, array $params = [], $fetch_type = PDO::FETCH_ASSOC)
     {
         $idx = 1;
         $this->stmt = $this->handler->prepare($sql);
@@ -113,5 +116,17 @@ class DB
     {
         $p = iconv("utf-8", "windows-1251", $value);
         $this->stmt->bindParam($num, $p);
+    }
+
+    public function getCountUser()
+    {
+        $query = "select count(*) as cnt from cs_shket.usr where del <> 1";
+        return $this->getFirst($query);
+    }
+
+    public function getCountSchool()
+    {
+        $query = "select count(*) as cnt from cs_shket.scl where del <> 1";
+        return $this->getFirst($query);
     }
 }

@@ -146,8 +146,12 @@
                         <div class="col-xs-6">
                             <div class="now">
                                 Сейчас в системе зарегистрировано
-                                <span class="yellow"><a href="{{ path('main_homepage', {'page': 'schools'}) }}">999</a></span>
-                                учреждений <span class="yellow">100500</span>
+                                <span class="yellow">
+                                    <a href="{{ path('main_homepage', {'page': 'schools'}) }}">
+                                        {{ render(controller('MainBundle:Main:countSchool')) }}
+                                    </a>
+                                </span>
+                                учреждений <span class="yellow">{{ render(controller('MainBundle:Main:countUser')) }}</span>
                                 пользователей
                             </div>
                             <div class="col-xs-6">
