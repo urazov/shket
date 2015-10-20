@@ -16,3 +16,7 @@ main_news:
 main_test:
   path: /test
   defaults: {_controller: MainBundle:Default:test}
+
+main_sending_post:
+  path: /send/post
+  defaults: { _controller: MainBundle:Main:post }

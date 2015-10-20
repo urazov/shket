@@ -221,3 +221,79 @@
         {% endblock %}
     </body>
 </html>
+
+<script>
+    $(function(){
+
+        $('#linkMsg').click(function(e){
+            e.preventDefault();
+
+            var Errors = $('#msgErrors');
+            Errors.html('');
+
+            $('#modalMailto').modal({show : true});
+        });
+
+        $('#linkMail').click(function(e){
+            e.preventDefault();
+            var Button = $('#btnMail');
+            Button.html('Отправить');
+
+            var Errors = $('#mailErrors');
+            Errors.html('');
+
+            $('#modalMailto').modal({show : true});
+        });
+
+        $('#btnMessage').click(function(e){
+            e.preventDefault();
+
+            var Button = $(this);
+            var Errors = $('#msgErrors');
+            Errors.html('');
+
+            var FIO = $('#msgFIO').val();
+            var Phone = $('#msgPhone').val();
+            var Email = $('#msgEmail').val();
+            var Message = $('#msgMessage').val();
+            FIO = FIO.trim();
+            Phone = Phone.trim();
+            Email = Email.trim();
+            Message = Message.trim();
+
+            if (FIO == '')
+            {
+                Errors.html('Не указано ФИО');
+                return -2;
+            }
+            if (Phone == '')
+            {
+                Errors.html('Не указан телефон');
+                return -2;
+            }
+            if (Email == '')
+            {
+                Errors.html('Не указан Email');
+                return -2;
+            }
+            if (Message == '')
+            {
+                Errors.html('Не введено сообщение');
+                return -2;
+            }
+
+            Button.html('Отправка...');
+
+            $.ajax({
+                url: "{{ path('main_sending_post') }}",
+                type: 'POST',
+                data: {fio : FIO, phone : Phone, email: Email, msg : Message },
+                success: function(data) {
+                    Button.html(data);
+                    $('#modalMessage').modal('hide');
+                    $('#modalMailto').modal('hide');
+                }
+            })
+        });
+    });
+</script>
