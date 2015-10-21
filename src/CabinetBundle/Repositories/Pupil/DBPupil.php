@@ -178,4 +178,10 @@ class DBPupil
 
         return $result;
     }
+
+    public function updateLimit($user_id, $new_limit)
+    {
+        $query = "update cs_shket.usr set limit = ?, upd = 1 where usr_id = ?";
+        DB::getInstance()->getFirst($query, [$new_limit, $user_id]);
+    }
 }

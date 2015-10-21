@@ -19,14 +19,22 @@ class MainController extends Controller
 
     public function countUserAction()
     {
-        $count = DB::getInstance()->getCountUser()['cnt'];
-        return new Response($count);
+        try{
+            $count = DB::getInstance()->getCountUser()['cnt'];
+            return new Response($count);
+        } catch (Exception $e) {
+            return new Response(11255);
+        }
     }
 
     public function countSchoolAction()
     {
-        $count = DB::getInstance()->getCountSchool()['cnt'];
-        return new Response($count);
+        try{
+            $count = DB::getInstance()->getCountSchool()['cnt'];
+            return new Response($count);
+        } catch (Exception $e) {
+            return new Response(17);
+        }
     }
 
     public function postAction(Request $request)

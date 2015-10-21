@@ -205,4 +205,18 @@ class PupilController extends Controller
         }
     }
 
+    public function updateLimitAction(Request $request)
+    {
+        try{
+            $user_id = $this->getUser()->getId();
+            $new_limit = $request->get('limit');
+
+            DBPupil::getInstance()->updateLimit($user_id, $new_limit);
+
+            return new Response("1");
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
 }

@@ -297,7 +297,7 @@
             }
 
             $.ajax({
-                url: 'js_action/updateLimit.php',
+                url: '{{ path("pupil_update_limit") }}',
                 type: 'POST',
                 data: {limit : newLimit},
                 success: function(data) {
