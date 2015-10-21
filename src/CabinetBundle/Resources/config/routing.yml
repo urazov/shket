@@ -92,3 +92,6 @@ pupil_reports_money:
 pupil_update_limit:
   path: /cabinet/pupil/update/limit
   defaults: {_controller: CabinetBundle:Pupil:updateLimit}
+pupil_update_information:
+  path: /cabinet/pupil/update/info
+  defaults: {_controller: CabinetBundle:Pupil:updateInfo}

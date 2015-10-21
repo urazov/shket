@@ -221,4 +221,28 @@ class PupilController extends Controller
         }
     }
 
+    public function updateInfoAction(Request $request)
+    {
+        try{
+            $user = $this->getUser();
+
+            $parameters = [
+                'limit' => $request->get('limit'),
+                'user_id' => $user->getId(),
+                'parent_id' => $user->getParentId(),
+                'pupil_name' => $request->get('name'),
+                'parent_name' => $request->get('parent_name'),
+                'phone' => $request->get('phone'),
+                'email' => $request->get('email'),
+                'tarif_id' => $request->get('tarif_id'),
+            ];
+
+            DBPupil::getInstance()->updateInfo($parameters);
+
+            return new Response('1');
+        } catch (Exception $e) {
+            return new Response($e->getMessage());
+        }
+    }
+
 }

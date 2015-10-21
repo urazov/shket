@@ -8,8 +8,8 @@
             <p class="item" ><strong>Учебное заведение:</strong> {{ school }}</p>
             <p class="item"><strong>Класс:</strong> {{ class_name }}</p>
             <p class="item"><strong>Представитель ребенка:</strong> <span id="parentName">{{ parent_name }}</span></p>
-            <p class="item"><strong>Телефон:</strong> <span id = "userTlph">{{ phone }}</span></p>
-            <p class="item"><strong>E-mail:</strong> <span id = "userEmail">{{ email }}</span></p>
+            <p class="item"><strong>Телефон:</strong> <span id="userTlph">{{ phone }}</span></p>
+            <p class="item"><strong>E-mail:</strong> <span id="userEmail">{{ email }}</span></p>
             <a href="#" id="editProfile"><img src="{{ asset('img/iconEdit.png') }}" /></a>
         </div>
     </div>
@@ -64,32 +64,32 @@
                                 <div class="form-group">
                                     <label for="editUserSurname" class="col-xs-3 control-label">Фамилия Имя Отчество</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserSurname" name="editUserSurname">
+                                        <input type="text" class="form-control" id="editUserSurname" name="editUserSurname" value="{{ full_name }}">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="editUserPred" class="col-xs-3 control-label">Представитель</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserPred" name="editUserPred">
+                                        <input type="text" class="form-control" id="editUserPred" name="editUserPred" value="{{ parent_name }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserPhone" class="col-xs-3 control-label">Телефон</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserPhone" name="editUserPhone">
+                                        <input type="text" class="form-control" id="editUserPhone" name="editUserPhone" value="{{ phone }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserEmail" class="col-xs-3 control-label">E-mail</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserEmail" name="editUserEmail">
+                                        <input type="text" class="form-control" id="editUserEmail" name="editUserEmail" value="{{ email }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserLimit" class="col-xs-3 control-label">Дневной лимит</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserLimit" name="editUserLimit">
+                                        <input type="text" class="form-control" id="editUserLimit" name="editUserLimit" value="{{ limit }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -151,47 +151,21 @@
 
 <script>
     $(function(){
+
+        $('#tarifCombobox').combobox('selectByText', '{{ trf_name }}');
+
         $('#editProfile').click(function(e){
             e.preventDefault();
-            var Button = $('#btnEditUser');
-            Button.html('Сохранить');
-            var Errors = $('#editUserErrors');
-            Errors.html('');
-
-            $('#editUserSurname').val($('#userName').text());
-            $('#editUserPred').val($('#parentName').text());
-            $('#editUserPhone').val($('#userTlph').text());
-            $('#editUserEmail').val($('#userEmail').text());
-            $('#tarifCombobox').attr('sel-idx', $('#unvisDisp').text());
-            var newLimit = $('#linkLimit').text().trim();
-            if (newLimit == 'не установлен')
-                newLimit = null;
-            $('#editUserLimit').val(newLimit);
-            $('#editUserTarif').val($('#trfName').text());
-
-            var Button = $('#btnEditUser');
-            Button.html('Сохранить');
-
-            var Errors = $('#editUserErrors');
-            Errors.html('');
+            $('#btnEditUser').html('Сохранить');
+            $('#editUserErrors').html('');
 
             $('#modalEditUser').modal({show : true});
         });
+
         $('#editTariff').click(function(e){
             e.preventDefault();
-            var Button = $('#btnEditUser');
-            Button.html('Сохранить');
-            var Errors = $('#editUserErrors');
-            Errors.html('');
-            $('#editUserSurname').val($('#userName').text());
-            $('#editUserPred').val($('#parentName').text());
-            $('#editUserPhone').val($('#userTlph').text());
-            $('#editUserEmail').val($('#userEmail').text());
-            var newLimit = $('#linkLimit').text().trim();
-            if (newLimit == 'не установлен')
-                newLimit = null;
-            $('#editUserLimit').val(newLimit);
-            $('#editUserTarif').val($('#trfName').text());
+            $('#btnEditUser').html('Сохранить');
+            $('#editUserErrors').html('');
 
             $('#modalEditUser').modal({show : true});
         });
@@ -209,20 +183,16 @@
             Errors.html('');
 
             var newLimit = $('#editUserLimit').val().trim();
-            if (newLimit == 'не установлен')
-                newLimit = null;
             var newName = $('#editUserSurname').val().trim();
             var newParent_name = $('#editUserPred').val().trim();
             var newPhone = $('#editUserPhone').val().trim();
             var newEmail = $('#editUserEmail').val().trim();
-            var newTrfId = $('#tarifCombobox').attr("sel-idx");
+            var newTrfId = $('#tarifCombobox').combobox('selectedItem').value;
 
-
-            if ((newLimit !== null)&&(newLimit.match(/[^0-9]/g))){
+            if (newLimit.match(/[^0-9]/g)){
                 Errors.html('Не верно указано значение лимита!');
                 return;
             }
-
 
             if (newName == ''){
                 Errors.html('ФИО не задано!');
@@ -234,18 +204,23 @@
                 return;
             }
 
-            if ((newEmail == '')&&(newPhone == '')){
+            if (newEmail == '' && newPhone == ''){
                 Errors.html('Не указан ни один из способ связи!');
                 return;
             }
 
-
             Button.html('Данные сохраняются...');
             $.ajax({
-                url: '../js_action/updateBaseInformation.php',
+                url: '{{ path("pupil_update_information") }}',
                 type: 'POST',
-                data: {limit : newLimit, name: newName, parent_name : newParent_name
-                    ,phone : newPhone, email: newEmail, tarif: newTrfId},
+                data: {
+                    limit : newLimit,
+                    name: newName,
+                    parent_name : newParent_name,
+                    phone : newPhone,
+                    email: newEmail,
+                    tarif_id: newTrfId
+                },
                 success: function(data) {
                     Button.html('Сохранить');
                     if (data == 1){
@@ -258,8 +233,6 @@
                         else
                             $('#linkLimit').text(newLimit);
                         $('#modalEditUser').modal('hide');
-
-                        //$('#trfName').text();
                     }else
                         Errors.html('Ошибка сохранения значения в базе данных. Обратитесь к администратору');
                 },
