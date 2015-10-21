@@ -30,6 +30,7 @@
                     {% if limit > 0  %}
                         {{ limit }}
                     {% else %}
+                        {% set limit = 0  %}
                         не установлен
                     {% endif %}
                 </a>
@@ -132,7 +133,7 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="editLimit" placeholder="Лимит">
+                            <input type="text" class="form-control" id="editLimit" placeholder="Лимит" value="{{ limit }}" />
                         </div>
                     </form>
                     <div id="limitErrors" class="modal-errors">
@@ -249,7 +250,7 @@
                     Button.html('Сохранить');
                     if (data == 1){
                         $('#userName').text(newName);
-                        $('#parentName').text(newParent_name)
+                        $('#parentName').text(newParent_name);
                         $('#userTlph').text(newPhone);
                         $('#userEmail').text(newEmail);
                         if ((newLimit ==null)||(newLimit ==''))
@@ -272,11 +273,9 @@
 
         $('#linkLimit').click(function(e){
             e.preventDefault();
-            var limit = $(this).text();
 
             var Errors = $('#limitErrors');
             Errors.html('');
-            $('#editLimit').val(limit);
 
             $('#modalLimit').modal({show : true});
         });
@@ -301,11 +300,14 @@
                 type: 'POST',
                 data: {limit : newLimit},
                 success: function(data) {
-                    if (data == 1){
-                        $('#linkLimit').text(newLimit);
+                    if (!isNaN(parseFloat(data))){
+                        if(data == 0)
+                            data = 'не установлен';
+                        $('#linkLimit').text(data);
                         $('#modalLimit').modal('hide');
-                    }else
+                    } else {
                         Errors.html("Ошибка сохранения значения в базе данных. Обратитесь к администратору");
+                    }
                 },
                 error: function(data) {
                     Errors.html("Ошибка сохранения значения в базе данных. Обратитесь к администратору");

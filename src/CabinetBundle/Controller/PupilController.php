@@ -211,9 +211,11 @@ class PupilController extends Controller
             $user_id = $this->getUser()->getId();
             $new_limit = $request->get('limit');
 
+            if($new_limit < 0 || is_null($new_limit) || !is_numeric($new_limit)) $new_limit = 0;
+
             DBPupil::getInstance()->updateLimit($user_id, $new_limit);
 
-            return new Response("1");
+            return new Response($new_limit);
         } catch (Exception $e) {
             return new Response($e->getMessage());
         }
