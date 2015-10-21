@@ -40,8 +40,8 @@ class MainController extends Controller
 
             $message = Swift_Message::newInstance()
                 ->setSubject('Письмо с сайта')
-                ->setFrom('shket.it.mailer@gmail.com', 'ШКЭТ')
-                ->setTo($parameters['email'])
+                ->setFrom('info@shket-it.ru', 'ШКЭТ')
+                ->setTo('info@shket-it.ru')
                 ->setBody($this->renderView(
                     'MainBundle:Main:mail.html.twig',
                     array('params' => $parameters)
