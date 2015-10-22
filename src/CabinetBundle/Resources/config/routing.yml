@@ -95,3 +95,6 @@ pupil_update_limit:
 pupil_update_information:
   path: /cabinet/pupil/update/info
   defaults: {_controller: CabinetBundle:Pupil:updateInfo}
+pupil_update_photo:
+  path: /cabinet/pupil/update/image
+  defaults: {_controller: CabinetBundle:Pupil:updateImage}
