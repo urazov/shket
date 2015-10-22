@@ -9,6 +9,21 @@ $(window).load(function(){
 
 $(document).ready(function(){
 
+    /*кнопка печать*/
+    $('.printStyle').click(function(e){
+        e.preventDefault();
+        var elementId = $(this).attr('print_table_id');
+        var prtContent = document.getElementById(elementId);
+        var WinPrint = window.open('','','left=50,top=50,width=800,height=640,toolbar=0,scrollbars=1,status=0');
+        WinPrint.document.write('<div id=\"print\" class=\"contentpane\">');
+        WinPrint.document.write(prtContent.innerHTML);
+        WinPrint.document.write('</div>');
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
+    });
+
     /* TABLES */
     if ($('table.reestr').length > 0)
     {
@@ -412,21 +427,6 @@ $('a.scrollto').bind('click.smoothscroll', function (event) {
         window.location.hash = target;
     });
 });
-
-/*кнопка печать*/
-$('.printStyle').click(function(e){        
-        e.preventDefault();
-        var elementId = $(this).attr('print_table_id');
-        var prtContent = document.getElementById(elementId);
-        var WinPrint = window.open('','','left=50,top=50,width=800,height=640,toolbar=0,scrollbars=1,status=0');
-        WinPrint.document.write('<div id=\"print\" class=\"contentpane\">');
-        WinPrint.document.write(prtContent.innerHTML);
-        WinPrint.document.write('</div>');
-        WinPrint.document.close();
-        WinPrint.focus();
-        WinPrint.print();
-        WinPrint.close();
-    });
     
 /*Отображать выпадающий список школ на страницу с выводом меню*/
 /*$('#tab_menu').click(function(){
