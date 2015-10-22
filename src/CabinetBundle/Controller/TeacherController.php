@@ -13,19 +13,22 @@ class TeacherController extends Controller
 {
     public function indexAction()
     {
-        $user = $this->getUser();
+        try{
+            $user = $this->getUser();
 
-        $result = DBTeacher::getInstance()->getUserInfo($user);
+            $result = DBTeacher::getInstance()->getUserInfo($user);
 
-        $this->get('session')->set('default_scl_id', $result[0]['SCL_ID']);
-        $this->get('session')->set('default_scl_name', $result[0]['NAME']);
+            $this->get('session')->set('default_scl_id', $result[0]['SCL_ID']);
 
-        $parameters = [
-            'current_date' => date("d-m-Y"),
-            'school' => $result
-        ];
+            $parameters = [
+                'current_date' => date("d-m-Y"),
+                'school' => $result
+            ];
 
-        return $this->render('CabinetBundle:Teacher:index.html.twig', $parameters);
+            return $this->render('CabinetBundle:Teacher:index.html.twig', $parameters);
+        } catch (Exception $e) {
+            return new Response('Пользователь удалён. Обратитесь к администратору');
+        }
     }
 
     public function userInformationAction()

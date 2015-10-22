@@ -12,13 +12,17 @@ class FoodController extends Controller
 {
     public function indexAction()
     {
-        $user = $this->getUser();
+        try{
+            $user = $this->getUser();
 
-        $parameters = [
-            'current_date' => date("d-m-Y"),
-            'school' => DBFood::getInstance()->getUserInfo($user)
-        ];
-        return $this->render('CabinetBundle:Food:index.html.twig', $parameters);
+            $parameters = [
+                'current_date' => date("d-m-Y"),
+                'school' => DBFood::getInstance()->getUserInfo($user)
+            ];
+            return $this->render('CabinetBundle:Food:index.html.twig', $parameters);
+        } catch (Exception $e) {
+            return new Response('Пользователь удалён. Обратитесь к администратору');
+        }
     }
 
     public function userInformationAction()

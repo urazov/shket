@@ -13,25 +13,29 @@ class PupilController extends Controller
 {
     public function indexAction()
     {
-        $user = $this->getUser();
+        try{
+            $user = $this->getUser();
 
-        $result = DBPupil::getInstance()->getUserInfo($user);
+            $result = DBPupil::getInstance()->getUserInfo($user);
 
-        $this->get('session')->set('inf_bal', $result[0]['inf_bal']);
-        $this->get('session')->set('inf_ent', $result[0]['inf_ent']);
-        $this->get('session')->set('inf_eat', $result[0]['inf_eat']);
-        $this->get('session')->set('trf_id', $result[0]['TRF_ID']);
-        $this->get('session')->set('balance', $user->getBalance());
-        $this->get('session')->set('scl_id', $result[0]['scl_id']);
+            $this->get('session')->set('inf_bal', $result[0]['inf_bal']);
+            $this->get('session')->set('inf_ent', $result[0]['inf_ent']);
+            $this->get('session')->set('inf_eat', $result[0]['inf_eat']);
+            $this->get('session')->set('trf_id', $result[0]['TRF_ID']);
+            $this->get('session')->set('balance', $user->getBalance());
+            $this->get('session')->set('scl_id', $result[0]['scl_id']);
 
-        $types = DBPupil::getInstance()->getAllType(['user_id' => $user->getId()]);
+            $types = DBPupil::getInstance()->getAllType(['user_id' => $user->getId()]);
 
-        $parameters = [
-            'current_date' => date("d-m-Y"),
-            'money_types' => $types
-        ];
+            $parameters = [
+                'current_date' => date("d-m-Y"),
+                'money_types' => $types
+            ];
 
-        return $this->render('CabinetBundle:Pupil:index.html.twig', $parameters);
+            return $this->render('CabinetBundle:Pupil:index.html.twig', $parameters);
+        } catch (Exception $e) {
+            return new Response('Пользователь удалён. Обратитесь к администратору');
+        }
     }
 
     public function userInformationAction()
