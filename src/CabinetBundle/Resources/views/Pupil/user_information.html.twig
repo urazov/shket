@@ -1,7 +1,7 @@
 <div class="row nice-container user">
     <div class="col-xs-8" style="margin-top: 15px; margin-bottom: 8px;">
-        <div class="photo">
-            <img src="{{ asset('img/avatar/{{ usr_id }}.png') }}" />
+        <div class="photo" style="text-align: center;">
+            <img height="150" src="{{ asset('users/')}}{{ usr_id }}/avatar.jpg?t={{ rand }}" />
         </div>
         <div class="info">
             <p class="name"><span id="userName">{{ full_name }}</span></p>
@@ -52,51 +52,51 @@
                     <h4 class="modal-title">Редактировать профиль</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="#" class="form-horizontal user-form">
+                    <form action="{{ path("pupil_update_photo") }}" class="form-horizontal user-form" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xs-3" style="text-align: center;">
-                                <div class="photo">
-                                </div>
-                                <input type="file" name="img" accept="image/*" style="display: none;" id="editUserFile" name="editUserFile">
-                                <a href="#" class="underline" style="text-align: center;" id="editUserFileUpload">Загрузить фото</a>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
+                                <input type="file" accept="image/*" style="display: none;" id="editUserFile" name="userfile">
+                                <a href="#" class="underline" style="text-align: center;" id="editUserFileUpload">Выбрать фото</a>
+                                <input style="margin-top: 7px;" type="submit" value="Загрузить" />
                             </div>
                             <div class="col-xs-9">
                                 <div class="form-group">
                                     <label for="editUserSurname" class="col-xs-3 control-label">Фамилия Имя Отчество</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserSurname" name="editUserSurname" value="{{ full_name }}">
+                                        <input type="text" class="form-control" id="editUserSurname" name="pupil_name" value="{{ full_name }}">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="editUserPred" class="col-xs-3 control-label">Представитель</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserPred" name="editUserPred" value="{{ parent_name }}">
+                                        <input type="text" class="form-control" id="editUserPred" name="parent_name" value="{{ parent_name }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserPhone" class="col-xs-3 control-label">Телефон</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserPhone" name="editUserPhone" value="{{ phone }}">
+                                        <input type="text" class="form-control" id="editUserPhone" name="phone" value="{{ phone }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserEmail" class="col-xs-3 control-label">E-mail</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserEmail" name="editUserEmail" value="{{ email }}">
+                                        <input type="text" class="form-control" id="editUserEmail" name="email" value="{{ email }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserLimit" class="col-xs-3 control-label">Дневной лимит</label>
                                     <div class="col-xs-9">
-                                        <input type="text" class="form-control" id="editUserLimit" name="editUserLimit" value="{{ limit }}">
+                                        <input type="text" class="form-control" id="editUserLimit" name="limit" value="{{ limit }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserTarif" class="col-xs-3 control-label">Тариф</label>
                                     <div class="col-xs-9">
                                         <div class="input-group input-append dropdown combobox" data-initialize="combobox" id="tarifCombobox">
-                                            <input name="editUserTarif" id="editUserTarif" type="text" class="form-control">
+                                            <input name="tarif" id="editUserTarif" type="text" class="form-control">
                                             <div class="input-group-btn">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                                                 <ul class="dropdown-menu dropdown-menu-right">
@@ -153,27 +153,6 @@
     $(function(){
 
         $('#tarifCombobox').combobox('selectByText', '{{ trf_name }}');
-
-        $('#editProfile').click(function(e){
-            e.preventDefault();
-            $('#btnEditUser').html('Сохранить');
-            $('#editUserErrors').html('');
-
-            $('#modalEditUser').modal({show : true});
-        });
-
-        $('#editTariff').click(function(e){
-            e.preventDefault();
-            $('#btnEditUser').html('Сохранить');
-            $('#editUserErrors').html('');
-
-            $('#modalEditUser').modal({show : true});
-        });
-
-        $('#editUserFileUpload').click(function(e){
-            e.preventDefault();
-            $('#editUserFile').click();
-        });
 
         $('#btnEditUser').click(function(e){
             e.preventDefault();
@@ -243,6 +222,26 @@
             });
         });
 
+        $('#editProfile').click(function(e){
+            e.preventDefault();
+            $('#btnEditUser').html('Сохранить');
+            $('#editUserErrors').html('');
+
+            $('#modalEditUser').modal({show : true});
+        });
+
+        $('#editTariff').click(function(e){
+            e.preventDefault();
+            $('#btnEditUser').html('Сохранить');
+            $('#editUserErrors').html('');
+
+            $('#modalEditUser').modal({show : true});
+        });
+
+        $('#editUserFileUpload').click(function(e){
+            e.preventDefault();
+            $('#editUserFile').click();
+        });
 
         $('#linkLimit').click(function(e){
             e.preventDefault();

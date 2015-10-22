@@ -6,6 +6,8 @@ use CabinetBundle\Repositories\Food\DBFood;
 use CabinetBundle\Repositories\Pupil\DBPupil;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -62,6 +64,7 @@ class PupilController extends Controller
             $template_parameters['balance'] = $user->getBalance();
             $template_parameters['limit'] = $user->getLimit();
             $template_parameters['available_tarifs'] = $available_tarifs;
+            $template_parameters['rand'] = time();
 
             return $this->render('CabinetBundle:Pupil:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {
@@ -243,9 +246,26 @@ class PupilController extends Controller
 
             DBPupil::getInstance()->updateInfo($parameters);
 
-            return new Response('1');
+            return new Response(1);
         } catch (Exception $e) {
             return new Response($e->getMessage());
+        }
+    }
+
+    public function updateImageAction(Request $request)
+    {
+        try{
+            $user = $this->getUser();
+
+            foreach($request->files as $uploadedFile) {
+                if($uploadedFile instanceof UploadedFile){
+                    $uploadedFile->move($this->getParameter('assetic.write_to'). '/users/'.$user->getId(), 'avatar.jpg');
+                }
+            }
+
+            return new RedirectResponse($this->generateUrl('cabinet_detecting'));
+        } catch (Exception $e) {
+            return new RedirectResponse($this->generateUrl('cabinet_detecting'));
         }
     }
 
