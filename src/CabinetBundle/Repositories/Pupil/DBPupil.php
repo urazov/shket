@@ -187,7 +187,7 @@ class DBPupil
 
     public function updateInfo($parameters)
     {
-        $query = "update cs_shket.usr set limit = ?, name = ?, trf_id = ?, upd = 1 where usr_id = ?";
+        $query = "update cs_shket.usr set limit = ?, name = ?, new_trf_id = ?, upd = 1 where usr_id = ?";
         DB::getInstance()->getFirst($query, [
             $parameters['limit'],
             $parameters['pupil_name'],
