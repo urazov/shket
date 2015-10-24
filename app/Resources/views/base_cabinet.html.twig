@@ -21,6 +21,13 @@
 {% endblock %}
 
 {% block header %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
     <div class="container-fluid loader">
         <img src="{{ asset('img/logoMain.png') }}" />
     </div>

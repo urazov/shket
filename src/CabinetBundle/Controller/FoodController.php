@@ -12,8 +12,15 @@ class FoodController extends Controller
 {
     public function indexAction()
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
 
             $parameters = [
                 'current_date' => date("d-m-Y"),
@@ -21,14 +28,23 @@ class FoodController extends Controller
             ];
             return $this->render('CabinetBundle:Food:index.html.twig', $parameters);
         } catch (Exception $e) {
-            return new Response('Пользователь удалён. Обратитесь к администратору');
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function userInformationAction()
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $result = DBFood::getInstance()->getUserInfo($user);
 
             $template_parameters['info'] = $result;
@@ -39,13 +55,23 @@ class FoodController extends Controller
 
             return $this->render('CabinetBundle:Food:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function mainmenuAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date' => $request->get('date'),
                 'school_id' => $request->get('school_id')
@@ -69,13 +95,23 @@ class FoodController extends Controller
             ]);
 
         } catch (Exception $e){
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function classesAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'school_id' => $request->get('school_id')
             ];
@@ -86,13 +122,23 @@ class FoodController extends Controller
                 'classes' => $all_classes
             ]);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function zakazAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date' => $request->get('date'),
                 'school_id' => $request->get('school_id'),
@@ -114,13 +160,23 @@ class FoodController extends Controller
                 'conclusion' => $conclusion,
             ]);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function pitanieAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date_from' => $request->get('date_from'),
                 'date_to' => $request->get('date_to'),
@@ -143,13 +199,23 @@ class FoodController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function firstAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date_from' => $request->get('date_from'),
                 'date_to' => $request->get('date_to'),
@@ -177,13 +243,23 @@ class FoodController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function secondAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date_from' => $request->get('date_from'),
                 'date_to' => $request->get('date_to'),
@@ -211,13 +287,23 @@ class FoodController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function thirdAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date_from' => $request->get('date_from'),
                 'date_to' => $request->get('date_to'),
@@ -240,7 +326,8 @@ class FoodController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 

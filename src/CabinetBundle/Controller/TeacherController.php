@@ -13,8 +13,15 @@ class TeacherController extends Controller
 {
     public function indexAction()
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
 
             $result = DBTeacher::getInstance()->getUserInfo($user);
 
@@ -27,14 +34,23 @@ class TeacherController extends Controller
 
             return $this->render('CabinetBundle:Teacher:index.html.twig', $parameters);
         } catch (Exception $e) {
-            return new Response('Пользователь удалён. Обратитесь к администратору');
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function userInformationAction()
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $result = DBTeacher::getInstance()->getUserInfo($user);
 
             $template_parameters['info'] = $result;
@@ -45,13 +61,23 @@ class TeacherController extends Controller
 
             return $this->render('CabinetBundle:Teacher:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function mainmenuAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date' => $request->get('date'),
                 'school_id' => $this->get('session')->get('default_scl_id')
@@ -74,13 +100,23 @@ class TeacherController extends Controller
                 'meals_of_group' => isset($meals_of_group) ? $meals_of_group : []
             ]);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function zakazAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date' => $request->get('date'),
                 'school_id' => $this->get('session')->get('default_scl_id'),
@@ -104,13 +140,23 @@ class TeacherController extends Controller
                 'teacher_name' => $this->getUser()->getFullName()
             ]);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function pitanieAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'date_from' => $request->get('date_from'),
                 'date_to' => $request->get('date_to'),
@@ -135,13 +181,23 @@ class TeacherController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function tabelAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'month' => $request->get('month'),
                 'year' => $request->get('year'),
@@ -204,13 +260,23 @@ class TeacherController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function listAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
             $parameters = [
                 'school_id' => $this->get('session')->get('default_scl_id'),
                 'class_id' => $request->get('class_id'),
@@ -224,7 +290,8 @@ class TeacherController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 

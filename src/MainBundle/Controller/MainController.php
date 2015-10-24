@@ -40,7 +40,6 @@ class MainController extends Controller
     public function postAction(Request $request)
     {
         try{
-
             $parameters['fio'] = $request->get('fio');
             $parameters['phone'] = $request->get('phone');
             $parameters['email'] = $request->get('email');
@@ -59,7 +58,8 @@ class MainController extends Controller
 
             return new Response('Отправлено');
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage());
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 }

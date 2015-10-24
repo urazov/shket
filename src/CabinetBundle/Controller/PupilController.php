@@ -10,13 +10,21 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class PupilController extends Controller
 {
     public function indexAction()
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
 
             $result = DBPupil::getInstance()->getUserInfo($user);
 
@@ -36,15 +44,22 @@ class PupilController extends Controller
 
             return $this->render('CabinetBundle:Pupil:index.html.twig', $parameters);
         } catch (Exception $e) {
-            return new Response('Пользователь удалён. Обратитесь к администратору');
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function userInformationAction()
     {
-        try{
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
 
+        try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
 
             $result = DBPupil::getInstance()->getUserInfo($user);
 
@@ -68,12 +83,18 @@ class PupilController extends Controller
 
             return $this->render('CabinetBundle:Pupil:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function menuAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $parameters = [
                 'date' => $request->get('date'),
@@ -81,6 +102,11 @@ class PupilController extends Controller
                 'balance' => $this->get('session')->get('balance'),
                 'school_id' => $this->get('session')->get('scl_id'),
             ];
+
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+
+            $context['user_id'] = $this->getUser()->getId();
 
             if(empty($parameters['inf_eat'])){
                 return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
@@ -108,14 +134,21 @@ class PupilController extends Controller
                 'params' => $parameters
             ]);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function pitanieAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
 
             $parameters = [
                 'date_from' => $request->get('date_from'),
@@ -125,7 +158,7 @@ class PupilController extends Controller
                 'school_id' => $this->get('session')->get('scl_id'),
                 'user_id' => $user->getId()
             ];
-
+            $context['user_id'] = $this->getUser()->getId();
             if(empty($parameters['inf_eat'])){
                 return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
             }
@@ -141,14 +174,21 @@ class PupilController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function enterAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
 
             $parameters = [
                 'date_from' => $request->get('date_from'),
@@ -158,7 +198,7 @@ class PupilController extends Controller
                 'school_id' => $this->get('session')->get('scl_id'),
                 'user_id' => $user->getId()
             ];
-
+            $context['user_id'] = $this->getUser()->getId();
             if(empty($parameters['inf_ent'])){
                 return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
             }
@@ -174,14 +214,21 @@ class PupilController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function moneyAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
 
             $parameters = [
                 'date_from' => $request->get('date_from'),
@@ -192,6 +239,8 @@ class PupilController extends Controller
                 'user_id' => $user->getId(),
                 'type' =>$request->get('type')
             ];
+
+            $context['user_id'] = $this->getUser()->getId();
 
             if(empty($parameters['inf_bal'])){
                 return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
@@ -208,30 +257,49 @@ class PupilController extends Controller
             ]);
 
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 
     public function updateLimitAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
-            $user_id = $this->getUser()->getId();
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+
             $new_limit = $request->get('limit');
+
+            $context['user_id'] = $this->getUser()->getId();
 
             if($new_limit < 0 || is_null($new_limit) || !is_numeric($new_limit)) $new_limit = 0;
 
-            DBPupil::getInstance()->updateLimit($user_id, $new_limit);
+            DBPupil::getInstance()->updateLimit($user->getId(), $new_limit);
 
             return new Response($new_limit);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return false;
         }
     }
 
     public function updateInfoAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+
+            $context['user_id'] = $this->getUser()->getId();
 
             $parameters = [
                 'limit' => $request->get('limit'),
@@ -248,23 +316,38 @@ class PupilController extends Controller
 
             return new Response(1);
         } catch (Exception $e) {
-            return new Response($e->getMessage());
+            $this->get('logger')->error($e->getMessage(), $context);
+            return false;
         }
     }
 
     public function updateImageAction(Request $request)
     {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
         try{
             $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+
+            $context['user_id'] = $this->getUser()->getId();
 
             foreach($request->files as $uploadedFile) {
                 if($uploadedFile instanceof UploadedFile){
-                    $uploadedFile->move($this->getParameter('assetic.write_to'). '/users/'.$user->getId(), 'avatar.jpg');
+                    $path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/'.$user->getId());
+                    $uploadedFile->move($path, 'avatar.jpg');
                 }
             }
 
             return new RedirectResponse($this->generateUrl('cabinet_detecting'));
+        } catch (AuthenticationException $e) {
+            $this->get('session')->getFlashBag()->add('notice', 'Необходимо авторизоваться заново');
+            return new RedirectResponse($this->generateUrl('main_homepage'));
         } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            $this->get('session')->getFlashBag()->add('notice', 'Ошибка загрузки файла. Файл должен быть не больше ' . ini_get('upload_max_filesize'));
             return new RedirectResponse($this->generateUrl('cabinet_detecting'));
         }
     }

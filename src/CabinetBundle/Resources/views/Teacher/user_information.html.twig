@@ -101,7 +101,7 @@
         var newEmail = $('#{{ editUserEmail }}').val().trim();
 
         $.ajax({
-            url: '{{ path("update_user_information") }}',
+            url: '{{ path("teacher_update_user_information") }}',
             type: 'POST',
             data: {
                 name: newName,
