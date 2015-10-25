@@ -29,7 +29,10 @@ class TeacherController extends Controller
 
             $parameters = [
                 'current_date' => date("d-m-Y"),
-                'school' => $result
+                'school' => $result,
+                'mail_name' => $user->getFullName(),
+                'mail_phone' => $user->getPhone(),
+                'mail_email' => $user->getEmail(),
             ];
 
             return $this->render('CabinetBundle:Teacher:index.html.twig', $parameters);

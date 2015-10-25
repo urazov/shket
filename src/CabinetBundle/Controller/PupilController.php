@@ -37,7 +37,10 @@ class PupilController extends Controller
 
             $parameters = [
                 'current_date' => date("d-m-Y"),
-                'money_types' => $types
+                'money_types' => $types,
+                'mail_name' => $user->getFullName(),
+                'mail_phone' => $user->getPhone(),
+                'mail_email' => $user->getEmail(),
             ];
 
             return $this->render('CabinetBundle:Pupil:index.html.twig', $parameters);

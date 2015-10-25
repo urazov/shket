@@ -200,13 +200,25 @@
                             <div class="modal-body">
                                 <form>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="msgFIO" placeholder="ФИО">
+                                        {% if mail_name is defined %}
+                                            <input type="text" class="form-control" id="msgFIO" placeholder="ФИО" value="{{ mail_name }}">
+                                        {% else %}
+                                            <input type="text" class="form-control" id="msgFIO" placeholder="ФИО" >
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="msgPhone" placeholder="Телефон">
+                                        {% if mail_phone is defined %}
+                                            <input type="text" class="form-control" id="msgPhone" placeholder="Телефон" value="{{ mail_phone }}">
+                                        {% else %}
+                                            <input type="text" class="form-control" id="msgPhone" placeholder="Телефон">
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" class="form-control" id="msgEmail" placeholder="Email">
+                                        {% if mail_email is defined %}
+                                            <input type="email" class="form-control" id="msgEmail" placeholder="Email" value="{{ mail_email }}">
+                                        {% else %}
+                                            <input type="email" class="form-control" id="msgEmail" placeholder="Email">
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <textarea rows="4" class="form-control" id="msgMessage" placeholder="Сообщение"></textarea>

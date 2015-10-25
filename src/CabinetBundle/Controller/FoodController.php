@@ -24,7 +24,10 @@ class FoodController extends Controller
 
             $parameters = [
                 'current_date' => date("d-m-Y"),
-                'school' => DBFood::getInstance()->getUserInfo($user)
+                'school' => DBFood::getInstance()->getUserInfo($user),
+                'mail_name' => $user->getFullName(),
+                'mail_phone' => $user->getPhone(),
+                'mail_email' => $user->getEmail()
             ];
             return $this->render('CabinetBundle:Food:index.html.twig', $parameters);
         } catch (Exception $e) {
