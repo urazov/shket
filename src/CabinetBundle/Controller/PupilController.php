@@ -81,6 +81,11 @@ class PupilController extends Controller
             $template_parameters['available_tarifs'] = $available_tarifs;
             $template_parameters['rand'] = time();
 
+            $ava_path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/').'/'.$user->getId().'/avatar.jpg';
+            if(file_exists($ava_path)){
+                $template_parameters['avatar'] = $ava_path;
+            }
+
             return $this->render('CabinetBundle:Pupil:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {
             $this->get('logger')->error($e->getMessage(), $context);
@@ -336,7 +341,7 @@ class PupilController extends Controller
 
             foreach($request->files as $uploadedFile) {
                 if($uploadedFile instanceof UploadedFile){
-                    $path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/'.$user->getId());
+                    $path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/').'/'.$user->getId();
                     $uploadedFile->move($path, 'avatar.jpg');
                 }
             }

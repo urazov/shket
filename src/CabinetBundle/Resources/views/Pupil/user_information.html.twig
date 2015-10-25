@@ -1,7 +1,9 @@
 <div class="row nice-container user">
     <div class="col-xs-8" style="margin-top: 15px; margin-bottom: 8px;">
         <div class="photo" style="text-align: center;">
-            <img height="150" src="{{ asset('users/')}}{{ usr_id }}/avatar.jpg?t={{ rand }}" />
+            {% if avatar is defined %}
+                <img height="150" src="{{ asset('users/')}}{{ usr_id }}/avatar.jpg?t={{ rand }}" />
+            {% endif %}
         </div>
         <div class="info">
             <p class="name"><span id="userName">{{ full_name }}</span></p>
