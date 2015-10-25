@@ -234,8 +234,7 @@
         $('#linkMsg').click(function(e){
             e.preventDefault();
 
-            var Errors = $('#msgErrors');
-            Errors.html('');
+            $('#msgErrors').html('');
 
             $('#modalMailto').modal({show : true});
         });

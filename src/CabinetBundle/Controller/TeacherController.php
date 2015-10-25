@@ -299,33 +299,4 @@ class TeacherController extends Controller
             return new Response('Ошибка. Обратитесь к администратору');
         }
     }
-
-    public function updateInfoAction(Request $request)
-    {
-        $context = [
-            'time' => date('Y-m-d H:i:s'),
-            'function' => __METHOD__
-        ];
-
-        try{
-            $user = $this->getUser();
-            if(!$user) throw new AuthenticationException('User was not founded');
-
-            $context['user_id'] = $this->getUser()->getId();
-
-            $parameters = [
-                'user_id' => $user->getId(),
-                'name' => $request->get('name'),
-                'phone' => $request->get('phone'),
-                'email' => $request->get('email')
-            ];
-
-            DBTeacher::getInstance()->updateInfo($parameters);
-
-            return new Response(1);
-        } catch (Exception $e) {
-            $this->get('logger')->error($e->getMessage(), $context);
-            return false;
-        }
-    }
 }

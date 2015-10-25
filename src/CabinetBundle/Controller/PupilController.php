@@ -6,8 +6,6 @@ use CabinetBundle\Repositories\Food\DBFood;
 use CabinetBundle\Repositories\Pupil\DBPupil;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -324,36 +322,4 @@ class PupilController extends Controller
             return false;
         }
     }
-
-    public function updateImageAction(Request $request)
-    {
-        $context = [
-            'time' => date('Y-m-d H:i:s'),
-            'function' => __METHOD__
-        ];
-
-        try{
-            $user = $this->getUser();
-            if(!$user) throw new AuthenticationException('User was not founded');
-
-            $context['user_id'] = $this->getUser()->getId();
-
-            foreach($request->files as $uploadedFile) {
-                if($uploadedFile instanceof UploadedFile){
-                    $path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/').'/'.$user->getId();
-                    $uploadedFile->move($path, 'avatar.jpg');
-                }
-            }
-
-            return new RedirectResponse($this->generateUrl('cabinet_detecting'));
-        } catch (AuthenticationException $e) {
-            $this->get('session')->getFlashBag()->add('notice', 'Необходимо авторизоваться заново');
-            return new RedirectResponse($this->generateUrl('main_homepage'));
-        } catch (Exception $e) {
-            $this->get('logger')->error($e->getMessage(), $context);
-            $this->get('session')->getFlashBag()->add('notice', 'Ошибка загрузки файла. Файл должен быть не больше ' . ini_get('upload_max_filesize'));
-            return new RedirectResponse($this->generateUrl('cabinet_detecting'));
-        }
-    }
-
 }

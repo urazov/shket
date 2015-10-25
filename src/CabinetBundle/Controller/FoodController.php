@@ -52,6 +52,12 @@ class FoodController extends Controller
             $template_parameters['full_name'] = $user->getFullName();
             $template_parameters['phone'] = $user->getPhone();
             $template_parameters['email'] = $user->getEmail();
+            $template_parameters['usr_id'] = $user->getId();
+
+            $ava_path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/').'/'.$user->getId().'/avatar.jpg';
+            if(file_exists($ava_path)){
+                $template_parameters['avatar'] = $ava_path;
+            }
 
             return $this->render('CabinetBundle:Food:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {

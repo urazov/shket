@@ -43,8 +43,11 @@ food_rep_rep_3:
   path: /cabinet/food/report/pit/third
   defaults: {_controller: CabinetBundle:Food:third}
 food_update_user_information:
-  path: /cabinet/food/report/update/info
-  defaults: {_controller: CabinetBundle:Food:updateInfo}
+  path: /cabinet/food/update/info
+  defaults: {_controller: CabinetBundle:Cabinet:updateInfo}
+food_update_photo:
+  path: /cabinet/food/update/image
+  defaults: {_controller: CabinetBundle:Cabinet:updateImage}
 
 teacher_reports_mainmenu:
   path: /cabinet/teacher/report/mainmenu
@@ -63,10 +66,10 @@ teacher_reports_list:
   defaults: {_controller: CabinetBundle:Teacher:list}
 teacher_update_user_information:
   path: /cabinet/teacher/update/info
-  defaults: {_controller: CabinetBundle:Teacher:updateInfo}
+  defaults: {_controller: CabinetBundle:Cabinet:updateInfo}
 teacher_update_photo:
   path: /cabinet/teacher/update/image
-  defaults: {_controller: CabinetBundle:Pupil:updateImage}
+  defaults: {_controller: CabinetBundle:Cabinet:updateImage}
 
 pupil_reports_mainmenu:
   path: /cabinet/pupil/report/menu
@@ -88,4 +91,4 @@ pupil_update_information:
   defaults: {_controller: CabinetBundle:Pupil:updateInfo}
 pupil_update_photo:
   path: /cabinet/pupil/update/image
-  defaults: {_controller: CabinetBundle:Pupil:updateImage}
+  defaults: {_controller: CabinetBundle:Cabinet:updateImage}

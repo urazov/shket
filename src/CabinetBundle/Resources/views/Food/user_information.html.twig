@@ -7,6 +7,11 @@
 
 <div class="row nice-container user">
     <div class="col-xs-8" style="margin-top: 15px; margin-bottom: 8px;">
+        <div class="photo" style="text-align: center;">
+            {% if avatar is defined %}
+                <img height="150" src="{{ asset('users/')}}{{ usr_id }}/avatar.jpg" />
+            {% endif %}
+        </div>
         <div class="info">
             <p class="name" >
                 <span id="userName">{{ full_name }}</span>
@@ -40,13 +45,12 @@
                     <h4 class="modal-title">Редактировать профиль</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="#" class="form-horizontal user-form">
+                    <form action="{{ path("food_update_photo") }}" class="form-horizontal user-form" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xs-3" style="text-align: center;">
-                                <div class="photo">
-                                </div>
-                                <input type="file" name="img" accept="image/*" style="display: none;" id="editUserFile" name="editUserFile">
-                                <a href="#" class="underline" style="text-align: center;" id="editUserFileUpload">Загрузить фото</a>
+                                <input type="file" accept="image/*" style="display: none;" id="editUserFile" name="userfile">
+                                <a href="#" class="underline" style="text-align: center;" id="editUserFileUpload">Выбрать фото</a>
+                                <input style="margin-top: 7px;" type="submit" value="Загрузить" />
                             </div>
                             <div class="col-xs-9">
                                 <div class="form-group">
@@ -80,40 +84,59 @@
 </div>
 
 <script>
-    $('#{{ editProfile }}').click(function(e){
-        e.preventDefault();
+    $(function(){
+        $('#editUserFileUpload').click(function(e){
+            e.preventDefault();
+            $('#editUserFile').click();
+        });
 
-        $('#{{ editUserSurname }}').val($('#userName').text());
-        $('#{{ editUserPhone }}').val($('#userTlph').text());
-        $('#{{ editUserEmail }}').val($('#userEmail').text());
+        $('#{{ editProfile }}').click(function(e){
+            e.preventDefault();
 
-        $('#{{ modalEditUser }}').modal({show : true});
-    });
+            $('#{{ editUserSurname }}').val($('#userName').text());
+            $('#{{ editUserPhone }}').val($('#userTlph').text());
+            $('#{{ editUserEmail }}').val($('#userEmail').text());
 
-    $('#{{ btnEditUser }}').click(function(e){
-        e.preventDefault();
+            $('#{{ modalEditUser }}').modal({show : true});
+        });
 
-        var newName = $('#{{ editUserSurname }}').val().trim();
-        var newPhone = $('#{{ editUserPhone }}').val().trim();
-        var newEmail = $('#{{ editUserEmail }}').val().trim();
+        $('#{{ btnEditUser }}').click(function(e){
+            e.preventDefault();
 
-        $.ajax({
-            url: '{{ path("food_update_user_information") }}',
-            type: 'POST',
-            data: {
-                name: newName,
-                phone : newPhone,
-                email: newEmail
-            },
-            success: function(data){
-                if (data == 1){
-                    $('#userName').text(newName);
-                    $('#userTlph').text(newPhone);
-                    $('#userEmail').text(newEmail);
-                    $('#modalEditUser').modal('hide');
-                }else
-                    Errors.html('Ошибка сохранения значения в базе данных. Обратитесь к администратору');
+            var Errors = $('#editUserErrors');
+
+            var newName = $('#{{ editUserSurname }}').val().trim();
+            var newPhone = $('#{{ editUserPhone }}').val().trim();
+            var newEmail = $('#{{ editUserEmail }}').val().trim();
+
+            if (newName == ''){
+                Errors.html('ФИО не задано!');
+                return;
             }
+
+            if (newEmail == '' && newPhone == ''){
+                Errors.html('Не указан ни один из способ связи!');
+                return;
+            }
+
+            $.ajax({
+                url: '{{ path("food_update_user_information") }}',
+                type: 'POST',
+                data: {
+                    name: newName,
+                    phone : newPhone,
+                    email: newEmail
+                },
+                success: function(data){
+                    if (data == 1){
+                        $('#userName').text(newName);
+                        $('#userTlph').text(newPhone);
+                        $('#userEmail').text(newEmail);
+                        $('#modalEditUser').modal('hide');
+                    }else
+                        Errors.html('Ошибка сохранения значения в базе данных. Обратитесь к администратору');
+                }
+            });
         });
     });
 </script>
