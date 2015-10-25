@@ -134,9 +134,9 @@
                 },
                 success: function(data){
                     if (data == 1){
-                        $('#{{ editUserSurname }}').text(newName);
-                        $('#{{ editUserPhone }}').text(newPhone);
-                        $('#{{ editUserEmail }}').text(newEmail);
+                        $('#userName').text(newName);
+                        $('#userTlph').text(newPhone);
+                        $('#userEmail').text(newEmail);
                         $('#modalEditUser').modal('hide');
                     } else {
                         Errors.html('Ошибка сохранения значения в базе данных. Обратитесь к администратору');
