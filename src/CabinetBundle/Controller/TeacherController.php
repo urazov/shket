@@ -58,6 +58,11 @@ class TeacherController extends Controller
             $template_parameters['full_name'] = $user->getFullName();
             $template_parameters['phone'] = $user->getPhone();
             $template_parameters['email'] = $user->getEmail();
+            $template_parameters['usr_id'] = $user->getId();
+            $ava_path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/').'/'.$user->getId().'/avatar.jpg';
+            if(file_exists($ava_path)){
+                $template_parameters['avatar'] = $ava_path;
+            }
 
             return $this->render('CabinetBundle:Teacher:user_information.html.twig', $template_parameters);
         } catch (Exception $e) {
@@ -295,4 +300,32 @@ class TeacherController extends Controller
         }
     }
 
+    public function updateInfoAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+
+            $context['user_id'] = $this->getUser()->getId();
+
+            $parameters = [
+                'user_id' => $user->getId(),
+                'name' => $request->get('name'),
+                'phone' => $request->get('phone'),
+                'email' => $request->get('email')
+            ];
+
+            DBTeacher::getInstance()->updateInfo($parameters);
+
+            return new Response(1);
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return false;
+        }
+    }
 }

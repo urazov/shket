@@ -64,6 +64,9 @@ teacher_reports_list:
 teacher_update_user_information:
   path: /cabinet/teacher/update/info
   defaults: {_controller: CabinetBundle:Teacher:updateInfo}
+teacher_update_photo:
+  path: /cabinet/teacher/update/image
+  defaults: {_controller: CabinetBundle:Pupil:updateImage}
 
 pupil_reports_mainmenu:
   path: /cabinet/pupil/report/menu

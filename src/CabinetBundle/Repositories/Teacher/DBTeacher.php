@@ -282,4 +282,15 @@ class DBTeacher
 
         return $result;
     }
+
+    public function updateInfo($parameters)
+    {
+        $query = "update cs_shket.usr set name = ?, tlph = ?, email = ?, upd = 1 where usr_id = ?";
+        DB::getInstance()->getFirst($query, [
+            $parameters['name'],
+            $parameters['phone'],
+            $parameters['email'],
+            $parameters['user_id']
+        ]);
+    }
 }

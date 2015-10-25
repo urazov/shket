@@ -79,7 +79,6 @@ class PupilController extends Controller
             $template_parameters['balance'] = $user->getBalance();
             $template_parameters['limit'] = $user->getLimit();
             $template_parameters['available_tarifs'] = $available_tarifs;
-            $template_parameters['rand'] = time();
 
             $ava_path = realpath($this->container->getParameter('kernel.root_dir').'/../web/users/').'/'.$user->getId().'/avatar.jpg';
             if(file_exists($ava_path)){
