@@ -103,7 +103,11 @@ class DB
         if($result){
             foreach($result as $idx => $values){
                 foreach($values as $key => $value){
-                    $utf_values[$key] = iconv("windows-1251", "utf-8", $value);
+                    if(strpos($value, '.') !== false && is_numeric($value)){
+                        $utf_values[$key] = round($value, 2);
+                    } else {
+                        $utf_values[$key] = iconv("windows-1251", "utf-8", $value);
+                    }
                 }
                 $utf_result[$idx] = $utf_values;
             }
