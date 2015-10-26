@@ -246,6 +246,7 @@ class TeacherController extends Controller
             $parameters['date_to'] = $parameters['year'] . '-' . ($parameters['month']+1) . '-01';
             $parameters['date_from'] = $parameters['year'] . '-' . $parameters['month'] . '-01';
             $itog_result = DBTeacher::getInstance()->getFoodCountItog($parameters);
+            $itog_result_date = [];
             foreach($itog_result as $key => $date){
                 $itog_result_date[$date['date']] = $date['cnt'];
             }
