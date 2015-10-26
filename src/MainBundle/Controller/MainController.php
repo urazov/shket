@@ -13,8 +13,12 @@ class MainController extends Controller
 {
     public function indexAction($page = null)
     {
-        $page = is_null($page) ? 'index' : $page;
-        return $this->render('MainBundle:Main:'. $page .'.html.twig');
+        try{
+            $page = is_null($page) ? 'index' : $page;
+            return $this->render('MainBundle:Main:'. $page .'.html.twig');
+        } catch (Exception $e) {
+            return $this->redirectToRoute('main_homepage');
+        }
     }
 
     public function countUserAction()
