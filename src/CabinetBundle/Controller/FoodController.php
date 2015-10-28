@@ -7,6 +7,7 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class FoodController extends Controller
 {
@@ -24,6 +25,7 @@ class FoodController extends Controller
 
             $parameters = [
                 'current_date' => date("d-m-Y"),
+                'last_date' => date("d-m-Y", time() - 7 * 24 * 60 * 60),
                 'school' => DBFood::getInstance()->getUserInfo($user),
                 'mail_name' => $user->getFullName(),
                 'mail_phone' => $user->getPhone(),

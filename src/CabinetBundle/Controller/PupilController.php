@@ -37,6 +37,7 @@ class PupilController extends Controller
 
             $parameters = [
                 'current_date' => date("d-m-Y"),
+                'last_date' => date("d-m-Y", time() - 7 * 24 * 60 * 60),
                 'money_types' => $types,
                 'mail_name' => $user->getFullName(),
                 'mail_phone' => $user->getPhone(),
