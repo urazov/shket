@@ -93,6 +93,55 @@ class PupilController extends Controller
         }
     }
 
+    public function checkMoneyTarifsAction()
+    {
+        $parameters = [
+            'balance' => $this->get('session')->get('balance')
+        ];
+
+        if($parameters['balance'] < 0){
+            return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+        }
+
+        return new Response();
+    }
+
+    public function checkEnterTarifsAction()
+    {
+        $parameters = [
+            'inf_ent' => $this->get('session')->get('inf_ent'),
+            'balance' => $this->get('session')->get('balance')
+        ];
+
+        if(empty($parameters['inf_ent'])){
+            return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
+        }
+
+        if($parameters['balance'] < 0){
+            return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+        }
+
+        return new Response();
+    }
+
+    public function checkEatTarifsAction()
+    {
+        $parameters = [
+            'inf_eat' => $this->get('session')->get('inf_eat'),
+            'balance' => $this->get('session')->get('balance')
+        ];
+
+        if(empty($parameters['inf_eat'])){
+            return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
+        }
+
+        if($parameters['balance'] < 0){
+            return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+        }
+
+        return new Response();
+    }
+
     public function menuAction(Request $request)
     {
         $context = [
