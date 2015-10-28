@@ -9,6 +9,13 @@ $(window).load(function(){
 
 $(document).ready(function(){
 
+    $('.btn_login').click(function(e){
+        e.preventDefault();
+        $(this).text('Выполняется вход, подождите...');
+        var form = $(this).parents('form:first');
+        $(form).submit();
+    });
+
     /*кнопка печать*/
     $('.printStyle').click(function(e){
         e.preventDefault();
