@@ -54,7 +54,9 @@ class DBFood
                       and dMEAL.SCL_ID = ?
                       and MEAL.DEL <> 1 and DMEAL.DEL <> 1";
 
-        $result = self::$db_instance->getAll($query, [$parameters['date'], $parameters['school_id']]);
+        $date = substr($parameters['date'], -4)."-".substr($parameters['date'], 3, 2)."-".substr($parameters['date'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [$date, $parameters['school_id']]);
         return $result;
     }
 
@@ -69,7 +71,9 @@ class DBFood
             and dmeal.MAIN_MEAL_ID = ?
             and MEAL.DEL <> 1 and DMEAL.DEL <> 1";
 
-        $result = self::$db_instance->getAll($query, [$parameters['date'], $parameters['school_id'], $parameters['meal_id']]);
+        $date = substr($parameters['date'], -4)."-".substr($parameters['date'], 3, 2)."-".substr($parameters['date'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [$date, $parameters['school_id'], $parameters['meal_id']]);
         return $result;
     }
 
@@ -86,7 +90,9 @@ class DBFood
             and GMEAL.DEL <> 1
             and MEAL.DEL <> 1 and DMEAL.DEL <> 1";
 
-        $result = self::$db_instance->getAll($query, [$parameters['date'], $parameters['school_id']]);
+        $date = substr($parameters['date'], -4)."-".substr($parameters['date'], 3, 2)."-".substr($parameters['date'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [$date, $parameters['school_id']]);
         return $result;
     }
 
@@ -103,7 +109,9 @@ class DBFood
             and dMEAL.SCL_ID = ?
             and MEAL.DEL <> 1 and DMEAL.DEL <> 1";
 
-        $result = self::$db_instance->getAll($query, [$parameters['gmeal_id'], $parameters['date'], $parameters['school_id']]);
+        $date = substr($parameters['date'], -4)."-".substr($parameters['date'], 3, 2)."-".substr($parameters['date'], 0, 2);
+
+        $result = self::$db_instance->getAll($query, [$parameters['gmeal_id'], $date, $parameters['school_id']]);
         return $result;
     }
 
