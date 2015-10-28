@@ -66,6 +66,8 @@
 
 <script>
     $(function(){
+        $("#{{ money_type_id }}").combobox('selectByIndex', 0);
+
         $('#{{ button_id }}').click(function(e){
             e.preventDefault();
             $.ajax({

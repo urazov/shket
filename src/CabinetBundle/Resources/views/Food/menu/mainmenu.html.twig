@@ -55,6 +55,8 @@
 
 <script>
     $(function(){
+        $("#{{ combobox_school_id }}").combobox('selectByIndex', 0);
+
         $('#{{ button_id }}').click(function(e){
             e.preventDefault();
             $("#{{ show_date_id }}").html($('#{{ date_id }}').val());

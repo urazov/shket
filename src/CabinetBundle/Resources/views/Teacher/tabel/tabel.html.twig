@@ -89,6 +89,10 @@
 
 <script>
     $(function(){
+        $("#{{ combobox_classes_id }}").combobox('selectByIndex', 0);
+        $("#cbxMonthTch").combobox('selectByIndex', 0);
+        $("#cbxYearTch").combobox('selectByIndex', 0);
+
         $('#{{ button_id }}').click(function(e){
             e.preventDefault();
             var class_id = $("#{{ combobox_classes_id }}").combobox('selectedItem').value;
