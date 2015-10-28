@@ -251,10 +251,6 @@ class PupilController extends Controller
                 return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
             }
 
-            if($parameters['balance'] < 0){
-                return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
-            }
-
             $result = DBPupil::getInstance()->getPupilMoney($parameters);
 
             return $this->render('CabinetBundle:Pupil/money:money_report.html.twig', [
