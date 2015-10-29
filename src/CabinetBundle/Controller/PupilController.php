@@ -97,11 +97,11 @@ class PupilController extends Controller
     public function checkMoneyTarifsAction()
     {
         $parameters = [
-            'balance' => $this->get('session')->get('balance')
+            'inf_bal' => $this->get('session')->get('inf_bal')
         ];
 
-        if($parameters['balance'] < 0){
-            return new Response("<div class='row report-subtitle'>На вашем счете недостаточно средств для просмотра данной информации</div>");
+        if(empty($parameters['inf_bal'])){
+            return new Response("<div class='row report-subtitle'>В вашем тарифе отсутсвует данная функциональность</div>");
         }
 
         return new Response();
