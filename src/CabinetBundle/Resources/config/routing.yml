@@ -64,6 +64,9 @@ teacher_reports_tabel:
 teacher_reports_list:
   path: /cabinet/teacher/report/list
   defaults: {_controller: CabinetBundle:Teacher:list}
+teacher_reports_enter:
+  path: /cabinet/teacher/report/enter
+  defaults: {_controller: CabinetBundle:Teacher:enter}
 teacher_update_user_information:
   path: /cabinet/teacher/update/info
   defaults: {_controller: CabinetBundle:Cabinet:updateInfo}

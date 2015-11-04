@@ -1,13 +1,13 @@
-{% set combobox_school_id = "select_school_list" %}
-{% set combobox_classes_id = "select_class_list" %}
-{% set date_id = "selected_date_list" %}
-{% set result_id = "result_list" %}
-{% set show_date_id = "show_date_list" %}
-{% set button_id = "btn_show_list" %}
-{% set print_id = "print_container_list" %}
-{% set ul_school_id = "result_school_list" %}
-{% set ul_classes_id = "result_classes_list" %}
-{% set selected_class = "selected_class_list" %}
+{% set combobox_school_id = "select_school_zakaz" %}
+{% set combobox_classes_id = "select_class_zakaz" %}
+{% set date_id = "selected_date_zakaz" %}
+{% set result_id = "result_zakaz" %}
+{% set show_date_id = "show_date_zakaz" %}
+{% set button_id = "btn_show_zakaz" %}
+{% set print_id = "print_container_zakaz" %}
+{% set ul_school_id = "result_school_zakaz" %}
+{% set ul_classes_id = "result_classes_zakaz" %}
+{% set selected_class = "selected_class_zakaz" %}
 {% set default_text_class = "Укажите класс" %}
 {% set default_text_school = "Укажите учреждение" %}
 
@@ -21,9 +21,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_classes_id }}">
-                    {% if default_class_id is not defined %}
-                        <li data-value="-1"><a href="#">Все классы</a></li>
-                    {% endif %}
+                    <li data-value="-1"><a href="#">Все классы</a></li>
                     {% for str in school %}
                         <li data-value="{{ str.cls_id }}"><a href="#">{{ str.name }}</a></li>
                     {% endfor %}
@@ -39,6 +37,13 @@
     </div>
 
     <div class="form-group">
+        <label class="col-xs-2 control-label">Дата:</label>
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ current_date }}" id="{{ date_id }}"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
         <div class="col-xs-4" style="float: right;">
             <button id="{{ button_id }}" class="btn dialog" style="float: right;">Отобразить данные</button>
         </div>
@@ -46,6 +51,7 @@
 </form>
 
 <div id='{{ print_id }}'>
+    <div class="row report-title">Дата: <span id="{{ show_date_id }}">{{ current_date }}</span></div>
     <div class="row" style="margin-top: 20px;">
         <div class="col-xs-12" id="{{ result_id }}"></div>
     </div>
@@ -63,9 +69,10 @@
             $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
 
             $.ajax({
-                url: '{{ path("teacher_reports_list") }}',
+                url: '{{ path("teacher_reports_zakaz") }}',
                 type: 'POST',
                 data: {
+                    date: $('#{{ date_id }}').val(),
                     class_id: class_id
                 },
                 success: function(data) {

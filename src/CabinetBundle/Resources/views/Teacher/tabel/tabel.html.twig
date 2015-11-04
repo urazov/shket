@@ -22,7 +22,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_classes_id }}">
-                    <li data-value="-1"><a href="#">Все классы</a></li>
+                    {% if default_class_id is not defined %}
+                        <li data-value="-1"><a href="#">Все классы</a></li>
+                    {% endif %}
                     {% for str in school %}
                         <li data-value="{{ str.cls_id }}"><a href="#">{{ str.name }}</a></li>
                     {% endfor %}
@@ -82,7 +84,7 @@
 
 <div id='{{ print_id }}'>
     <div class="row" style="margin-top: 20px;">
-        <div class="col-xs-12" id="{{ result_id }}" style="padding-left: 5px; padding-right: 5px;"></div>
+        <div class="col-xs-12" id="{{ result_id }}"></div>
     </div>
 </div>
 
@@ -90,8 +92,8 @@
 <script>
     $(function(){
         $("#{{ combobox_classes_id }}").combobox('selectByIndex', 0);
-        $("#cbxMonthTch").combobox('selectByIndex', 0);
-        $("#cbxYearTch").combobox('selectByIndex', 0);
+        $("#cbxMonthTch").combobox('selectByValue', '{{ current_month }}');
+        $("#cbxYearTch").combobox('selectByValue', '{{ current_year }}');
 
         $('#{{ button_id }}').click(function(e){
             e.preventDefault();

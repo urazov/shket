@@ -30,12 +30,19 @@ class TeacherController extends Controller
 
             $parameters = [
                 'current_date' => date("d-m-Y"),
+                'current_year' => date("Y", time()),
+                'current_month' => date("m", time()),
                 'last_date' => date("d-m-Y", time() - 7 * 24 * 60 * 60),
                 'school' => $result,
                 'mail_name' => $user->getFullName(),
                 'mail_phone' => $user->getPhone(),
                 'mail_email' => $user->getEmail(),
             ];
+
+            if(count($result) == 1){
+                $parameters['default_class_id'] = $result[0]['cls_id'];
+            }
+
 
             return $this->render('CabinetBundle:Teacher:index.html.twig', $parameters);
         } catch (Exception $e) {

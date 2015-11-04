@@ -22,7 +22,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_classes_id }}">
-                    <li data-value="-1"><a href="#">Все классы</a></li>
+                    {% if default_class_id is not defined %}
+                        <li data-value="-1"><a href="#">Все классы</a></li>
+                    {% endif %}
                     {% for str in school %}
                         <li data-value="{{ str.cls_id }}"><a href="#">{{ str.name }}</a></li>
                     {% endfor %}
