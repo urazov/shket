@@ -12,29 +12,24 @@
     </div>
 </div>
 
-{% for class in class_info %}
-    {% set idx = loop.index0 %}
-    <div class='row report-subtitle'>{{ class.name }} класс/группа ({{ class.teacher }})</div>
-    <table class='table table-striped table-simple table-cabinet table-markered'>
-        <thead>
-        <th>Дата</th>
-        <th>Наименование блюда</th>
-        <th>Количество</th>
-        <th>Стоимость блюда, руб.</th>
-        <th>Сумма денежных средств, принятая Агентом, в качестве оплаты по совершенным сделкам, руб.</th>
-        </thead>
-        <tbody>
-        {% for foods_info in food_info_by_period[idx] %}
-            <tr>
-                {% for food_info in foods_info %}
-                    <td class='center'>{{ food_info }}</td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-{% endfor %}
+<table class='table table-striped table-simple table-cabinet table-markered'>
+    <thead>
+    <th>Дата</th>
+    <th>Наименование блюда</th>
+    <th>Количество</th>
+    <th>Стоимость блюда, руб.</th>
+    <th>Сумма денежных средств, принятая Агентом, в качестве оплаты по совершенным сделкам, руб.</th>
+    </thead>
+    <tbody>
+    {% for foods_info in food_info_by_period %}
+        <tr>
+            {% for food_info in foods_info %}
+                <td class='center'>{{ food_info }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 
 {% for conclusion in conclusion_food_rep_second %}

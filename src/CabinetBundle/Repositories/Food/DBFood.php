@@ -344,6 +344,7 @@ class DBFood
                and uc.SCL_ID = ?
                and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
                and r.ADATE between ? and ?
+               and m.IS_COMPLEX = 1
         )
 
 
@@ -649,7 +650,6 @@ class DBFood
                  inner join CS_SHKET.USER_IN_SCL_CLS uc on r.USR_ID = uc.USR_ID
                  inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID
                  where r.ADATE between ? and ?
-                   and uc.CLS_ID = ?
                    and uc.SCL_ID = ?
                    and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
                    )
@@ -685,7 +685,7 @@ class DBFood
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
         $result = DB::getInstance()->getAll($query, [
-            $date_from, $date_to, $parameters['class_id'], $parameters['school_id']
+            $date_from, $date_to, $parameters['school_id']
         ], PDO::FETCH_NUM);
 
         return $result;

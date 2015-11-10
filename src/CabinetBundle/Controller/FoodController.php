@@ -184,6 +184,8 @@ class FoodController extends Controller
         ];
 
         try{
+            $result_class = array();
+
             $user = $this->getUser();
             if(!$user) throw new AuthenticationException('User was not founded');
             $context['user_id'] = $this->getUser()->getId();
@@ -198,13 +200,17 @@ class FoodController extends Controller
             $class_info = DBFood::getInstance()->getClassInfo($parameters);
             foreach($class_info as $class){
                 $parameters['class_id'] = $class['cls_id'];
-                $food_info_by_period[] = DBFood::getInstance()->getFoodInfoByPeriod($parameters);
+                $select_result = DBFood::getInstance()->getFoodInfoByPeriod($parameters);
+                if(count($select_result) > 1){
+                    $food_info_by_period[] = DBFood::getInstance()->getFoodInfoByPeriod($parameters);
+                    $result_class[] = $class;
+                }
             }
             $parameters['class_id'] = $request->get('class_id');
             $conclusion_food_by_period = DBFood::getInstance()->getConclusionByPeriod($parameters);
 
             return $this->render('CabinetBundle:Food/pitanie:pitanie_report.html.twig', [
-                'class_info' => $class_info,
+                'class_info' => $result_class,
                 'food_info_by_period' => isset($food_info_by_period) ? $food_info_by_period : [],
                 'conclusion_by_period' => $conclusion_food_by_period,
             ]);
@@ -277,22 +283,12 @@ class FoodController extends Controller
                 'school_id' => $request->get('school_id')
             ];
 
-            $class_info = DBFood::getInstance()->getInfoForSecondRep($parameters);
-            foreach($class_info as $class){
-                $parameters['class_id'] = $class['cls_id'];
-                $result = DBFood::getInstance()->getSecondInfoByPeriod($parameters);
-
-                if(count($result) > 1){
-                    $class_result[] = $class;
-                    $food_info_by_period[] = $result;
-                }
-            }
+            $result = DBFood::getInstance()->getSecondInfoByPeriod($parameters);
 
             $conclusion_food_rep_second = DBFood::getInstance()->getConclusionSecondByPeriod($parameters);
 
             return $this->render('CabinetBundle:Food/rep2:rep2_report.html.twig', [
-                'class_info' => isset($class_result) ? $class_result : [],
-                'food_info_by_period' => isset($food_info_by_period) ? $food_info_by_period : [],
+                'food_info_by_period' => empty($result) ? [] : $result,
                 'parameters' => $parameters,
                 'conclusion_food_rep_second' => $conclusion_food_rep_second
             ]);
