@@ -8,3 +8,104 @@
         </div>
     </div>
 {% endblock %}
+
+{% block footer %}
+    <footer class="navbar-fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-3">
+                    <ul class="menu">
+                        <li><a href="{{ path('main_homepage', {'page': 'about'}) }}">О проекте</a></li>
+                        <li><a href="{{ path('main_homepage', {'page': 'documents'}) }}">Документы</a></li>
+                        <li><a href="{{ path('main_homepage', {'page': 'news'}) }}">Новости</a></li>
+                        <li><a href="{{ path('main_homepage', {'page': 'titles'}) }}">Статьи</a></li>
+                        <li><a href="{{ path('main_homepage', {'page': 'faq'}) }}">Вопрос-ответ</a></li>
+                        <li><a href="{{ path('main_homepage', {'page': 'forusers'}) }}">Пользователям</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-6">
+                    <div class="now">
+                        Сейчас в системе зарегистрировано
+                                <span class="yellow">
+                                    <a href="{{ path('main_homepage', {'page': 'schools'}) }}">16</a>
+                                </span>
+                        учреждений <span class="yellow">{{ render(controller('MainBundle:Main:countUser')) }}</span>
+                        пользователей
+                    </div>
+                    <div class="col-xs-6">
+                        <a class="btn btn-white" href="{{ asset('others/School_food.ppt') }}">Скачать презентацию</a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a class="btn btn-yellow" id="linkMail" href="#">Отправить сообщение</a>
+                    </div>
+                </div>
+                <div class="col-xs-3 contacts">
+                    <p>
+                        Тел: <a href="tel:+73422768826">8 (342) 276 88 26</a>
+                    </p>
+                    <p>
+                        Тел./факс: <a href="tel:+73422700234">8 (342) 270 02 34</a>
+                    </p>
+                    <p>
+                        E-mail: <a href="mailto:info@shket-it.ru">info@shket-it.ru</a>
+                    </p>
+                    <p>
+                        Адрес: 614045, г.Пермь
+                    </p>
+                    <p>
+                        ул. Монастырская, д. 14, офис 356
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MAIL OVERLAY -->
+    <div class="modal custom" id="modalMailto" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-content-inner">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Отправить сообщение</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                {% if mail_name is defined %}
+                                    <input type="text" class="form-control" id="msgFIO" placeholder="ФИО" value="{{ mail_name }}">
+                                {% else %}
+                                    <input type="text" class="form-control" id="msgFIO" placeholder="ФИО" >
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {% if mail_phone is defined %}
+                                    <input type="text" class="form-control" id="msgPhone" placeholder="Телефон" value="{{ mail_phone }}">
+                                {% else %}
+                                    <input type="text" class="form-control" id="msgPhone" placeholder="Телефон">
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {% if mail_email is defined %}
+                                    <input type="email" class="form-control" id="msgEmail" placeholder="Email" value="{{ mail_email }}">
+                                {% else %}
+                                    <input type="email" class="form-control" id="msgEmail" placeholder="Email">
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <textarea rows="4" class="form-control" id="msgMessage" placeholder="Сообщение"></textarea>
+                            </div>
+                        </form>
+                        <div id="msgErrors" class="modal-errors">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <button type="button" class="btn dialog" id="btnMessage">Отправить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
