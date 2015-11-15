@@ -283,6 +283,24 @@ class DBTeacher
         return $result;
     }
 
+    public function getPupilList($parameters)
+    {
+        $query =  "Select u.NAME as name
+                    , (select sum(summ) from cs_shket.blnc where del <> 1 and usr_id = u.usr_id ) as blnc
+                    from CS_SHKET.USR u
+                    inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
+                    where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
+                      and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1 and uc.del <> 1
+                      and exists ( select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
+                                    and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)";
+
+        $result = DB::getInstance()->getAll($query, [
+            $parameters['school_id'], $parameters['class_id'], $parameters['class_id'], $parameters['teacher_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
+
     public function updateInfo($parameters)
     {
         $query = "update cs_shket.usr set name = ?, tlph = ?, email = ?, upd = 1 where usr_id = ?";
@@ -292,5 +310,24 @@ class DBTeacher
             $parameters['email'],
             $parameters['user_id']
         ]);
+    }
+
+    public function getPupilEntersInfo($parameters)
+    {
+        $query =  "Select u.NAME as name, CONVERT(nvarchar, en.ddate, 104) as dt, CONVERT(nvarchar, en.ddate, 108) as tm, en.DIRECT as direct
+            from CS_SHKET.USR u
+            inner join CS_SHKET.ENT en on u.USR_ID = en.USR_ID
+            inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
+            where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
+              and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1 and uc.del <> 1
+              and exists ( select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
+                            and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)
+            order by en.ddate desc"; //todo FAIL
+
+        $result = DB::getInstance()->getAll($query, [
+            $parameters['school_id'], $parameters['class_id'], $parameters['class_id'], $parameters['teacher_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
     }
 }
