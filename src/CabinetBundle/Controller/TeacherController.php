@@ -363,7 +363,7 @@ class TeacherController extends Controller
 
             $result = DBTeacher::getInstance()->getPupilEntersInfo($parameters);
 
-            return $this->render('CabinetBundle:Teacher/balance:balance_report.html.twig', [
+            return $this->render('CabinetBundle:Teacher/enter:enter_report.html.twig', [
                 'result' => $result
             ]);
 

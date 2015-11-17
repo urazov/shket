@@ -314,15 +314,43 @@ class DBTeacher
 
     public function getPupilEntersInfo($parameters)
     {
-        $query =  "Select u.NAME as name, CONVERT(nvarchar, en.ddate, 104) as dt, CONVERT(nvarchar, en.ddate, 108) as tm, en.DIRECT as direct
-            from CS_SHKET.USR u
-            inner join CS_SHKET.ENT en on u.USR_ID = en.USR_ID
-            inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
-            where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
-              and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1 and uc.del <> 1
-              and exists ( select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
-                            and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)
-            order by en.ddate desc"; //todo FAIL
+        $query =  "Select ROW_NUMBER() over (order by u.name) as rn, u.NAME as name,
+(
+        select direct
+        from (
+                SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                from cs_shket.ent ent
+                where ent.usr_id = u.USR_ID
+                and ent.del <> 1
+        ) res
+        where res.num = 1
+) direct,
+(
+        select CONVERT(nvarchar, ddate, 104) as dt
+        from (
+                SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                from cs_shket.ent ent
+                where ent.usr_id = u.USR_ID
+                and ent.del <> 1
+        ) res
+        where res.num = 1
+) dt,
+(
+        select CONVERT(nvarchar, ddate, 108) as tm
+        from (
+                SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                from cs_shket.ent ent
+                where ent.usr_id = u.USR_ID
+                and ent.del <> 1
+        ) res
+        where res.num = 1
+) tm, u.usr_id
+    from CS_SHKET.USR u
+    inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
+    where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
+      and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1 and uc.del <> 1
+      and exists ( select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
+                    and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)";
 
         $result = DB::getInstance()->getAll($query, [
             $parameters['school_id'], $parameters['class_id'], $parameters['class_id'], $parameters['teacher_id']
