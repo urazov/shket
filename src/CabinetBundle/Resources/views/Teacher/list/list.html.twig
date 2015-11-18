@@ -73,5 +73,25 @@
                 }
             });
         });
+
+        $("body").on('click', '.bjt-action', function(){
+            var that = this;
+            var user_id = $(this).data('usr');
+            $.ajax({
+                url: '{{ path("teacher_change_bjt_flag") }}',
+                type: 'POST',
+                data: {
+                    user_id: user_id
+                },
+                success: function(data) {
+                    var new_class = 'marker-small-inactive';
+                    if(data == 1){
+                        new_class = 'marker-small'
+                    }
+                    $(that).removeClass('marker-small marker-small-inactive').addClass(new_class);
+                }
+            });
+        });
+
     });
 </script>

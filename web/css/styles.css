@@ -479,6 +479,14 @@ header .navbar-inverse .navbar-nav > li > a:focus{
     margin: auto;
 }
 
+.marker-small-inactive {
+    width: 14px;
+    height: 14px;
+    border-radius: 14px;
+    background-color: #ccc;
+    margin: auto;
+}
+
 .table-title {
     text-align: center;
     font-weight: bold;

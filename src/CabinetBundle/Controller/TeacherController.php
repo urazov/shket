@@ -372,4 +372,27 @@ class TeacherController extends Controller
             return new Response('Ошибка. Обратитесь к администратору');
         }
     }
+
+    public function changeBjtAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $parameters['user_id'] = $request->get('user_id');
+
+            $is_bjt = DBTeacher::getInstance()->changePupilBjt($parameters);
+
+            return new Response($is_bjt);
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response(0);
+        }
+    }
 }

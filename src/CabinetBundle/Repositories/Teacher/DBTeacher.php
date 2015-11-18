@@ -268,7 +268,8 @@ class DBTeacher
                         u.NAME as name,
                         u.is_bjt,
                         u.bill,
-                        u.pass
+                        u.pass,
+                        u.usr_id
                     from CS_SHKET.USR u
                     inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
                     where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
@@ -303,8 +304,9 @@ class DBTeacher
 
     public function updateInfo($parameters)
     {
-        $query = "update cs_shket.usr set name = ?, tlph = ?, email = ?, upd = 1 where usr_id = ?";
+        $query = "update cs_shket.usr mdate = ?, set name = ?, tlph = ?, email = ?, upd = 1 where usr_id = ?";
         DB::getInstance()->getFirst($query, [
+            date('Y-m-d H:i:s'),
             $parameters['name'],
             $parameters['phone'],
             $parameters['email'],
@@ -357,5 +359,26 @@ class DBTeacher
         ], PDO::FETCH_NUM);
 
         return $result;
+    }
+
+    public function changePupilBjt($parameters)
+    {
+        $query = "select IS_BJT from cs_shket.usr where usr_id = ?";
+        $result = DB::getInstance()->getFirst($query, [$parameters['user_id']]);
+
+        if($result['IS_BJT'] == 1){
+            $parameters['is_bjt'] = 0;
+        } else {
+            $parameters['is_bjt'] = 1;
+        }
+
+        $query = "update cs_shket.usr set mdate = ?, is_bjt = ?, upd = 1 where usr_id = ?";
+        DB::getInstance()->getFirst($query, [
+            date('Y-m-d H:i:s'),
+            $parameters['is_bjt'],
+            $parameters['user_id']
+        ]);
+
+        return $parameters['is_bjt'];
     }
 }

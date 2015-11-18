@@ -181,22 +181,24 @@ class DBPupil
 
     public function updateLimit($user_id, $new_limit)
     {
-        $query = "update cs_shket.usr set limit = ?, upd = 1 where usr_id = ?";
-        DB::getInstance()->getFirst($query, [$new_limit, $user_id]);
+        $query = "update cs_shket.usr set mdate = ?, limit = ?, upd = 1 where usr_id = ?";
+        DB::getInstance()->getFirst($query, [date('Y-m-d H:i:s'), $new_limit, $user_id]);
     }
 
     public function updateInfo($parameters)
     {
-        $query = "update cs_shket.usr set limit = ?, name = ?, new_trf_id = ?, upd = 1 where usr_id = ?";
+        $query = "update cs_shket.usr set mdate = ?, limit = ?, name = ?, new_trf_id = ?, upd = 1 where usr_id = ?";
         DB::getInstance()->getFirst($query, [
+            date('Y-m-d H:i:s'),
             $parameters['limit'],
             $parameters['pupil_name'],
             $parameters['tarif_id'],
             $parameters['user_id']
         ]);
 
-        $query = "update cs_shket.prt set name = ?, tlph = ?, email = ?, upd = 1 where prt_id = ?";
+        $query = "update cs_shket.prt set mdate = ?, name = ?, tlph = ?, email = ?, upd = 1 where prt_id = ?";
         DB::getInstance()->getFirst($query, [
+            date('Y-m-d H:i:s'),
             $parameters['parent_name'],
             $parameters['phone'],
             $parameters['email'],

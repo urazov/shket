@@ -76,6 +76,9 @@ teacher_update_photo:
 teacher_reports_bal:
   path: /cabinet/teacher/report/balance
   defaults: {_controller: CabinetBundle:Teacher:balance}
+teacher_change_bjt_flag:
+  path: /cabinet/teacher/action/bjt
+  defaults: {_controller: CabinetBundle:Teacher:changeBjt}
 
 pupil_reports_mainmenu:
   path: /cabinet/pupil/report/menu

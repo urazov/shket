@@ -13,7 +13,9 @@
             <td class='center'>{{ info[1] }}</td>
             <td class='center'>
                 {% if info[2] == 1 %}
-                    <div class='marker-small'></div>
+                    <div data-usr="{{ info[5] }}" class='marker-small bjt-action'></div>
+                {% else %}
+                    <div data-usr="{{ info[5] }}" class='marker-small-inactive bjt-action'></div>
                 {% endif %}
             </td>
             <td class='center'>{{ info[3] }}</td>
