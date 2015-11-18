@@ -663,7 +663,7 @@ class DBFood
                  from (
                 Select x.dt as dt
                  , x.NAME as name
-                 , x.cnt as cnt
+                 , SUM(x.cnt) over (partition by x.dt, x.cost, x.name) as cnt
                  , x.COST as price
                  , SUM(x.price_comm) over (partition by x.dt, x.cost, x.name) as sum_comm
                  , x.dtm_nf as dtm_nf
@@ -788,7 +788,6 @@ class DBFood
 
 
                 Select  y.dt as dt
-                  , y.cnt as cnt
                   , y.sum_compl as sum_compl
                   , y.sum_ind as sum_ind
                   , y.total_price as total_price
