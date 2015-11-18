@@ -304,7 +304,7 @@ class DBTeacher
 
     public function updateInfo($parameters)
     {
-        $query = "update cs_shket.usr mdate = ?, set name = ?, tlph = ?, email = ?, upd = 1 where usr_id = ?";
+        $query = "update cs_shket.usr set mdate = ?, name = ?, tlph = ?, email = ?, upd = 1 where usr_id = ?";
         DB::getInstance()->getFirst($query, [
             date('Y-m-d H:i:s'),
             $parameters['name'],
