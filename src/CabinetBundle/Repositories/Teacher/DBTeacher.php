@@ -146,32 +146,9 @@ class DBTeacher
     public function getConclusionByPeriod($parameters)
     {
         $query = "with x as (
-                Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
-                 , m.NAME
-                 , r.COST as price
-                 , (case
-                  when r.IS_BJT = 1 then 0
-                  else r.CNT
-                       end) as cnt_comm
-                 , (case
-                  when r.IS_BJT = 1 then 0
-                  else r.COST*r.CNT
-                       end) as price_comm
-                    , (case
-                  when r.IS_BJT = 1 then r.CNT
-                  else 0
-                    end) as cnt_bjt
-                    , (case
-                  when r.IS_BJT = 1 then r.COST_BJT*r.cnt
-                  else 0
-                       end) as add_price_bjt
-                 ,(case
-                  when r.IS_BJT = 1 then r.COST_BJT*r.CNT
-                  else r.COST*r.cnt
-                    end) as total_price
-                  , r.IS_BJT as is_bjt
-                  , m.IS_COMPLEX as is_complex
-                  , r.ADATE as dtm_nf
+                Select (case when r.IS_BJT = 1 then 0 else r.COST*r.CNT end) as price_comm
+                 , (case when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) as add_price_bjt
+                 , (case when r.IS_BJT = 1 then r.COST_BJT*r.CNT else r.COST*r.cnt end) as total_price
                  from CS_SHKET.RLS r
                  inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
                  inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
@@ -180,7 +157,8 @@ class DBTeacher
                  where r.ADATE between ? and ?
                    and uc.scl_id = ?
                    and (cls_id = ? or ? = -1)
-                   and exists ( select null from CS_SHKET.USER_IN_SCL_CLS where usr_id = ? and scl_id = uc.scl_id and cls_id = uc.cls_id)
+                   and r.is_cplx = 1
+                   and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
         )
         Select
             isnull(SUM(x.price_comm), 0) as sum_comm
@@ -192,7 +170,7 @@ class DBTeacher
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
         $result = DB::getInstance()->getAll($query, [
-            $date_from, $date_to, $parameters['school_id'], $parameters['class_id'], $parameters['class_id'], $parameters['user_id']
+            $date_from, $date_to, $parameters['school_id'], $parameters['class_id'], $parameters['class_id']
         ], PDO::FETCH_NUM);
 
         return $result;
@@ -230,6 +208,7 @@ class DBTeacher
                       and del <> 1
                       and ADATE >= ?
                       and ADATE < ?
+                      and is_cplx = 1
                       group by ADATE';
 
         $result = DB::getInstance()->getAll($query, [

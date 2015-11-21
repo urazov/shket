@@ -202,11 +202,10 @@ class FoodController extends Controller
                 $parameters['class_id'] = $class['cls_id'];
                 $select_result = DBFood::getInstance()->getFoodInfoByPeriod($parameters);
                 if(count($select_result) > 1){
-                    $food_info_by_period[] = DBFood::getInstance()->getFoodInfoByPeriod($parameters);
+                    $food_info_by_period[] = $select_result;
                     $result_class[] = $class;
                 }
             }
-            $parameters['class_id'] = $request->get('class_id');
             $conclusion_food_by_period = DBFood::getInstance()->getConclusionByPeriod($parameters);
 
             return $this->render('CabinetBundle:Food/pitanie:pitanie_report.html.twig', [

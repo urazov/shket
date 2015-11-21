@@ -312,29 +312,12 @@ class DBFood
             Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
              , m.NAME
              , r.COST as price
-             , (case
-              when r.IS_BJT = 1 then 0
-              else r.CNT
-                   end) as cnt_comm
-             , (case
-              when r.IS_BJT = 1 then 0
-              else r.COST*r.CNT
-                   end) as price_comm
-                , (case
-              when r.IS_BJT = 1 then r.CNT
-              else 0
-                end) as cnt_bjt
-                , (case
-              when r.IS_BJT = 1 then r.COST_BJT*r.cnt
-              else 0
-                   end) as add_price_bjt
-             ,(case
-              when r.IS_BJT = 1 then r.COST_BJT*r.CNT
-              else r.COST*r.cnt
-                end) as total_price
-              , r.IS_BJT as is_bjt
-              , m.IS_COMPLEX as is_complex
-              , r.ADATE as dtm_nf
+             , (case when r.IS_BJT = 1 then 0 else r.CNT end) as cnt_comm
+             , (case when r.IS_BJT = 1 then 0 else r.COST*r.CNT end) as price_comm
+             , (case when r.IS_BJT = 1 then r.CNT else 0 end) as cnt_bjt
+             , (case when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) as add_price_bjt
+             , (case when r.IS_BJT = 1 then r.COST_BJT*r.CNT else r.COST*r.cnt end) as total_price
+             , r.ADATE as dtm_nf
              from CS_SHKET.RLS r
              inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
              inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
@@ -344,7 +327,7 @@ class DBFood
                and uc.SCL_ID = ?
                and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
                and r.ADATE between ? and ?
-               and m.IS_COMPLEX = 1
+               and r.is_cplx = 1
         )
 
 
@@ -365,7 +348,6 @@ class DBFood
                       , SUM(x.cnt_bjt) over (partition by x.name, x.price, x.dt) as cnt_bjt
                       , SUM(x.add_price_bjt) over (partition by x.name, x.price, x.dt) as add_price_bjt
                       , SUM(x.total_price) over (partition by x.name, x.price, x.dt) as total_price
-                      , x.is_complex as is_complex
                       , x.dtm_nf as dtm_nf
                      from x
 
@@ -379,7 +361,6 @@ class DBFood
                       , isnull(SUM(x.cnt_bjt), 0) as cnt_bjt
                       , isnull(SUM(x.add_price_bjt), 0) as add_price_bjt
                       , isnull(SUM(x.total_price), 0) as total_price
-                      ,  0 as is_complex
                       , '2001-01-01' as dtm_nf
                      from x
 
@@ -403,29 +384,11 @@ class DBFood
                 Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
                  , m.NAME
                  , r.COST as price
-                 , (case
-                  when r.IS_BJT = 1 then 0
-                  else r.CNT
-                       end) as cnt_comm
-                 , (case
-                  when r.IS_BJT = 1 then 0
-                  else r.COST*r.CNT
-                       end) as price_comm
-                    , (case
-                  when r.IS_BJT = 1 then r.CNT
-                  else 0
-                    end) as cnt_bjt
-                    , (case
-                  when r.IS_BJT = 1 then r.COST_BJT*r.cnt
-                  else 0
-                       end) as add_price_bjt
-                 ,(case
-                  when r.IS_BJT = 1 then r.COST_BJT*r.CNT
-                  else r.COST*r.cnt
-                    end) as total_price
-                  , r.IS_BJT as is_bjt
-                  , m.IS_COMPLEX as is_complex
-                  , r.ADATE as dtm_nf
+                 , (case when r.IS_BJT = 1 then 0 else r.CNT end) as cnt_comm
+                 , (case when r.IS_BJT = 1 then 0 else r.COST*r.CNT end) as price_comm
+                 , (case when r.IS_BJT = 1 then r.CNT else 0 end) as cnt_bjt
+                 , (case when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) as add_price_bjt
+                 , (case when r.IS_BJT = 1 then r.COST_BJT*r.CNT else r.COST*r.cnt end) as total_price
                  from CS_SHKET.RLS r
                  inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
                  inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
@@ -433,8 +396,10 @@ class DBFood
                  inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID
                  where r.ADATE between ? and ?
                    and uc.scl_id = ?
-                   and (cls_id = ? or ? = -1)
+                   and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
+                   and r.is_cplx = 1
         )
+
         Select
             isnull(SUM(x.price_comm), 0) as sum_comm
           , isnull(SUM(x.add_price_bjt), 0) as add_price_bjt
@@ -445,7 +410,7 @@ class DBFood
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
 
         $result = DB::getInstance()->getAll($query, [
-            $date_from, $date_to, $parameters['school_id'], $parameters['class_id'], $parameters['class_id']
+            $date_from, $date_to, $parameters['school_id']
         ], PDO::FETCH_NUM);
 
         return $result;
@@ -496,60 +461,47 @@ class DBFood
         $query =
             "with x as (
                     Select convert(nvarchar, CAST(r.ddate as datetime), 104) as dt
-                        , r.COST
-                        , (case
-                            when r.IS_BJT = 1 then 0
-                            else r.CNT
-                            end) as cnt_comm
-                          , (case
-                            when r.IS_BJT = 1 then 0
-                            else r.COST*r.CNT
-                            end) as price_comm
-                          , (case
-                            when r.IS_BJT = 1 then r.CNT
-                            else 0
-                            end) as cnt_bjt
-                          , (case
-                            when r.IS_BJT = 1 then r.COST_BJT*r.cnt
-                            else 0
-                            end) as add_price_bjt
-                          ,(case
-                            when r.IS_BJT = 1 then r.COST_BJT*r.CNT
-                            else r.COST*r.cnt
-                            end) as total_price
+                      , r.COST
+                      , (case when r.IS_BJT = 1 then 0 else r.CNT end) as cnt_comm
+                      , (case when r.IS_BJT = 1 then 0 else r.COST*r.CNT end) as price_comm
+                      , (case when r.IS_BJT = 1 then r.CNT else 0 end) as cnt_bjt
+                      , (case when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) as add_price_bjt
+                      , (case when r.IS_BJT = 1 then r.COST_BJT*r.CNT else r.COST*r.cnt end) as total_price
                       , r.IS_BJT as is_bjt
                       , m.IS_COMPLEX as is_complex
-                      , cast(r.ddate as date) ddate, m.name
+                      , cast(r.ddate as date) ddate
+                      , m.name
                      from CS_SHKET.RLS r
                      inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
-                     inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID and m.IS_COMPLEX = 1
+                     inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
                      inner join CS_SHKET.USER_IN_SCL_CLS uc on r.USR_ID = uc.USR_ID
                      inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID
                      where r.ADATE between ? and ?
                        and uc.CLS_ID = ?
                        and uc.SCL_ID = ?
                        and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
+                       and r.is_cplx = 1
                        )
 
 
-                    Select  y.dt as dt
-                                    , y.name
-                            , y.price as price
-                            , y.cnt_comm as cnt_comm
-                            , y.sum_comm as sum_comm
-                            , y.cnt_bjt as cnt_bjt
-                            , y.add_price_bjt as add_price_bjt
-                            , y.total_price as total_price
+                    Select y.dt as dt
+                           , upper(substring(y.name, 1, 1)) + lower(substring(y.name, 2, LEN(y.name))) as name
+                           , y.price as price
+                           , y.cnt_comm as cnt_comm
+                           , y.sum_comm as sum_comm
+                           , y.cnt_bjt as cnt_bjt
+                           , y.add_price_bjt as add_price_bjt
+                           , y.total_price as total_price
                         from (
                     Select x.dt as dt
-                            , x.name
+                        , x.name
                         , x.COST as price
                         , SUM(x.cnt_comm) over (partition by x.dt, x.cost) as cnt_comm
                           , SUM(x.price_comm) over (partition by x.dt, x.cost) as sum_comm
                           , SUM(x.cnt_bjt) over (partition by x.dt, x.cost) as cnt_bjt
                           , SUM(x.add_price_bjt) over (partition by x.dt, x.cost) as add_price_bjt
                           , SUM(x.total_price) over (partition by x.dt, x.cost) as total_price
-                              , ddate
+                          , ddate
                      from x
 
                     UNION
@@ -580,44 +532,25 @@ class DBFood
     public function getConclusionFirstByPeriod($parameters)
     {
         $query = "with x as (
-            Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
-             , m.NAME as name
-             , r.COST
-             , (case
-              when r.IS_BJT = 1 then 0
-              else r.CNT
-              end) as cnt_comm
-               , (case
-              when r.IS_BJT = 1 then 0
-              else r.COST*r.CNT
-              end) as price_comm
-               , (case
-              when r.IS_BJT = 1 then r.CNT
-              else 0
-              end) as cnt_bjt
-               , (case
-              when r.IS_BJT = 1 then r.COST_BJT*r.cnt
-              else 0
-              end) as add_price_bjt
-               ,(case
-              when r.IS_BJT = 1 then r.COST_BJT*r.CNT
-              else r.COST*r.cnt
-              end) as total_price
-              , r.IS_BJT as is_bjt
-              , m.IS_COMPLEX as is_complex
-              , r.ADATE as dtm_nf
+            Select (case when r.IS_BJT = 1 then 0 else r.CNT end) as cnt_comm
+             , (case when r.IS_BJT = 1 then 0 else r.COST*r.CNT end) as price_comm
+             , (case when r.IS_BJT = 1 then r.CNT else 0 end) as cnt_bjt
+             , (case when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) as add_price_bjt
+             , (case when r.IS_BJT = 1 then r.COST_BJT*r.CNT else r.COST*r.cnt end) as total_price
              from CS_SHKET.RLS r
              inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
-             inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID and m.IS_COMPLEX = 1
+             inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
              where r.ADATE between ? and ?
                and r.SCL_ID = ?
-               )
+               and r.del <> 1 and dm.del <> 1 and m.del <> 1
+               and r.is_cplx = 1
+           )
 
             Select distinct
                 isnull(SUM(x.price_comm), 0) as sum_comm
               , isnull(SUM(x.add_price_bjt), 0) as add_price_bjt
               , isnull(SUM(x.total_price), 0) as total_price
-             from x " ;
+             from x" ;
 
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
@@ -637,21 +570,19 @@ class DBFood
                  , m.NAME
                  , r.cnt
                  , r.COST
-                   , (case
-                  when r.IS_BJT = 1 then 0
-                  else r.COST*r.CNT
-                  end) as price_comm
-                  , r.IS_BJT as is_bjt
-                  , m.IS_COMPLEX as is_complex
-                  , r.ADATE as dtm_nf
+                 , (case when r.IS_BJT = 1 then 0 else r.COST*r.CNT end) as price_comm
+                 , r.IS_BJT as is_bjt
+                 , m.IS_COMPLEX as is_complex
+                 , r.ADATE as dtm_nf
                  from CS_SHKET.RLS r
                  inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
-                 inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID and m.IS_COMPLEX = 0
+                 inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
                  inner join CS_SHKET.USER_IN_SCL_CLS uc on r.USR_ID = uc.USR_ID
                  inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID
                  where r.ADATE between ? and ?
                    and uc.SCL_ID = ?
                    and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
+                   and r.is_cplx = 0
                    )
 
 
@@ -662,9 +593,9 @@ class DBFood
                   , y.sum_comm as sum_comm
                  from (
                 Select x.dt as dt
-                 , x.NAME as name
+                 , x.name as name
                  , SUM(x.cnt) over (partition by x.dt, x.cost, x.name) as cnt
-                 , x.COST as price
+                 , x.cost as price
                  , SUM(x.price_comm) over (partition by x.dt, x.cost, x.name) as sum_comm
                  , x.dtm_nf as dtm_nf
                  from x
@@ -693,24 +624,15 @@ class DBFood
 
     public function getConclusionSecondByPeriod($parameters)
     {
-        $query = " with x as (
-            Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
-             , m.NAME
-             , r.cnt
-             , r.COST
-               , (case
-              when r.IS_BJT = 1 then 0
-              else r.COST*r.CNT
-              end) as price_comm
-              , r.IS_BJT as is_bjt
-              , m.IS_COMPLEX as is_complex
-              , r.ADATE as dtm_nf
+        $query = "with x as (
+            Select (case when r.IS_BJT = 1 then 0 else r.COST*r.CNT end) as price_comm
              from CS_SHKET.RLS r
              inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
-             inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID and m.IS_COMPLEX = 0
+             inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
              where r.ADATE between ? and ?
                and r.SCL_ID = ?
-               )
+               and r.is_cplx = 0
+            )
 
             Select distinct  isnull(SUM(x.price_comm), 0) as sum_comm
              from x" ;
@@ -740,52 +662,22 @@ class DBFood
         $query =
             "with x as (
                 Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
-                  , (case
-                  when m.IS_COMPLEX = 0 then 0
-                  else r.CNT
-                     end) as cnt_compl
-                  , (case
-                  when m.IS_COMPLEX = 0 then 0
-                  else (case
-                    when r.IS_BJT = 0
-                    then r.COST*r.CNT
-                    when r.IS_BJT = 0
-                    then r.COST_BJT*r.cnt
-                    else 0
-                     end)
-                     end) as price_compl
-                  , (case
-                  when m.IS_COMPLEX = 0 then r.CNT
-                  else 0
-                     end) as cnt_ind
-                  , (case
-                  when m.IS_COMPLEX = 1 then 0
-                  else (case
-                    when r.IS_BJT = 0
-                    then r.COST*r.CNT
-                    when r.IS_BJT = 0
-                    then r.COST_BJT*r.cnt
-                    else 0
-                     end)
-                     end) as price_ind
-                  ,(case
-                  when r.IS_BJT = 1 then r.COST_BJT*r.CNT
-                  else r.COST*r.cnt
-                     end) as total_price
-                  , r.IS_BJT as is_bjt
-                  , m.IS_COMPLEX as is_complex
+                  , (case when r.is_cplx = 0 then 0 else r.CNT end) as cnt_compl
+                  , (case when r.is_cplx = 0 then 0 else (case when r.IS_BJT = 0 then r.COST*r.CNT when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) end) as price_compl
+                  , (case when r.is_cplx = 0 then r.CNT else 0 end) as cnt_ind
+                  , (case when r.is_cplx = 1 then 0 else (case when r.IS_BJT = 0 then r.COST*r.CNT when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) end) as price_ind
+                  , (case when r.IS_BJT = 1 then r.COST_BJT*r.CNT else r.COST*r.cnt end) as total_price
                   , r.ADATE as dtm_nf
                  from CS_SHKET.RLS r
                  inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
                  inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
                  inner join CS_SHKET.USER_IN_SCL_CLS uc on r.USR_ID = uc.USR_ID
-                 inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID and u.ROLE_ID = 1
+                 inner join CS_SHKET.USR u on r.USR_ID = u.USR_ID
                  where r.ADATE between ? and ?
                    and uc.CLS_ID = ?
                    and uc.SCL_ID = ?
                    and r.del <> 1 and dm.del <> 1 and m.del <> 1 and uc.del<> 1 and u.del <> 1
                    )
-
 
                 Select  y.dt as dt
                   , y.sum_compl as sum_compl
@@ -793,7 +685,6 @@ class DBFood
                   , y.total_price as total_price
                  from (
                 Select distinct x.dt
-                  , SUM(x.cnt_compl) over (partition by x.dt) +  SUM(x.cnt_ind) over (partition by x.dt) as cnt
                   , SUM(x.price_compl) over (partition by x.dt) as sum_compl
                   , SUM(x.price_ind) over (partition by x.dt) as sum_ind
                   , SUM(x.total_price) over (partition by x.dt) as total_price
@@ -803,14 +694,13 @@ class DBFood
                 UNION
 
                 Select distinct 'TOTAL:' as dt
-                  , isnull(SUM(x.cnt_compl), 0) + isnull(SUM(x.cnt_ind), 0) as cnt
                   , isnull(SUM(x.price_compl), 0) as sum_compl
                   , isnull(SUM(x.price_ind), 0) as sum_ind
                   , isnull(SUM(x.total_price), 0) as total_price
                   , GETDATE() as dtm_nf
                  from x
                  ) y
-                 order by y.dtm_nf, y.cnt";
+                 order by y.dtm_nf";
 
         $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
         $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
@@ -824,49 +714,17 @@ class DBFood
 
     public function getConclusionThirdByPeriod($parameters)
     {
-        $query = " with x as (
-            Select convert(nvarchar, CAST(r.adate as datetime), 104) as dt
-              , (case
-              when m.IS_COMPLEX = 0 then 0
-              else r.CNT
-                 end) as cnt_compl
-              , (case
-              when m.IS_COMPLEX = 0 then 0
-              else (case
-                when r.IS_BJT = 0
-                then r.COST*r.CNT
-                when r.IS_BJT = 0
-                then r.COST_BJT*r.cnt
-                else 0
-                 end)
-                 end) as price_compl
-              , (case
-              when m.IS_COMPLEX = 0 then r.CNT
-              else 0
-                 end) as cnt_ind
-              , (case
-              when m.IS_COMPLEX = 1 then 0
-              else (case
-                when r.IS_BJT = 0
-                then r.COST*r.CNT
-                when r.IS_BJT = 0
-                then r.COST_BJT*r.cnt
-                else 0
-                 end)
-                 end) as price_ind
-              ,(case
-              when r.IS_BJT = 1 then r.COST_BJT*r.CNT
-              else r.COST*r.cnt
-                 end) as total_price
-              , r.IS_BJT as is_bjt
-              , m.IS_COMPLEX as is_complex
-              , r.ADATE as dtm_nf
+        $query = "with x as (
+            Select (case when r.is_cplx = 0 then 0 else (case when r.IS_BJT = 0 then r.COST*r.CNT when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) end) as price_compl
+              , (case when r.is_cplx = 1 then 0 else (case when r.IS_BJT = 0 then r.COST*r.CNT when r.IS_BJT = 1 then r.COST_BJT*r.cnt else 0 end) end) as price_ind
+              , (case when r.IS_BJT = 1 then r.COST_BJT*r.CNT else r.COST*r.cnt end) as total_price
              from CS_SHKET.RLS r
              inner join CS_SHKET.DMEAL dm on dm.MEAL_ID = r.MEAL_ID and r.ADATE = dm.ADATE and dm.MAIN_MEAL_ID = 0
              inner join CS_SHKET.MEAL m on m.MEAL_ID = dm.MEAL_ID
              where r.ADATE between ? and ?
                and r.scl_id = ?
-               )
+               and r.del <> 1 and dm.del <> 1 and m.del <> 1
+          )
             Select
                 isnull(SUM(x.price_compl), 0) as sum_compl
               , isnull(SUM(x.price_ind), 0) as sum_ind
