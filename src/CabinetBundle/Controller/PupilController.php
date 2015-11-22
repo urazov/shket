@@ -75,6 +75,7 @@ class PupilController extends Controller
             $template_parameters['phone'] = $user->getPhone();
             $template_parameters['email'] = $user->getEmail();
             $template_parameters['trf_name'] = $result[0]['NAME'];
+            $template_parameters['trf_id'] = $result[0]['TRF_ID'];
             $template_parameters['trf_cost'] = $result[0]['COST'];
             $template_parameters['trf_bal'] = $result[0]['inf_bal'];
             $template_parameters['parent_id'] = $user->getParentId();

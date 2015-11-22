@@ -17,7 +17,10 @@
     </div>
     <div class="col-xs-4" style="margin-top: 15px; margin-bottom: 15px;">
         <div class="tariff-info">
-            <p class="item"><strong>Тарифный план:</strong> <span id="trfName">{{ trf_name }}</span></p>
+            <p class="item">
+                <strong>Тарифный план:</strong> <span id="trfName">{{ trf_name }}</span>
+                <input type="hidden" id="trfId" value="{{ trf_id }}">
+            </p>
             <p class="item"><strong>Стоимость:</strong> {{ trf_cost }} р./месяц</p>
 
             {% if trf_bal == 1  %}
@@ -161,6 +164,7 @@
 
         $('#btnEditUser').click(function(e){
             e.preventDefault();
+            var changeTarifFlag = false;
             var Errors = $('#editUserErrors');
             var Button = $(this);
             Button.html('Сохранить');
@@ -172,6 +176,11 @@
             var newPhone = $('#editUserPhone').val().trim();
             var newEmail = $('#editUserEmail').val().trim();
             var newTrfId = $('#tarifCombobox').combobox('selectedItem').value;
+            var oldTrfId = $('#trfId').val().trim();
+
+            if(oldTrfId != newTrfId){
+                changeTarifFlag = true;
+            }
 
             if (newLimit.match(/[^0-9]/g)){
                 Errors.html('Не верно указано значение лимита!');
@@ -216,7 +225,14 @@
                             $('#linkLimit').text("не установлен");
                         else
                             $('#linkLimit').text(newLimit);
-                        $('#modalEditUser').modal('hide');
+                        if(changeTarifFlag){
+                            Errors.html('Новый тариф будет применён с 1го числа следующего месяца');
+                            setTimeout(function(){
+                                $('#modalEditUser').modal('hide');
+                            }, 7000);
+                        } else {
+                            $('#modalEditUser').modal('hide');
+                        }
                     }else
                         Errors.html('Ошибка сохранения значения в базе данных. Обратитесь к администратору');
                 },
