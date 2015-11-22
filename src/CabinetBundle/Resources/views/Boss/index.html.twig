@@ -1,0 +1,95 @@
+{% extends 'base_cabinet.html.twig' %}
+
+{% block user_information %}
+    {{ render(controller('CabinetBundle:Boss:userInformation')) }}
+{% endblock %}
+
+{% block main_menu %}
+    <ul class="level-one">
+        <li class="active"><a href="#" data-block="1">Питание</a></li>
+        <li><a href="#" data-block="2">Вход-выход</a></li>
+        <li><a href="#" data-block="3">Дополнительное образование</a></li>
+        <li><a href="#" data-block="4">Фонд школы</a></li>
+        <li><a href="#" data-block="5">Списки классов/групп</a></li>
+        <li><a href="#" data-block="6">Баланс лицевых счетов</a></li>
+        <li><a href="#" data-block="7">Справочник тарифов</a></li>
+    </ul>
+{% endblock %}
+
+{% block menu %}
+    <ul class="level-two">
+        <li data-block="1" class="active">
+            <div data-panel="menu_for_cnt" id="tab_pitanie" class="level-two-item active">
+                Меню
+            </div>
+            <div data-panel="zakaz" id="tab_pitanie" class="level-two-item">
+                ЗАКАЗЫ питания по классам/группам
+            </div>
+            <div data-panel="pitanie" id="tab_pitanie" class="level-two-item">
+                ПИТАНИЕ по классам/группам
+            </div>
+            <div data-panel="rep-kp" id="tab_pitanie" class="level-two-item">
+                ОТЧЕТЫ по питанию для КП
+            </div>
+            <div data-panel="rep-base" id="tab_pitanie" class="level-two-item">
+                ОТЧЕТЫ по основе питания
+            </div>
+            <div data-panel="rep-tabel" id="tab_pitanie" class="level-two-item">
+                ТАБЕЛЬ/ВЕДОМОСТЬ по бесплатному питанию
+            </div>
+            <div data-panel="rep-reestr" id="tab_pitanie" class="level-two-item">
+                РЕЕСТР СПРАВОК
+            </div>
+        </li>
+
+        <li data-block="2">
+            <div data-panel="ent-pupil" id="tab_pitanie" class="level-two-item">
+                ДАННЫЕ  ТУРНИКЕТА по обучающимся
+            </div>
+            <div data-panel="ent-staff" id="tab_pitanie" class="level-two-item">
+                ДАННЫЕ  ТУРНИКЕТА по сотрудникам
+            </div>
+            <div data-panel="ent-teacher" id="tab_pitanie" class="level-two-item">
+                ДАННЫЕ  ТУРНИКЕТА по классным руководителям
+            </div>
+        </li>
+
+        <li data-block="3">
+            <div data-panel="rep-pupil" id="tab_pitanie" class="level-two-item">
+                Отчет по обучающимся
+            </div>
+            <div data-panel="rep-uslugi" id="tab_pitanie" class="level-two-item">
+                Отчет по услугам
+            </div>
+        </li>
+
+        <li data-block="4">
+            <div data-panel="bill-fond" id="tab_pitanie" class="level-two-item">
+                Счета на оплату в фонд школы
+            </div>
+            <div data-panel="bill-school" id="tab_pitanie" class="level-two-item">
+                Отчеты по расходованию средств фонда школы
+            </div>
+        </li>
+
+        <li data-block="5">
+            <div data-panel="list-class" id="tab_pitanie" class="level-two-item">
+                СПИСКИ обучающихся по классам/группам
+            </div>
+            <div data-panel="list-teacher" id="tab_pitanie" class="level-two-item">
+                СПИСКИ классных руководителей/кураторов
+            </div>
+            <div data-panel="list-staff" id="tab_pitanie" class="level-two-item">
+                СПИСКИ сотрудников
+            </div>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block reports %}
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active user-form" id="menu_for_cnt">
+            {% include 'CabinetBundle:Boss/menu:mainmenu.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
