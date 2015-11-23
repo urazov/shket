@@ -191,7 +191,8 @@ class DBTeacher
                         where iuc.usr_id = ?
                             and iuc.scl_id = uc.scl_id
                             and iuc.cls_id = uc.cls_id
-                    )';
+                    )
+                    order by u.name asc';
 
         $result = DB::getInstance()->getAll($query, [
             $parameters['class_id'], $parameters['class_id'], $parameters['school_id'], $parameters['teacher_id']
