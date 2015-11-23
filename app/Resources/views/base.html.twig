@@ -186,6 +186,25 @@
                 </div>
             </footer>
 
+            <!-- mail was sent -->
+            <div class="modal custom" id="modalMailSent" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-content-inner">
+                            <div class="modal-header">
+                            </div>
+                            <div class="modal-body">
+                                <h4 style="text-align: center;" class="modal-title">Сообщение отправлено</h4>
+                                <div id="msgErrors" class="modal-errors">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- MAIL OVERLAY -->
             <div class="modal custom" id="modalMailto" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
@@ -304,9 +323,13 @@
                 type: 'POST',
                 data: {fio : FIO, phone : Phone, email: Email, msg : Message },
                 success: function(data) {
-                    Button.html(data);
                     $('#modalMessage').modal('hide');
                     $('#modalMailto').modal('hide');
+                    $('#modalMailSent').modal({show : true});
+                    setTimeout(function(){
+                        $('#modalMailSent').modal('hide');
+                    }, 3000);
+                    Button.html(data);
                 }
             })
         });
