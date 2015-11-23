@@ -303,6 +303,7 @@ class DBTeacher
                 SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
                 from cs_shket.ent ent
                 where ent.usr_id = u.USR_ID
+                and ent.ddate between ? and ?
                 and ent.del <> 1
         ) res
         where res.num = 1
@@ -313,6 +314,7 @@ class DBTeacher
                 SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
                 from cs_shket.ent ent
                 where ent.usr_id = u.USR_ID
+                and ent.ddate between ? and ?
                 and ent.del <> 1
         ) res
         where res.num = 1
@@ -323,6 +325,7 @@ class DBTeacher
                 SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
                 from cs_shket.ent ent
                 where ent.usr_id = u.USR_ID
+                and ent.ddate between ? and ?
                 and ent.del <> 1
         ) res
         where res.num = 1
@@ -334,7 +337,13 @@ class DBTeacher
       and exists ( select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
                     and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)";
 
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
         $result = DB::getInstance()->getAll($query, [
+            $date_from, $date_to,
+            $date_from, $date_to,
+            $date_from, $date_to,
             $parameters['school_id'], $parameters['class_id'], $parameters['class_id'], $parameters['teacher_id']
         ], PDO::FETCH_NUM);
 

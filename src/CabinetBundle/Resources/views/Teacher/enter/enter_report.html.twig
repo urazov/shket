@@ -12,7 +12,7 @@
             {% for str in result %}
                 <tr>
                     <td class='center'>{{ str[0] }}</td>
-                    <td>{{ str[1] }}</td>
+                    <td data-user_id="{{ str[5] }}" class="show_pupil_enter_history" style="cursor: pointer">{{ str[1] }}</td>
                     <td class='center'>{{ str[3] }}</td>
                     <td class='center'>{{ str[4] }}</td>
                     <td class='center'>{{ str[2] }}</td>
