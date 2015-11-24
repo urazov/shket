@@ -23,13 +23,19 @@
                 Меню
             </div>
             <div data-panel="zakaz" id="tab_pitanie" class="level-two-item">
-                ЗАКАЗЫ питания по классам/группам
+                Заказы питания по классам/группам
             </div>
             <div data-panel="pitanie" id="tab_pitanie" class="level-two-item">
-                ПИТАНИЕ по классам/группам
+                Питание по классам/группам
             </div>
             <div data-panel="rep-kp" id="tab_pitanie" class="level-two-item">
-                ОТЧЕТЫ по питанию для КП
+                Отчет по комплексному питанию
+            </div>
+            <div data-panel="rep-ind" id="tab_pitanie" class="level-two-item">
+                Отчет по индивидуальному питанию
+            </div>
+            <div data-panel="rep-comm" id="tab_pitanie" class="level-two-item">
+                Общий отчет для КП
             </div>
             <div data-panel="rep-base" id="tab_pitanie" class="level-two-item">
                 ОТЧЕТЫ по основе питания
@@ -103,13 +109,20 @@
         <div role="tabpanel" class="tab-pane active user-form" id="menu_for_cnt">
             {% include 'CabinetBundle:Boss/menu:mainmenu.html.twig' %}
         </div>
-
         <div role="tabpanel" class="tab-pane user-form" id="zakaz">
             {% include 'CabinetBundle:Boss/zakaz:zakaz.html.twig' %}
         </div>
-
         <div role="tabpanel" class="tab-pane user-form" id="pitanie">
             {% include 'CabinetBundle:Boss/pitanie:pitanie.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="rep-kp">
+            {% include 'CabinetBundle:Boss/rep1:rep_pit_1.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="rep-ind">
+            {% include 'CabinetBundle:Boss/rep2:rep_pit_2.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="rep-comm">
+            {% include 'CabinetBundle:Boss/rep3:rep_pit_3.html.twig' %}
         </div>
     </div>
 {% endblock %}

@@ -114,3 +114,12 @@ boss_pitanie_classes:
 boss_reports_pitanie:
   path: /cabinet/boss/report/pitanie
   defaults: {_controller: CabinetBundle:Food:pitanie}
+boss_rep_rep_1:
+  path: /cabinet/boss/report/pit/first
+  defaults: {_controller: CabinetBundle:Food:first}
+boss_rep_rep_2:
+  path: /cabinet/boss/report/pit/second
+  defaults: {_controller: CabinetBundle:Food:second}
+boss_rep_rep_3:
+  path: /cabinet/boss/report/pit/third
+  defaults: {_controller: CabinetBundle:Food:third}
