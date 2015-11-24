@@ -27,6 +27,7 @@ class BossController extends Controller
                 'mail_name' => $user->getFullName(),
                 'mail_phone' => $user->getPhone(),
                 'mail_email' => $user->getEmail(),
+                'school' => $result,
             ];
 
             return $this->render('CabinetBundle:Boss:index.html.twig', $parameters);

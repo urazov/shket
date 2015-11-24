@@ -104,3 +104,13 @@ pupil_update_information:
 pupil_update_photo:
   path: /cabinet/pupil/update/image
   defaults: {_controller: CabinetBundle:Cabinet:updateImage}
+
+boss_reports_mainmenu:
+  path: /cabinet/boss/report/mainmenu
+  defaults: {_controller: CabinetBundle:Food:mainmenu}
+boss_pitanie_classes:
+  path: /cabinet/boss/report/classes
+  defaults: {_controller: CabinetBundle:Food:classes}
+boss_reports_pitanie:
+  path: /cabinet/boss/report/pitanie
+  defaults: {_controller: CabinetBundle:Food:pitanie}

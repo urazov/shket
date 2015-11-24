@@ -83,6 +83,18 @@
                 СПИСКИ сотрудников
             </div>
         </li>
+
+        <li data-block="6">
+            <div data-panel="balance-accounts" id="tab_pitanie" class="level-two-item">
+                Баланс лицевых счетов
+            </div>
+        </li>
+
+        <li data-block="7">
+            <div data-panel="list-tarifs" id="tab_pitanie" class="level-two-item">
+                Справочник тарифов
+            </div>
+        </li>
     </ul>
 {% endblock %}
 
@@ -90,6 +102,14 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active user-form" id="menu_for_cnt">
             {% include 'CabinetBundle:Boss/menu:mainmenu.html.twig' %}
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="zakaz">
+            {% include 'CabinetBundle:Boss/zakaz:zakaz.html.twig' %}
+        </div>
+
+        <div role="tabpanel" class="tab-pane user-form" id="pitanie">
+            {% include 'CabinetBundle:Boss/pitanie:pitanie.html.twig' %}
         </div>
     </div>
 {% endblock %}
