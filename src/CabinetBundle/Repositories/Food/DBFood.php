@@ -438,7 +438,7 @@ class DBFood
                     select null
                     from CS_SHKET.USER_IN_SCL_CLS uc
                     inner join CS_SHKET.RLS r on r.USR_ID = uc.USR_ID
-                    inner join CS_SHKET.MEAL m on m.MEAL_ID = r.MEAL_ID and m.IS_COMPLEX = 1
+                    inner join CS_SHKET.MEAL m on m.MEAL_ID = r.MEAL_ID
                     where uc.SCL_ID = c.SCL_ID
                       and uc.CLS_ID = c.CLS_ID
                       and r.ADATE between ? and ?
