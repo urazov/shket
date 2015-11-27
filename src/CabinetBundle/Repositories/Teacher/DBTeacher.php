@@ -273,7 +273,9 @@ class DBTeacher
                     where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
                       and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1 and uc.del <> 1
                       and exists ( select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
-                                    and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)";
+                                    and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)
+                    order by u.NAME
+                    ";
 
         $result = DB::getInstance()->getAll($query, [
             $parameters['school_id'], $parameters['class_id'], $parameters['class_id'], $parameters['teacher_id']
