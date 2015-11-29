@@ -517,7 +517,7 @@ header .navbar-inverse .navbar-nav > li > a:focus{
 .tabel.table.table-simple>tfoot>tr>th,
 .tabel.table.table-simple>thead>tr>td,
 .tabel.table.table-simple>thead>tr>th {
-    padding: 5px;
+    padding: 4px;
 }
 .table-simple thead th {
     font-size: 16px;
