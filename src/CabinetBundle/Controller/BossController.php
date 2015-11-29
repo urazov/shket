@@ -153,7 +153,8 @@ class BossController extends Controller
             ]);
 
         } catch (Exception $e){
-
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
         }
     }
 }
