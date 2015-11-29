@@ -12,7 +12,6 @@
         <li><a href="#" data-block="4">Фонд школы</a></li>
         <li><a href="#" data-block="5">Списки классов/групп</a></li>
         <li><a href="#" data-block="6">Баланс лицевых счетов</a></li>
-        <li><a href="#" data-block="7">Справочник тарифов</a></li>
     </ul>
 {% endblock %}
 
@@ -37,14 +36,23 @@
             <div data-panel="rep-comm" id="tab_pitanie" class="level-two-item">
                 Общий отчет для КП
             </div>
-            <div data-panel="rep-base" id="tab_pitanie" class="level-two-item">
-                ОТЧЕТЫ по основе питания
+            <div data-panel="rep-tabel-cat" id="tab_pitanie" class="level-two-item">
+                Табель учета бесплатного питания
             </div>
-            <div data-panel="rep-tabel" id="tab_pitanie" class="level-two-item">
-                ТАБЕЛЬ/ВЕДОМОСТЬ по бесплатному питанию
-            </div>
+            {#<div data-panel="rep-tabel-ved" id="tab_pitanie" class="level-two-item">
+                Ведомость по предоставлению бесплатного питания
+            </div>#}
             <div data-panel="rep-reestr" id="tab_pitanie" class="level-two-item">
-                РЕЕСТР СПРАВОК
+                Реестр справок
+            </div>
+            <div data-panel="rep-count-dinner" id="tab_pitanie" class="level-two-item">
+                Отчет по количеству обедов
+            </div>
+            <div data-panel="rep-fio-dinner" id="tab_pitanie" class="level-two-item">
+                Отчет по ФИО учащихся
+            </div>
+            <div data-panel="rep-tabel-class" id="tab_pitanie" class="level-two-item">
+                Табель по классам/группам
             </div>
         </li>
 
@@ -95,18 +103,12 @@
                 Баланс лицевых счетов
             </div>
         </li>
-
-        <li data-block="7">
-            <div data-panel="list-tarifs" id="tab_pitanie" class="level-two-item">
-                Справочник тарифов
-            </div>
-        </li>
     </ul>
 {% endblock %}
 
 {% block reports %}
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active user-form" id="menu_for_cnt">
+        <div role="tabpanel" class="tab-pane user-form active" id="menu_for_cnt">
             {% include 'CabinetBundle:Boss/menu:mainmenu.html.twig' %}
         </div>
         <div role="tabpanel" class="tab-pane user-form" id="zakaz">
@@ -123,6 +125,15 @@
         </div>
         <div role="tabpanel" class="tab-pane user-form" id="rep-comm">
             {% include 'CabinetBundle:Boss/rep3:rep_pit_3.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="rep-tabel-cat">
+            {% include 'CabinetBundle:Boss/rep_tabel_cat:rep_tabel_cat.html.twig' %}
+        </div>
+        {#<div role="tabpanel" class="tab-pane user-form" id="rep-tabel-ved">
+            {% include 'CabinetBundle:Boss/rep_tabel_ved:rep_tabel_ved.html.twig' %}
+        </div>#}
+        <div role="tabpanel" class="tab-pane user-form" id="rep-reestr">
+            {% include 'CabinetBundle:Boss/rep_reestr:rep_reestr.html.twig' %}
         </div>
     </div>
 {% endblock %}

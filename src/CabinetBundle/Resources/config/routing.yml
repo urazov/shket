@@ -123,3 +123,6 @@ boss_rep_rep_2:
 boss_rep_rep_3:
   path: /cabinet/boss/report/pit/third
   defaults: {_controller: CabinetBundle:Food:third}
+boss_reports_tabel:
+  path: /cabinet/boss/report/pit/tabel
+  defaults: {_controller: CabinetBundle:Boss:tabel}
