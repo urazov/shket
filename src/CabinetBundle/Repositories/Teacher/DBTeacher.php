@@ -335,7 +335,7 @@ class DBTeacher
     from CS_SHKET.USR u
     inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
     where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
-      and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1 and uc.del <> 1
+      and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1
       and exists ( select null from cs_shket.USER_IN_SCL_CLS iuc where iuc.usr_id = ?
                     and iuc.scl_id = uc.scl_id and iuc.cls_id = uc.cls_id and iuc.del <> 1)";
 

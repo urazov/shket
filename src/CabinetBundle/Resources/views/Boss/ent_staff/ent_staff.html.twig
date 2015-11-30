@@ -1,0 +1,108 @@
+{% set combobox_school_id = "select_school_ent_staff" %}
+{% set combobox_classes_id = "select_class_ent_staff" %}
+{% set date_id = "selected_date_ent_staff" %}
+{% set date_to_id = "selected_date_to_ent_staff" %}
+{% set result_id = "result_ent_staff" %}
+{% set show_date_id = "show_date_ent_staff" %}
+{% set button_id = "btn_show_ent_staff" %}
+{% set print_id = "print_container_ent_staff" %}
+{% set ul_school_id = "result_school_ent_staff" %}
+{% set ul_classes_id = "result_classes_ent_staff" %}
+{% set selected_class = "selected_class_ent_staff" %}
+{% set default_text_class = "Укажите класс" %}
+{% set default_text_school = "Укажите учреждение" %}
+{% set modalUserEnterHistory = "modal_user_ent_history_ent_staff" %}
+{% set resultUserEnterHistory = "result_user_ent_history_ent_staff" %}
+
+<form class="form-horizontal filters">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Период:</label>
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ last_date }}" id="{{ date_id }}"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
+        <div class='col-xs-3 input-group date datepicker' style="width: 170px; float: left;">
+            <input type='text' class="form-control" value="{{ current_date }}" id="{{ date_to_id }}"/>
+            <span class="input-group-addon">
+                <img src="{{ asset('img/iconCalendar.png') }}" />
+            </span>
+        </div>
+        <div class="col-xs-5" style="float: right;">
+            <a href="#" class = "printStyle" print_table_id='{{ print_id }}'>
+                Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-4" style="float: right;">
+            <button id="{{ button_id }}" class="btn dialog" style="float: right;">Отобразить данные</button>
+        </div>
+    </div>
+</form>
+
+<div id='{{ print_id }}'>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12" id="{{ result_id }}"></div>
+    </div>
+</div>
+
+<div class="modal big" id="{{ modalUserEnterHistory }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-content-inner">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">История ученика</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="{{ resultUserEnterHistory }}">
+                    </div>
+                    <div id="editUserErrors" class="modal-errors">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#{{ button_id }}').click(function(e){
+            e.preventDefault();
+            $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
+            $.ajax({
+                url: '{{ path("boss_rep_ent_staff") }}',
+                type: 'POST',
+                data: {
+                    date_from: $('#{{ date_id }}').val(),
+                    date_to: $('#{{ date_to_id }}').val()
+                },
+                success: function(data) {
+                    $("#{{ result_id }}").html(data);
+                }
+            });
+        });
+
+        $(document).on('click', '.show_boss_enter_staff_detail', function(){
+            var text = '<div>' + $(this).text() + '</div>' +
+                    '<div>с ' + $('#{{ date_id }}').val() + ' по ' + $('#{{ date_to_id }}').val();
+            $("#{{ modalUserEnterHistory }}").find('.modal-title').html(text);
+            $.ajax({
+                url: '{{ path("boss_reports_enter_detail") }}',
+                type: 'POST',
+                data: {
+                    user_id: $(this).data('user_id'),
+                    date_from: $('#{{ date_id }}').val(),
+                    date_to: $('#{{ date_to_id }}').val()
+                },
+                success: function(data) {
+                    $("#{{ resultUserEnterHistory }}").html(data);
+                    $("#{{ modalUserEnterHistory }}").modal({show : true});
+                }
+            });
+        });
+    });
+</script>

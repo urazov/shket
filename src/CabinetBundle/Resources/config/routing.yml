@@ -126,3 +126,15 @@ boss_rep_rep_3:
 boss_reports_tabel:
   path: /cabinet/boss/report/pit/tabel
   defaults: {_controller: CabinetBundle:Boss:tabel}
+boss_rep_ent_pup:
+  path: /cabinet/boss/report/ent/pupil
+  defaults: {_controller: CabinetBundle:Boss:enterPupil}
+boss_rep_ent_staff:
+  path: /cabinet/boss/report/ent/staff
+  defaults: {_controller: CabinetBundle:Boss:enterStaff}
+boss_rep_ent_teacher:
+  path: /cabinet/boss/report/ent/teacher
+  defaults: {_controller: CabinetBundle:Boss:enterTeacher}
+boss_reports_enter_detail:
+  path: /cabinet/boss/report/ent/pupil/detail
+  defaults: {_controller: CabinetBundle:Boss:enterPupilDetail}

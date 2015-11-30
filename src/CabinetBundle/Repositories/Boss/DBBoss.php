@@ -162,4 +162,174 @@ class DBBoss
 
         return $result;
     }
+
+    public function getPupilEntersInfo($parameters)
+    {
+        $query =  "Select ROW_NUMBER() over (order by u.name) as rn, u.NAME as name,
+        (
+                select direct
+                from (
+                        SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                        from cs_shket.ent ent
+                        where ent.usr_id = u.USR_ID
+                        and ent.ddate between ? and ?
+                        and ent.del <> 1
+                ) res
+                where res.num = 1
+        ) direct,
+        (
+                select CONVERT(nvarchar, ddate, 104) as dt
+                from (
+                        SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                        from cs_shket.ent ent
+                        where ent.usr_id = u.USR_ID
+                        and ent.ddate between ? and ?
+                        and ent.del <> 1
+                ) res
+                where res.num = 1
+        ) dt,
+        (
+                select CONVERT(nvarchar, ddate, 108) as tm
+                from (
+                        SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                        from cs_shket.ent ent
+                        where ent.usr_id = u.USR_ID
+                        and ent.ddate between ? and ?
+                        and ent.del <> 1
+                ) res
+                where res.num = 1
+        ) tm, u.usr_id
+            from CS_SHKET.USR u
+            inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
+            where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
+              and (uc.CLS_ID = ? or ? = -1) and u.role_id = 1
+            order by rn
+            ";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = DB::getInstance()->getAll($query, [
+            $date_from, $date_to,
+            $date_from, $date_to,
+            $date_from, $date_to,
+            $parameters['school_id'], $parameters['class_id'], $parameters['class_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
+
+    public function getStaffEntersInfo($parameters)
+    {
+        $query =  "select ROW_NUMBER() over (order by r.name) as rn, r.* from (
+                    select distinct u.NAME as name,
+                    (
+                            select direct
+                            from (
+                                    SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                                    from cs_shket.ent ent
+                                    where ent.usr_id = u.USR_ID
+                                    and ent.ddate between ? and ?
+                                    and ent.del <> 1
+                            ) res
+                            where res.num = 1
+                    ) direct,
+                    (
+                            select CONVERT(nvarchar, ddate, 104) as dt
+                            from (
+                                    SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                                    from cs_shket.ent ent
+                                    where ent.usr_id = u.USR_ID
+                                    and ent.ddate between ? and ?
+                                    and ent.del <> 1
+                            ) res
+                            where res.num = 1
+                    ) dt,
+                    (
+                            select CONVERT(nvarchar, ddate, 108) as tm
+                            from (
+                                    SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                                    from cs_shket.ent ent
+                                    where ent.usr_id = u.USR_ID
+                                    and ent.ddate between ? and ?
+                                    and ent.del <> 1
+                            ) res
+                            where res.num = 1
+                    ) tm, u.usr_id
+                        from CS_SHKET.USR u
+                        inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
+                        where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
+                          and u.role_id <> 1 and u.role_id <> 2
+                ) as r";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = DB::getInstance()->getAll($query, [
+            $date_from, $date_to,
+            $date_from, $date_to,
+            $date_from, $date_to,
+            $parameters['school_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
+
+    public function getTeacherEntersInfo($parameters)
+    {
+        $query =  "select ROW_NUMBER() over (order by r.name) as rn, r.* from (
+                select distinct u.NAME as name,
+                (
+                        select direct
+                        from (
+                                SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                                from cs_shket.ent ent
+                                where ent.usr_id = u.USR_ID
+                                and ent.ddate between ? and ?
+                                and ent.del <> 1
+                        ) res
+                        where res.num = 1
+                ) direct,
+                (
+                        select CONVERT(nvarchar, ddate, 104) as dt
+                        from (
+                                SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                                from cs_shket.ent ent
+                                where ent.usr_id = u.USR_ID
+                                and ent.ddate between ? and ?
+                                and ent.del <> 1
+                        ) res
+                        where res.num = 1
+                ) dt,
+                (
+                        select CONVERT(nvarchar, ddate, 108) as tm
+                        from (
+                                SELECT *, ROW_NUMBER() OVER(ORDER BY ent.ddate desc) num
+                                from cs_shket.ent ent
+                                where ent.usr_id = u.USR_ID
+                                and ent.ddate between ? and ?
+                                and ent.del <> 1
+                        ) res
+                        where res.num = 1
+                ) tm, u.usr_id
+                    from CS_SHKET.USR u
+                    inner join CS_SHKET.USER_IN_SCL_CLS uc on u.USR_ID = uc.USR_ID
+                    where uc.SCL_ID = ? and u.del <> 1 and uc.del <> 1
+                      and u.role_id = 2
+
+
+        ) as r";
+
+        $date_from = substr($parameters['date_from'], -4)."-".substr($parameters['date_from'], 3, 2)."-".substr($parameters['date_from'], 0, 2);
+        $date_to = substr($parameters['date_to'], -4)."-".substr($parameters['date_to'], 3, 2)."-".substr($parameters['date_to'], 0, 2);
+
+        $result = DB::getInstance()->getAll($query, [
+            $date_from, $date_to,
+            $date_from, $date_to,
+            $date_from, $date_to,
+            $parameters['school_id']
+        ], PDO::FETCH_NUM);
+
+        return $result;
+    }
 }

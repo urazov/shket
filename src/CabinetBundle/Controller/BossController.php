@@ -4,7 +4,7 @@ namespace CabinetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CabinetBundle\Repositories\Boss\DBBoss;
-use CabinetBundle\Repositories\Teacher\DBTeacher;
+use CabinetBundle\Repositories\Pupil\DBPupil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -153,6 +153,133 @@ class BossController extends Controller
             ]);
 
         } catch (Exception $e){
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
+        }
+    }
+
+    public function enterPupilAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $info = DBBoss::getInstance()->getUserInfo($user);
+
+            $parameters = [
+                'school_id' => $info[0]['SCL_ID'],
+                'class_id' => $request->get('class_id'),
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+            ];
+
+            $result = DBBoss::getInstance()->getPupilEntersInfo($parameters);
+
+            return $this->render('CabinetBundle:Boss/ent_pupil:ent_pupil_report.html.twig', [
+                'result' => $result
+            ]);
+
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
+        }
+    }
+
+    public function enterStaffAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $info = DBBoss::getInstance()->getUserInfo($user);
+
+            $parameters = [
+                'school_id' => $info[0]['SCL_ID'],
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+            ];
+
+            $result = DBBoss::getInstance()->getStaffEntersInfo($parameters);
+
+            return $this->render('CabinetBundle:Boss/ent_staff:ent_staff_report.html.twig', [
+                'result' => $result
+            ]);
+
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
+        }
+    }
+
+    public function enterTeacherAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $info = DBBoss::getInstance()->getUserInfo($user);
+
+            $parameters = [
+                'school_id' => $info[0]['SCL_ID'],
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to'),
+            ];
+
+            $result = DBBoss::getInstance()->getTeacherEntersInfo($parameters);
+
+            return $this->render('CabinetBundle:Boss/ent_teacher:ent_teacher_report.html.twig', [
+                'result' => $result
+            ]);
+
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
+        }
+    }
+
+    public function enterPupilDetailAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $parameters = [
+                'user_id' => $request->get('user_id'),
+                'date_from' => $request->get('date_from'),
+                'date_to' => $request->get('date_to')
+            ];
+
+            $result = DBPupil::getInstance()->getPupilEnter($parameters);
+
+            return $this->render('CabinetBundle:Pupil/enter:enter_report.html.twig', [
+                'result' => $result
+            ]);
+
+        } catch (Exception $e) {
             $this->get('logger')->error($e->getMessage(), $context);
             return new Response('Ошибка. Обратитесь к администратору');
         }

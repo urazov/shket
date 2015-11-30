@@ -58,13 +58,13 @@
 
         <li data-block="2">
             <div data-panel="ent-pupil" id="tab_pitanie" class="level-two-item">
-                ДАННЫЕ  ТУРНИКЕТА по обучающимся
+                Данные турникета по обучающимся
             </div>
             <div data-panel="ent-staff" id="tab_pitanie" class="level-two-item">
-                ДАННЫЕ  ТУРНИКЕТА по сотрудникам
+                Данные турникета по сотрудникам
             </div>
             <div data-panel="ent-teacher" id="tab_pitanie" class="level-two-item">
-                ДАННЫЕ  ТУРНИКЕТА по классным руководителям
+                Данные турникета по классным руководителям
             </div>
         </li>
 
@@ -134,6 +134,15 @@
         </div>#}
         <div role="tabpanel" class="tab-pane user-form" id="rep-reestr">
             {% include 'CabinetBundle:Boss/rep_reestr:rep_reestr.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="ent-pupil">
+            {% include 'CabinetBundle:Boss/ent_pupil:ent_pupil.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="ent-staff">
+            {% include 'CabinetBundle:Boss/ent_staff:ent_staff.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="ent-teacher">
+            {% include 'CabinetBundle:Boss/ent_teacher:ent_teacher.html.twig' %}
         </div>
     </div>
 {% endblock %}
