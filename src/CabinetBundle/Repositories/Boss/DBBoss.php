@@ -68,7 +68,9 @@ class DBBoss
 
     public function getAllPupil($parameters)
     {
-        $query = 'select u.name, u.usr_id, cls.name as cls_name
+        $query = "select u.name, u.usr_id, cls.name as cls_name
+, cast(case when PATINDEX('%[^0-9]%',cls.name) = 0 then cls.name else LEFT(cls.name, LEN(cls.name)-1) end as int) as num_cls
+, case when PATINDEX('%[^0-9]%',cls.name) = 0 then null else right(cls.name, LEN(cls.name)-1) end as let_cls
             from cs_shket.usr u, cs_shket.USER_IN_SCL_CLS uc, cs_shket.cls cls
                 where u.del <> 1 and uc.del <> 1
                     and u.usr_id = uc.usr_id
@@ -76,7 +78,7 @@ class DBBoss
                     and (uc.CLS_ID = ? or ? = -1)
                     and uc.scl_id = ?
                     and role_id = 1
-                    order by u.name asc';
+                    order by num_cls, let_cls, u.name asc";
 
         $result = DB::getInstance()->getAll($query, [$parameters['class_id'], $parameters['class_id'], $parameters['school_id']]);
         return $result;
