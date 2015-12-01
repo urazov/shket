@@ -138,3 +138,9 @@ boss_rep_ent_teacher:
 boss_reports_enter_detail:
   path: /cabinet/boss/report/ent/pupil/detail
   defaults: {_controller: CabinetBundle:Boss:enterPupilDetail}
+boss_reports_list_class:
+  path: /cabinet/boss/report/list/pupils
+  defaults: {_controller: CabinetBundle:Boss:listPupils}
+boss_change_bjt_flag:
+  path: /cabinet/boss/action/bjt
+  defaults: {_controller: CabinetBundle:Teacher:changeBjt}

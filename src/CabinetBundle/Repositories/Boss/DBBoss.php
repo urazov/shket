@@ -49,7 +49,8 @@ class DBBoss
     public function getAllClasses(User $user)
     {
         $query = "select distinct cls.cls_id, cls.name
-        , CAST(SUBSTRING(cls.name, 1, case when PATINDEX('%[^0-9]%',cls.name) = 0 then LEN(cls.name) else PATINDEX('%[^0-9]%',cls.name)-1 end) as int) as num_cls
+        , cast(case when PATINDEX('%[^0-9]%',cls.name) = 0 then cls.name else LEFT(cls.name, LEN(cls.name)-1) end as int) as num_cls
+        , case when PATINDEX('%[^0-9]%',cls.name) = 0 then null else right(cls.name, LEN(cls.name)-1) end as let_cls
         from cs_shket.user_in_scl_cls as uic, cs_shket.cls as cls
         where uic.scl_id in (
                 select uic2.scl_id
@@ -59,7 +60,7 @@ class DBBoss
         )
         and cls.cls_id = uic.cls_id
         and uic.del <> 1 and uic.cls_id <> 0 and cls.del <> 1
-        order by num_cls asc";
+        order by num_cls, let_cls";
 
         $result = DB::getInstance()->getAll($query, [$user->getId()]);
 
@@ -68,11 +69,11 @@ class DBBoss
 
     public function getAllPupil($parameters)
     {
-        $query = "select u.name, u.usr_id, cls.name as cls_name
+        $query = "select u.name, u.usr_id, cls.name as cls_name, u.is_bjt, u.bill, u.pass
 , cast(case when PATINDEX('%[^0-9]%',cls.name) = 0 then cls.name else LEFT(cls.name, LEN(cls.name)-1) end as int) as num_cls
 , case when PATINDEX('%[^0-9]%',cls.name) = 0 then null else right(cls.name, LEN(cls.name)-1) end as let_cls
             from cs_shket.usr u, cs_shket.USER_IN_SCL_CLS uc, cs_shket.cls cls
-                where u.del <> 1 and uc.del <> 1
+                where u.del <> 1 and uc.del <> 1 and cls.del <> 1
                     and u.usr_id = uc.usr_id
                     and uc.cls_id = cls.cls_id
                     and (uc.CLS_ID = ? or ? = -1)

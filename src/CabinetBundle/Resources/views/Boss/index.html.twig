@@ -87,14 +87,8 @@
         </li>
 
         <li data-block="5">
-            <div data-panel="list-class" id="tab_pitanie" class="level-two-item">
-                СПИСКИ обучающихся по классам/группам
-            </div>
-            <div data-panel="list-teacher" id="tab_pitanie" class="level-two-item">
-                СПИСКИ классных руководителей/кураторов
-            </div>
-            <div data-panel="list-staff" id="tab_pitanie" class="level-two-item">
-                СПИСКИ сотрудников
+            <div data-panel="list-class" class="level-two-item">
+                Списки классов/групп
             </div>
         </li>
 
@@ -143,6 +137,9 @@
         </div>
         <div role="tabpanel" class="tab-pane user-form" id="ent-teacher">
             {% include 'CabinetBundle:Boss/ent_teacher:ent_teacher.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="list-class">
+            {% include 'CabinetBundle:Boss/list_class:list_class.html.twig' %}
         </div>
     </div>
 {% endblock %}

@@ -284,4 +284,33 @@ class BossController extends Controller
             return new Response('Ошибка. Обратитесь к администратору');
         }
     }
+
+    public function listPupilsAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $info = DBBoss::getInstance()->getUserInfo($user);
+
+            $parameters['class_id'] = $request->get('class_id');
+            $parameters['school_id'] = $info[0]['SCL_ID'];
+
+            $pupils = DBBoss::getInstance()->getAllPupil($parameters);
+
+            return $this->render('CabinetBundle:Boss/list_class:list_class_report.html.twig', [
+                'pupils' => $pupils
+            ]);
+
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
+        }
+    }
 }

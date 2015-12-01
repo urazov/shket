@@ -1,0 +1,93 @@
+{% set combobox_school_id = "select_school_list_class" %}
+{% set combobox_classes_id = "select_class_list_class" %}
+{% set date_id = "selected_date_list_class" %}
+{% set date_to_id = "selected_date_to_list_class" %}
+{% set result_id = "result_list_class" %}
+{% set show_date_id = "show_date_list_class" %}
+{% set button_id = "btn_show_list_class" %}
+{% set print_id = "print_container_list_class" %}
+{% set ul_school_id = "result_school_list_class" %}
+{% set ul_classes_id = "result_classes_list_class" %}
+{% set selected_class = "selected_class_list_class" %}
+{% set default_text_class = "Укажите класс" %}
+{% set default_text_school = "Укажите учреждение" %}
+
+<form class="form-horizontal filters">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Класс/группа:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="{{ combobox_classes_id }}">
+            <input id="{{ selected_class }}" type="text" class="form-control" value="{{ default_text_class }}"/>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_classes_id }}">
+                    <li data-value="-1"><a href="#">Все классы</a></li>
+                    {% for str in classes %}
+                        <li data-value="{{ str.cls_id }}"><a href="#">{{ str.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-5" style="float: right;">
+            <a href="#" class = "printStyle" print_table_id='{{ print_id }}'>
+                Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-4" style="float: right;">
+            <button id="{{ button_id }}" class="btn dialog" style="float: right;">Сформировать табель</button>
+        </div>
+    </div>
+</form>
+
+<div id='{{ print_id }}'>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12" id="{{ result_id }}"></div>
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        $("#{{ combobox_classes_id }}").combobox('selectByIndex', 0);
+
+        $('#{{ button_id }}').click(function(e){
+            e.preventDefault();
+            var class_id = $("#{{ combobox_classes_id }}").combobox('selectedItem').value;
+            $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
+            $.ajax({
+                url: '{{ path("boss_reports_list_class") }}',
+                type: 'POST',
+                data: {
+                    class_id: class_id
+                },
+                success: function(data) {
+                    $("#{{ result_id }}").html(data);
+                }
+            });
+        });
+
+        $("body").on('click', '.bjt-action', function(){
+            var that = this;
+            var user_id = $(this).data('usr');
+            $.ajax({
+                url: '{{ path("boss_change_bjt_flag") }}',
+                type: 'POST',
+                data: {
+                    user_id: user_id
+                },
+                success: function(data) {
+                    var new_class = 'marker-small-inactive';
+                    if(data == 1){
+                        new_class = 'marker-small'
+                    }
+                    $(that).removeClass('marker-small marker-small-inactive').addClass(new_class);
+                }
+            });
+        });
+    });
+</script>
