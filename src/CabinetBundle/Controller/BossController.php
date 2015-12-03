@@ -7,6 +7,7 @@ use CabinetBundle\Repositories\Boss\DBBoss;
 use CabinetBundle\Repositories\Pupil\DBPupil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 class BossController extends Controller
 {
@@ -313,4 +314,95 @@ class BossController extends Controller
             return new Response('Ошибка. Обратитесь к администратору');
         }
     }
+
+    public function pupilsBalanceAction(Request $request)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $info = DBBoss::getInstance()->getUserInfo($user);
+
+            $parameters['class_id'] = $request->get('class_id');
+            $parameters['school_id'] = $info[0]['SCL_ID'];
+
+            $pupils = DBBoss::getInstance()->getPupilsBalance($parameters);
+
+            return $this->render('CabinetBundle:Boss/balance:balance_accounts_report.html.twig', [
+                'pupils' => $pupils,
+                'date_from' => date("d-m-Y", time() - 14 * 24 * 60 * 60),
+                'date_to' => date("d-m-Y")
+            ]);
+
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
+        }
+    }
+
+    public function balanceDetailsAction($user_id, $date_from, $date_to, $acr_id)
+    {
+        $context = [
+            'time' => date('Y-m-d H:i:s'),
+            'function' => __METHOD__,
+            'user_detail' => $user_id,
+            'date_from' => $date_from,
+            'date_to' => $date_to,
+            'acr_id' => $acr_id,
+        ];
+
+        try{
+            $user = $this->getUser();
+            if(!$user) throw new AuthenticationException('User was not founded');
+            $context['user_id'] = $this->getUser()->getId();
+
+            $parameters = [
+                'user_id' => $user_id,
+                'date_from' => $date_from,
+                'date_to' => $date_to,
+                'acr_id' => $acr_id,
+            ];
+
+            $types = DBPupil::getInstance()->getAllType(['user_id' => $user_id]);
+            $pupil = DBPupil::getInstance()->getUserInfoById($user_id);
+            $info = DBBoss::getInstance()->getBalanceDetail($parameters);
+
+            $cls_name = $pupil[0]['cls_name'];
+            $full_name = $pupil[0]['user_name'];
+
+            return $this->render('CabinetBundle:Boss/balance:balance_detail_report.html.twig', [
+                'info' => $info,
+                'money_types' => $types,
+                'date_from' => $parameters['date_from'],
+                'date_to' => $parameters['date_to'],
+                'curr_acr_id' => $parameters['acr_id'],
+                'full_name' => $full_name,
+                'cls_name' => $cls_name,
+                'user_id' => $user_id
+            ]);
+
+        } catch (Exception $e) {
+            $this->get('logger')->error($e->getMessage(), $context);
+            return new Response('Ошибка. Обратитесь к администратору');
+        }
+    }
+
+    public function getLinkAction(Request $request)
+    {
+        $url = $this->generateUrl('boss_balance_detail', array(
+            'user_id' => $request->get('user_id'),
+            'date_from' => $request->get('date_from'),
+            'date_to' => $request->get('date_to'),
+            'acr_id' => $request->get('acr_id')
+        ));
+
+        return new Response($url);
+    }
+
 }

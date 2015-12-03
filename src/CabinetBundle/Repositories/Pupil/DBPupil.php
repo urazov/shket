@@ -219,4 +219,23 @@ class DBPupil
         ]);
 
     }
+
+    public function getUserInfoById($user_id)
+    {
+        $query = " select usr.name as user_name, a.scl_id, a.cls_id, scl.name as scl_name, cls.name as cls_name, tr.NAME, tr.COST, tr.TRF_ID, tr.inf_bal, tr.inf_ent, tr.inf_eat
+                   from cs_shket.USER_IN_SCL_CLS a, cs_shket.cls, cs_shket.scl, cs_shket.usr
+                      , (select trf.trf_id, trf.NAME, trf.COST, usr.USR_ID
+                              , inf_bal, INF_ENT, INF_EAT
+                           from CS_SHKET.TRf, CS_SHKET.USR
+                          where usr.TRF_ID = trf.TRF_ID ) tr
+                  where a.del <> 1 and cls.del <> 1 and scl.del <> 1
+                    and a.usr_id = ? and a.scl_id = scl.scl_id
+                    and a.scl_id = cls.scl_id
+                    and a.cls_id = cls.cls_id
+                    and usr.usr_id = a.usr_id
+                    and tr.USR_ID = a.USR_ID";
+
+        $result = DB::getInstance()->getAll($query, [$user_id], PDO::FETCH_ASSOC);
+        return $result;
+    }
 }

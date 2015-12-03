@@ -1,0 +1,75 @@
+{% set combobox_school_id = "select_school_bal" %}
+{% set combobox_classes_id = "select_class_bal" %}
+{% set date_id = "selected_date_bal" %}
+{% set result_id = "result_bal" %}
+{% set show_date_id = "show_date_bal" %}
+{% set button_id = "btn_show_bal" %}
+{% set print_id = "print_container_bal" %}
+{% set ul_school_id = "result_school_bal" %}
+{% set ul_classes_id = "result_classes_bal" %}
+{% set selected_class = "selected_class_bal" %}
+{% set default_text_class = "Укажите класс" %}
+{% set default_text_school = "Укажите учреждение" %}
+
+<form class="form-horizontal filters">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">Класс/группа:</label>
+        <div class="col-xs-3 input-group input-append dropdown combobox" data-initialize="combobox" style="float: left;" id="{{ combobox_classes_id }}">
+            <input id="{{ selected_class }}" type="text" class="form-control" value="{{ default_text_class }}"/>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" id="{{ ul_classes_id }}">
+                    <li data-value="-1"><a href="#">Все классы</a></li>
+                    {% for str in classes %}
+                        <li data-value="{{ str.cls_id }}"><a href="#">{{ str.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-5" style="float: right;">
+            <a href="#" class = "printStyle" print_table_id='{{ print_id }}'>
+                Распечатать <img src="{{ asset('img/iconPrint.png') }}"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-4" style="float: right;">
+            <button id="{{ button_id }}" class="btn dialog" style="float: right;">Отобразить данные</button>
+        </div>
+    </div>
+</form>
+
+<div id='{{ print_id }}'>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12" id="{{ result_id }}"></div>
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        $("#{{ combobox_classes_id }}").combobox('selectByIndex', 0);
+
+        $('#{{ button_id }}').click(function(e){
+            e.preventDefault();
+            $("#{{ show_date_id }}").html($('#{{ date_id }}').val());
+            var class_id = $("#{{ combobox_classes_id }}").combobox('selectedItem').value;
+            $("#{{ result_id }}").html("<div class='row report-subtitle'>Подождите, данные загружаются...</div>");
+
+            $.ajax({
+                url: '{{ path("boss_reports_bal") }}',
+                type: 'POST',
+                data: {
+                    class_id: class_id
+                },
+                success: function(data) {
+                    $("#{{ result_id }}").html(data);
+                }
+            });
+        });
+    });
+</script>

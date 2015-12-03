@@ -144,3 +144,12 @@ boss_reports_list_class:
 boss_change_bjt_flag:
   path: /cabinet/boss/action/bjt
   defaults: {_controller: CabinetBundle:Teacher:changeBjt}
+boss_reports_bal:
+  path: /cabinet/boss/report/balance/pupils
+  defaults: {_controller: CabinetBundle:Boss:pupilsBalance}
+boss_balance_detail:
+  path: /cabinet/boss/report/balance/details/{user_id}/{date_from}/{date_to}/{acr_id}
+  defaults: {_controller: CabinetBundle:Boss:balanceDetails}
+boss_generate_link:
+  path: /cabinet/boss/report/balance/link
+  defaults: {_controller: CabinetBundle:Boss:getLink}

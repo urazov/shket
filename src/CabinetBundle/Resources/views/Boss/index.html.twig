@@ -39,9 +39,6 @@
             <div data-panel="rep-tabel-cat" id="tab_pitanie" class="level-two-item">
                 Табель учета бесплатного питания
             </div>
-            {#<div data-panel="rep-tabel-ved" id="tab_pitanie" class="level-two-item">
-                Ведомость по предоставлению бесплатного питания
-            </div>#}
             <div data-panel="rep-reestr" id="tab_pitanie" class="level-two-item">
                 Реестр справок
             </div>
@@ -123,9 +120,6 @@
         <div role="tabpanel" class="tab-pane user-form" id="rep-tabel-cat">
             {% include 'CabinetBundle:Boss/rep_tabel_cat:rep_tabel_cat.html.twig' %}
         </div>
-        {#<div role="tabpanel" class="tab-pane user-form" id="rep-tabel-ved">
-            {% include 'CabinetBundle:Boss/rep_tabel_ved:rep_tabel_ved.html.twig' %}
-        </div>#}
         <div role="tabpanel" class="tab-pane user-form" id="rep-reestr">
             {% include 'CabinetBundle:Boss/rep_reestr:rep_reestr.html.twig' %}
         </div>
@@ -140,6 +134,9 @@
         </div>
         <div role="tabpanel" class="tab-pane user-form" id="list-class">
             {% include 'CabinetBundle:Boss/list_class:list_class.html.twig' %}
+        </div>
+        <div role="tabpanel" class="tab-pane user-form" id="balance-accounts">
+            {% include 'CabinetBundle:Boss/balance:balance_accounts.html.twig' %}
         </div>
     </div>
 {% endblock %}
